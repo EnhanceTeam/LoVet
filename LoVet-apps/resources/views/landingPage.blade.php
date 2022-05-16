@@ -57,7 +57,8 @@
             <div class="d-flex justify-content-start">
                 <h6>Dengan aplikasi LoVet, semua kebutuhan perawatan hewan peliharaanmu ada di genggamanmu</h5>
             </div>
-            <button class="btn btn-warning mt-2 hover-shadow">
+            <button class="btn btn-warning mt-2 hover-shadow"
+                onclick="location.href='https://www.youtube.com/watch?v=lpiB2wMc49g'">
                 Coming Soon
             </button>
         </div>
