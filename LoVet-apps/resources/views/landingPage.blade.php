@@ -59,7 +59,7 @@
             </div>
             <button class="btn btn-warning mt-2 hover-shadow"
                 onclick="location.href='https://www.youtube.com/watch?v=lpiB2wMc49g'">
-                Coming Soon
+                Click Here
             </button>
         </div>
         <div class="col">
