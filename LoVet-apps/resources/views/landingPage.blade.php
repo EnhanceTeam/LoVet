@@ -134,6 +134,40 @@
 			</div>
 		</div>
 	</div>
+
+    {{-- Contact Us --}}
+    <div class="row align-items-center" style="height: 80vh">
+        <div class="d-flex justify-content-center">
+			<h2 class="fw-bold">Contact Us</h2>
+		</div>
+        <div class="row ms-5 mt-3 mr-3">
+            <div class="col d-flex mx-5 align-items-center">
+                <ul class="list-group">
+                    <li class="d-flex justify-content-start list-group-item border-0 ps-4">
+                        <img src="{{asset('images/Aset/logo-gmail.png')}}" width="40px" class="ms-1 mr-2">
+                        <a href="#" class="ms-4 link-text-custom">lovet-care@enhance.com</a>
+                    </li>
+                    <li class="d-flex justify-content-start list-group-item border-0 ps-3">
+                        <img src="{{asset('images/Aset/logo-wa.png')}}" width="55px" class="ms-1">
+                        <a href="#" class="ms-3 link-text-custom">081XXXXXXXXX</a>
+                    </li>
+                    <li class="d-flex justify-content-start list-group-item border-0 ps-4">
+                        <img src="{{asset('images/Aset/logo-ig.png')}}" width="30px" class="ms-2 mr-3">
+                        <a href="#" class="ms-4 link-text-custom">{{"@lovet-care"}}</a>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="col">
+                <img src="{{ asset('images/Aset/Decor Pic 3.png') }}" width="75%">
+            </div>
+
+
+        </div>
+
+
+
+    </div>
 </body>
 
 </html>
