@@ -22,3 +22,15 @@ body {
 .hover-shadow:hover {
     box-shadow: 3px 3px black !important;
 }
+
+.link-text-custom {
+    text-decoration: none !important;
+    color: black !important;
+}
+
+.link-text-custom:hover {
+    color: #283E56 !important;
+    font-size: 110%;
+    text-decoration: underline;
+    transition: 0.5s;
+}
