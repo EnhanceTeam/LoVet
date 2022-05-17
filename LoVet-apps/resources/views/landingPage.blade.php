@@ -111,6 +111,94 @@
 		</div>
 	</div>
 
+	<!-- Why Us? -->
+    <div class="row align-items-center" style="height: 80vh">
+		<div class="d-flex justify-content-center">
+			<h2 class="fw-bold">Why Us?</h2>
+		</div>
+
+        <!-- Judul -->
+        <ul class="nav justify-content-center">
+            <li class="nav-item">
+              <a class="nav-link active fw-bold fst-italic text-black" aria-current="page" data-bs-toggle="tab" href="#PetOwner">Pet Owner</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link fst-italic text-black" data-bs-toggle="tab" href="#Groomer">Groomer</a>
+            </li>
+        </ul>
+
+        <div class="tab-content">
+            <div class="tab-pane active" id="PetOwner">
+                <!-- Carousel -->
+                <div class="d-flex justify-content-center text-black">
+                    <div class="row text-center">
+                        <!-- Card View -->
+                        <div class="item" style="width: 30rem;">
+                            <img src="{{ asset('images/Aset/Profile Picture-1.png') }}" class="card-img-top" alt="">
+                            <div class="card-body">
+                                <h5 class="fw-bold">Pelayanannya Bagus</h5>
+                                <h6 class="card-text">Groomer nya sangat baik dan hati-hati dalam bekerja, ramah dan tepat waktu.</h6>
+                            </div>
+                        </div>
+
+                        <!-- Card View -->
+                        <div class="item" style="width: 30rem;">
+                            <img src="{{ asset('images/Aset/Profile Picture-2.png') }}" class="card-img-top" alt="">
+                            <div class="card-body">
+                                <h5 class="fw-bold">Hasil Memuaskan</h5>
+                                <h6 class="card-text">Hasil tidak kalah dengan Grooming Mahal, Kualitas recommended</h6>
+                            </div>
+                        </div>
+
+                        <!-- Card View -->
+                        <div class="item" style="width: 30rem;">
+                            <img src="{{ asset('images/Aset/Profile Picture-3.png') }}" class="card-img-top" alt="">
+                            <div class="card-body">
+                                <h5 class="fw-bold">CS Ramah</h5>
+                                <h6 class="card-text">Ketika mengalami kesulitan, CS membantu dengan sangat ramah.</h6>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <div class="tab-pane" id="Groomer">
+                <!-- Carousel -->
+                <div class="d-flex justify-content-center text-black">
+                    <div class="row text-center">
+                        <!-- Card View -->
+                        <div class="item" style="width: 30rem;">
+                            <img src="{{ asset('images/Aset/Profile Picture-4.png') }}" class="card-img-top" alt="">
+                            <div class="card-body">
+                                <h5 class="fw-bold">Aplikasi Mudah Diggunakan</h5>
+                                <h6 class="card-text">Pendaftarannya cepat, aplikasi bagus dan mudah diggunakan.</h6>
+                            </div>
+                        </div>
+
+                        <!-- Card View -->
+                        <div class="item" style="width: 30rem;">
+                            <img src="{{ asset('images/Aset/Profile Picture-5.png') }}" class="card-img-top" alt="">
+                            <div class="card-body">
+                                <h5 class="fw-bold">Meningkatkan Pembeli</h5>
+                                <h6 class="card-text">Semenjak menjadi Mitra LoVet penghasilan perbulan kami terus meningkat.</h6>
+                            </div>
+                        </div>
+
+                        <!-- Card View -->
+                        <div class="item" style="width: 30rem;">
+                            <img src="{{ asset('images/Aset/Profile Picture-6.png') }}" class="card-img-top" alt="">
+                            <div class="card-body">
+                                <h5 class="fw-bold">Membantu Promosi</h5>
+                                <h6 class="card-text">Bersama LoVet promosi berbagai produk dan jasa menjadi lebih mudah.</h6>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
 	{{-- Join Us --}}
 	<div class="row align-items-center" style="height: 80vh">
 		<div class="d-flex justify-content-center">
