@@ -23,7 +23,7 @@
 	<nav class="navbar navbar-expand-sm bg-yellow-custom sticky-top">
 		<div class="container-fluid">
 			<div class="navbar-brand fw-bold px-3">
-				<img class="h-75 w-75" src="{{ asset('images/Logo LoVet/Logo LoVet - HBlack.png') }}" alt="">
+				<img class="h-75 w-100  ms-2" src="{{ asset('images/Logo LoVet/Logo LoVet - HBlack.png') }}" alt="">
 			</div>
 			<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#collapsibleNavbar">
 				<span class="navbar-toggler-icon"></span>
