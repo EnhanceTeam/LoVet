@@ -32,16 +32,16 @@
 				<div class="d-flex justify-content-end w-100">
 					<ul class="navbar-nav">
 						<li class="nav-item me-4">
-							<a class="nav-link fw-bold text-black-custom" href="#">Home</a>
+							<a class="nav-link fw-bold text-black-custom" href="#home">Home</a>
 						</li>
 						<li class="nav-item me-4">
-							<a class="nav-link fw-bold text-black-custom" href="#">Features</a>
+							<a class="nav-link fw-bold text-black-custom" href="#features">Features</a>
 						</li>
 						<li class="nav-item me-4">
-							<a class="nav-link fw-bold text-black-custom" href="#">Feedback</a>
+							<a class="nav-link fw-bold text-black-custom" href="#feedback">Feedback</a>
 						</li>
 						<li class="nav-item me-4">
-							<a class="nav-link fw-bold text-black-custom" href="#">Contact Us</a>
+							<a class="nav-link fw-bold text-black-custom" href="#contactus">Contact Us</a>
 						</li>
 					</ul>
 				</div>
@@ -50,7 +50,7 @@
 	</nav>
 
 	{{-- Introduction --}}
-	<div class="row align-items-center m-3 ms-5 ps-2" style="height: 80vh">
+	<div id="home" class="row align-items-center m-3 ms-5 ps-2" style="height: 80vh">
 		<div class="col mx-4">
 			<div class="d-flex justify-content-start">
 				<h3 class="fw-bold fst-italic">Sekarang, Merawat Hewan Gak Perlu Pakai Ribet</h3>
@@ -60,7 +60,7 @@
 			</div>
 			<button class="btn btn-warning mt-2 hover-shadow"
 				onclick="location.href='https://www.youtube.com/watch?v=lpiB2wMc49g'">
-				Click Here
+				Download Here
 			</button>
 		</div>
 		<div class="col">
@@ -69,7 +69,7 @@
 	</div>
 
 	{{-- What We Offer --}}
-	<div class="row align-items-center mb-5" style="height: 80vh">
+	<div id="features" class="row align-items-center mb-5" style="height: 80vh">
 		<div class="d-flex justify-content-center">
 			<h2 class="fw-bold">What We Offer</h2>
 		</div>
@@ -201,7 +201,7 @@
     </div>
 
 	{{-- Join Us --}}
-	<div class="row align-items-center" style="height: 80vh">
+	<div id="feedback" class="row align-items-center" style="height: 80vh">
 		<div class="d-flex justify-content-center">
 			<h2 class="fw-bold">Join Us</h2>
 		</div>
@@ -225,7 +225,7 @@
 	</div>
 
     {{-- Contact Us --}}
-    <div class="row align-items-center" style="height: 80vh">
+    <div id="contactus" class="row align-items-center" style="height: 80vh">
         <div class="d-flex justify-content-center">
 			<h2 class="fw-bold">Contact Us</h2>
 		</div>
