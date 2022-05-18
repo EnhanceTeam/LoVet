@@ -32,16 +32,16 @@
 				<div class="d-flex justify-content-end w-100">
 					<ul class="navbar-nav">
 						<li class="nav-item me-4">
-							<a class="nav-link fw-bold text-black-custom" href="#home">Home</a>
+							<a class="nav-link fw-bold text-black-custom" href="#home">Beranda</a>
 						</li>
 						<li class="nav-item me-4">
-							<a class="nav-link fw-bold text-black-custom" href="#features">Features</a>
+							<a class="nav-link fw-bold text-black-custom" href="#features">Fitur</a>
 						</li>
 						<li class="nav-item me-4">
-							<a class="nav-link fw-bold text-black-custom" href="#feedback">Feedback</a>
+							<a class="nav-link fw-bold text-black-custom" href="#feedback">Ulasan</a>
 						</li>
 						<li class="nav-item me-4">
-							<a class="nav-link fw-bold text-black-custom" href="#contactus">Contact Us</a>
+							<a class="nav-link fw-bold text-black-custom" href="#contactus">Hubungi Kami</a>
 						</li>
 					</ul>
 				</div>
@@ -50,8 +50,8 @@
 	</nav>
 
 	{{-- Introduction --}}
-	<div id="home" class="row align-items-center m-3 ms-5 ps-2" style="height: 100vh">
-		<div class="col mx-4">
+	<div id="home" class="row align-items-center ms-5 ps-2" style="height: 100vh">
+		<div class="col ms-5">
 			<div class="d-flex justify-content-start">
 				<h3 class="fw-bold fst-italic">Sekarang, Merawat Hewan Gak Perlu Pakai Ribet</h3>
 			</div>
@@ -59,19 +59,19 @@
 				<h6>Dengan aplikasi LoVet, semua kebutuhan perawatan hewan peliharaanmu ada di genggamanmu</h6>
 			</div>
 			<button class="btn btn-warning mt-2 hover-shadow"
-				onclick="location.href='https://www.youtube.com/watch?v=lpiB2wMc49g'">
-				Download Here
+				onclick="window.open('https://wa.me/+6282336717960?text=Hai+admin+LoVet,+Aku+mau+grooming+nih.+Groomer+mana+yang+bagus+ya?', '_blank'); return false;">
+				Hubungi Kami!
 			</button>
 		</div>
 		<div class="col">
-			<img src="{{ asset('images/Aset/Decor Pic 1.png') }}" width="80%" height="80%">
+			<img src="{{ asset('images/Aset/Decor Pic 1.png') }}" width="75%">
 		</div>
 	</div>
 
 	{{-- What We Offer --}}
 	<div id="features" class="row align-items-center mb-5" style="height: 100vh">
 		<div class="d-flex justify-content-center">
-			<h2 class="fw-bold">What We Offer</h2>
+			<h2 class="fw-bold">Apa yang LoVet Tawarkan?</h2>
 		</div>
 		<div class="col d-flex justify-content-end">
 			<img src="{{ asset('images/Aset/Decor Pic 2.png') }}" width="75%" height="75%">
@@ -84,7 +84,7 @@
 				</div>
 				<button class="btn btn-warning mt-2 hover-shadow"
 					onclick="location.href='https://www.youtube.com/watch?v=lpiB2wMc49g'">
-					Click Here
+					Klik Disini!
 				</button>
 			</div>
 
@@ -95,18 +95,18 @@
 				</div>
 				<button class="btn btn-warning mt-2 hover-shadow"
 					onclick="location.href='https://www.youtube.com/watch?v=lpiB2wMc49g'">
-					Click Here
+					Klik Disini!
 				</button>
 			</div>
 
 			<div class="pb-5">
 				<div class="d-flex flex-column justify-content-start">
-					<h3 class="fw-bold">Consultation</h3>
+					<h3 class="fw-bold">Konsultasi</h3>
 					<h6>Konsultasikan kondisi kesehatan hewan kepada para ahli</h6>
 				</div>
 				<button class="btn btn-warning mt-2 hover-shadow"
 					onclick="location.href='https://www.youtube.com/watch?v=lpiB2wMc49g'">
-					Click Here
+					Klik Disini!
 				</button>
 			</div>
 		</div>
@@ -115,13 +115,13 @@
 	<!-- Why Us? -->
     <div id="feedback" class="row align-items-center" style="height: 100vh">
 		<div class="d-flex justify-content-center">
-			<h2 class="fw-bold">Why Us?</h2>
+			<h2 class="fw-bold">Kenapa Harus LoVet?</h2>
 		</div>
 
         <!-- Judul -->
         <ul class="nav justify-content-center">
             <li class="nav-item">
-              <a class="nav-link active fw-bold fst-italic text-black" aria-current="page" data-bs-toggle="tab" href="#PetOwner">Pet Owner</a>
+              <a class="nav-link active fw-bold fst-italic text-black" aria-current="page" data-bs-toggle="tab" href="#PetOwner">Pemilik Hewan</a>
             </li>
             <li class="nav-item">
               <a class="nav-link fst-italic text-black" data-bs-toggle="tab" href="#Groomer">Groomer</a>
@@ -203,11 +203,11 @@
 	{{-- Join Us --}}
 	<div class="row align-items-center" style="height: 100vh">
 		<div class="d-flex justify-content-center">
-			<h2 class="fw-bold">Join Us</h2>
+			<h2 class="fw-bold">Yuk Ikuti LoVet</h2>
 		</div>
 		<div class="d-flex flex-column">
 			<div class="d-flex justify-content-center">
-				<h5 class="fw-bold">Keep up with our latest update</h5>
+				<h5 class="fw-bold">Dapatkan informasi terbaru dari kami!</h5>
 			</div>
 			<div class="d-flex justify-content-center">
 				<div class="row align-items-center m-2">
@@ -216,7 +216,7 @@
 					</div>
 					<div class="col-auto">
 						<button class="btn btn-warning hover-shadow">
-							Join Now
+							Ikuti
 						</button>
 					</div>
 				</div>
@@ -227,22 +227,22 @@
     {{-- Contact Us --}}
     <div id="contactus" class="row align-items-center" style="height: 100vh">
         <div class="d-flex justify-content-center">
-			<h2 class="fw-bold">Contact Us</h2>
+			<h2 class="fw-bold">Hubungi LoVet</h2>
 		</div>
         <div class="row ms-5 mt-3 mr-3">
-            <div class="col d-flex mx-5 align-items-center">
+            <div class="col d-flex mx-5 align-items-center justify-content-center">
                 <ul class="list-group">
-                    <li class="d-flex justify-content-start list-group-item border-0 ps-4">
+                    <li class="d-flex justify-content-start align-items-center list-group-item border-0 ps-4">
                         <img src="{{asset('images/Aset/logo-gmail.png')}}" width="40px" class="ms-1 mr-2">
-                        <a href="#" class="ms-4 link-text-custom">lovet-care@enhance.com</a>
+                        <a href="mailto:enhancecorporation@gmail.com" target="_blank" class="ms-4 link-text-custom">enhancecorporation@gmail.com</a>
                     </li>
-                    <li class="d-flex justify-content-start list-group-item border-0 ps-3">
-                        <img src="{{asset('images/Aset/logo-wa.png')}}" width="55px" class="ms-1">
-                        <a href="#" class="ms-3 link-text-custom">081XXXXXXXXX</a>
+                    <li class="d-flex justify-content-start align-items-center list-group-item border-0 ps-3">
+                        <img src="{{asset('images/Aset/logo-wa.png')}}" width="50px" class="ms-1">
+                        <a href="https://wa.me/+6282336717960?text=Hai+admin+LoVet,+Aku+mau+grooming+nih.+Groomer+mana+yang+bagus+ya?" target="_blank"  class="ms-3 link-text-custom">082336717960</a>
                     </li>
-                    <li class="d-flex justify-content-start list-group-item border-0 ps-4">
-                        <img src="{{asset('images/Aset/logo-ig.png')}}" width="30px" class="ms-2 mr-3">
-                        <a href="#" class="ms-4 link-text-custom">{{"@lovet-care"}}</a>
+                    <li class="d-flex justify-content-start align-items-center list-group-item border-0 ps-4">
+                        <img src="{{asset('images/Aset/logo-ig.png')}}" width="30px" class="ms-3 mr-3">
+                        <a href="#" target="_blank" class="ms-4 link-text-custom">{{"@lovet-care"}}</a>
                     </li>
                 </ul>
             </div>
