@@ -50,7 +50,7 @@
 	</nav>
 
 	{{-- Introduction --}}
-	<div id="home" class="row align-items-center m-3 ms-5 ps-2" style="height: 80vh">
+	<div id="home" class="row align-items-center m-3 ms-5 ps-2" style="height: 100vh">
 		<div class="col mx-4">
 			<div class="d-flex justify-content-start">
 				<h3 class="fw-bold fst-italic">Sekarang, Merawat Hewan Gak Perlu Pakai Ribet</h3>
@@ -69,7 +69,7 @@
 	</div>
 
 	{{-- What We Offer --}}
-	<div id="features" class="row align-items-center mb-5" style="height: 80vh">
+	<div id="features" class="row align-items-center mb-5" style="height: 100vh">
 		<div class="d-flex justify-content-center">
 			<h2 class="fw-bold">What We Offer</h2>
 		</div>
@@ -113,7 +113,7 @@
 	</div>
 
 	<!-- Why Us? -->
-    <div id="feedback" class="row align-items-center" style="height: 80vh">
+    <div id="feedback" class="row align-items-center" style="height: 100vh">
 		<div class="d-flex justify-content-center">
 			<h2 class="fw-bold">Why Us?</h2>
 		</div>
@@ -201,7 +201,7 @@
     </div>
 
 	{{-- Join Us --}}
-	<div class="row align-items-center" style="height: 80vh">
+	<div class="row align-items-center" style="height: 100vh">
 		<div class="d-flex justify-content-center">
 			<h2 class="fw-bold">Join Us</h2>
 		</div>
@@ -225,7 +225,7 @@
 	</div>
 
     {{-- Contact Us --}}
-    <div id="contactus" class="row align-items-center" style="height: 80vh">
+    <div id="contactus" class="row align-items-center" style="height: 100vh">
         <div class="d-flex justify-content-center">
 			<h2 class="fw-bold">Contact Us</h2>
 		</div>
