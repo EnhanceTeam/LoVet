@@ -14,6 +14,7 @@
 		integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous">
 	</script>
 	<link rel="stylesheet" href="{{ asset('css/landingPage.css') }}">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 	<title>LoVet</title>
 </head>
 
@@ -68,7 +69,7 @@
 	</div>
 
 	{{-- What We Offer --}}
-	<div class="row align-items-center" style="height: 80vh">
+	<div class="row align-items-center mb-5" style="height: 80vh">
 		<div class="d-flex justify-content-center">
 			<h2 class="fw-bold">What We Offer</h2>
 		</div>
