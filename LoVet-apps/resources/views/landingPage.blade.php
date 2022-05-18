@@ -113,7 +113,7 @@
 	</div>
 
 	<!-- Why Us? -->
-    <div class="row align-items-center" style="height: 80vh">
+    <div id="feedback" class="row align-items-center" style="height: 80vh">
 		<div class="d-flex justify-content-center">
 			<h2 class="fw-bold">Why Us?</h2>
 		</div>
@@ -201,7 +201,7 @@
     </div>
 
 	{{-- Join Us --}}
-	<div id="feedback" class="row align-items-center" style="height: 80vh">
+	<div class="row align-items-center" style="height: 80vh">
 		<div class="d-flex justify-content-center">
 			<h2 class="fw-bold">Join Us</h2>
 		</div>
