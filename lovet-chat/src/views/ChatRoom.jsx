@@ -4,12 +4,7 @@ import { useEffect } from "react";
 import { onSnapshot } from "firebase/firestore";
 import { Logout } from "./Auth";
 import { Avatar, IconButton } from "@mui/material";
-import {
-    InsertEmoticon,
-    Send,
-    PowerSettingsNew,
-    SearchOutlined,
-} from "@mui/icons-material";
+import { Send, PowerSettingsNew } from "@mui/icons-material";
 import "./ChatRoom.css";
 
 const ChatRoom = () => {
@@ -24,7 +19,12 @@ const ChatRoom = () => {
         onSnapshot(query, (snapshot) => {
             setMessages(
                 snapshot.docs.map((doc) => {
-                    return { id: doc.id, ...doc.data() };
+                    // Convert Firebase Timestamp to JS Date
+                    const data = doc.data();
+                    data.createdAt = new Date(
+                        data.createdAt.seconds * 1000
+                    );
+                    return { id: doc.id, ...data };
                 })
             );
         });
@@ -96,8 +96,8 @@ const ChatRoom = () => {
                             <div
                                 key={id}
                                 className={`chat_message ${
-                                    message.uid === uid
-                                        && "chat_message_receiver"
+                                    message.uid === uid &&
+                                    "chat_message_receiver"
                                 }`}
                             >
                                 <div className="chat_message_content">
@@ -106,6 +106,7 @@ const ChatRoom = () => {
                                         className="chat_message_profile_picture"
                                     /> */}
                                     <p> {message.text} </p>
+                                    <p className="chat_message_timestamp">{`${message.createdAt.getHours()}:${message.createdAt.getMinutes()}`}</p>
                                 </div>
                             </div>
                         );
@@ -123,7 +124,7 @@ const ChatRoom = () => {
                         </form>
                     </div>
                     <div className="chat_footer_right">
-                        <IconButton className="button_send" onClick={sendMessage}>
+                        <IconButton onClick={sendMessage}>
                             <Send />
                         </IconButton>
                         {/* <IconButton onClick={scrollToBottom}>
@@ -132,45 +133,6 @@ const ChatRoom = () => {
                     </div>
                 </div>
             </div>
-
-            {/* <div className="flex justify-center my-4 bg-black fixed top-0 left-0 right-0 p-2">
-                <Logout />
-                <h1 className="text-3xl text-white">LoVet</h1>
-            </div>
-
-            <div className="py-14">
-                {messages.map((message, id) => {
-                    return (
-                        <div
-                            key={id}
-                            className="flex my-5 justify-end w-full pr-5 "
-                        >
-                            <div className="flex flex-col">
-                                <img src={message.photoURL} />
-                                <p> {message.text} </p>
-                            </div>
-                        </div>
-                    );
-                })}
-            </div>
-
-            <form
-                onSubmit={sendMessage}
-                className="flex justify-center mb-8 fixed bottom-0 left-0 right-0 h-2/12"
-            >
-                <input
-                    value={formValue}
-                    className="border-black rounded-2xl border-2 p-2 bg-white focus:outline-none "
-                    onChange={(e) => setFormValue(e.target.value)}
-                />
-
-                <button
-                    type="submit"
-                    className="transition ml-3 bg-black rounded-xl border-black border-2 text-white hover:bg-white hover:text-black hover:rounded-md p-2"
-                >
-                    Send
-                </button>
-            </form> */}
         </>
     );
 };

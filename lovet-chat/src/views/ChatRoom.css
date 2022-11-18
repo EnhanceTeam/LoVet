@@ -8,11 +8,10 @@
 /* Header */
 .chat_header {
     display: flex;
-    flex: 1;
     flex-direction: row;
     column-gap: 16px;
     align-items: center;
-    padding: 0 16px;
+    padding: 16px;
     background-color: #ffde25;
 }
 
@@ -36,6 +35,7 @@
     flex: 10;
     flex-direction: column;
     overflow-y: auto;
+    background-color: white;
 }
 
 /* Chat message */
@@ -67,14 +67,20 @@
     background-color: #dcf8c6;
 }
 
+.chat_message_timestamp {
+    align-self: end;
+    font-size: small;
+    color: black;
+    opacity: 60%;
+}
+
 /* Footer */
 .chat_footer {
     display: flex;
-    flex: 1;
     flex-direction: row;
     column-gap: 16px;
     align-items: center;
-    padding: 0 16px;
+    padding: 16px;
     background-color: #ffde25;
 }
 
@@ -92,9 +98,9 @@
 .chat_footer_center > form > input {
     flex: 1;
     border-radius: 32px;
+    border-color: black;
     padding: 8px 16px;
 }
 
 .chat_footer_right {
-    /* flex: 1; */
 }
