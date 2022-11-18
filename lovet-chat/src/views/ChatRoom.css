@@ -41,7 +41,6 @@
 /* Chat message */
 .chat_message {
     display: flex;
-    padding: 8px;
     border-radius: 16px;
     width: fit-content;
     padding: 0 16px;
@@ -72,6 +71,22 @@
     font-size: small;
     color: black;
     opacity: 60%;
+}
+
+.chat_date {
+    display: flex;
+    align-self: center;
+    border-radius: 16px;
+    width: fit-content;
+    padding: 0 16px;
+    margin: 8px;
+    background-color: whitesmoke;
+    box-shadow:
+      0 6px 6px rgba(0, 0, 0, 0.1);
+}
+
+.chat_date_content {
+    font-size: small;
 }
 
 /* Footer */

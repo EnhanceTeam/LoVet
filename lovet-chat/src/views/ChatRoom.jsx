@@ -21,9 +21,8 @@ const ChatRoom = () => {
                 snapshot.docs.map((doc) => {
                     // Convert Firebase Timestamp to JS Date
                     const data = doc.data();
-                    data.createdAt = new Date(
-                        data.createdAt.seconds * 1000
-                    );
+                    data.createdAt = new Date(data.createdAt.seconds * 1000);
+                    console.log(data.createdAt);
                     return { id: doc.id, ...data };
                 })
             );
@@ -74,6 +73,14 @@ const ChatRoom = () => {
         setAvatarId(Math.floor(Math.random() * 5000));
     }, []);
 
+    // Date
+    const chatDateOptions = {
+        weekday: "long",
+        year: "numeric",
+        month: "short",
+        day: "numeric",
+    };
+
     return (
         <>
             <div className="chat_main">
@@ -93,22 +100,61 @@ const ChatRoom = () => {
                 <div ref={chatBody} className="chat_body">
                     {messages.map((message, id) => {
                         return (
-                            <div
-                                key={id}
-                                className={`chat_message ${
-                                    message.uid === uid &&
-                                    "chat_message_receiver"
-                                }`}
-                            >
-                                <div className="chat_message_content">
-                                    {/* <img
+                            <>
+                                {
+                                    // Always show date on first message
+                                    id === 0 ? (
+                                        <div
+                                            key={`date_${id}`}
+                                            className="chat_date"
+                                        >
+                                            <p className="chat_date_content">
+                                                {message.createdAt.toLocaleDateString(
+                                                    "id-ID",
+                                                    chatDateOptions
+                                                )}
+                                            </p>
+                                        </div>
+                                    ) : (
+                                        // Show date if message date is different from previous message date
+                                        messages[
+                                            id - 1
+                                        ].createdAt.toDateString() !==
+                                            messages[
+                                                id
+                                            ].createdAt.toDateString() && (
+                                            <div
+                                                key={`date_${id}`}
+                                                className="chat_date"
+                                            >
+                                                <p className="chat_date_content">
+                                                    {message.createdAt.toLocaleDateString(
+                                                        "id-ID",
+                                                        chatDateOptions
+                                                    )}
+                                                </p>
+                                            </div>
+                                        )
+                                    )
+                                }
+
+                                <div
+                                    key={`message_${id}`}
+                                    className={`chat_message ${
+                                        message.uid === uid &&
+                                        "chat_message_receiver"
+                                    }`}
+                                >
+                                    <div className="chat_message_content">
+                                        {/* <img
                                         src={message.photoURL}
                                         className="chat_message_profile_picture"
                                     /> */}
-                                    <p> {message.text} </p>
-                                    <p className="chat_message_timestamp">{`${message.createdAt.getHours()}:${message.createdAt.getMinutes()}`}</p>
+                                        <p> {message.text} </p>
+                                        <p className="chat_message_timestamp">{`${message.createdAt.getHours()}:${message.createdAt.getMinutes()}`}</p>
+                                    </div>
                                 </div>
-                            </div>
+                            </>
                         );
                     })}
                 </div>
