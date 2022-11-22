@@ -1,0 +1,121 @@
+/* Main */
+.chat_main {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+}
+
+/* Header */
+.chat_header {
+    display: flex;
+    flex-direction: row;
+    column-gap: 16px;
+    align-items: center;
+    padding: 16px;
+    background-color: #ffde25;
+}
+
+.chat_header_left {
+}
+
+.chat_header_center {
+    display: flex;
+    flex: 10;
+    flex-direction: row;
+    column-gap: 16px;
+    align-items: center;
+}
+
+.chat_header_right {
+}
+
+/* Body */
+.chat_body {
+    display: flex;
+    flex: 10;
+    flex-direction: column;
+    overflow-y: auto;
+    background-color: white;
+}
+
+/* Chat message */
+.chat_message {
+    display: flex;
+    border-radius: 16px;
+    width: fit-content;
+    padding: 0 16px;
+    margin: 8px;
+    background-color: whitesmoke;
+}
+
+.chat_message_content {
+    display: flex;
+    flex-direction: row;
+    column-gap: 8px;
+    align-items: center;
+}
+
+.chat_message_content > .chat_message_profile_picture {
+    width: 32px;
+    height: 32px;
+    border-radius: 32px;
+}
+
+.chat_message_receiver {
+    margin-left: auto;
+    background-color: #dcf8c6;
+}
+
+.chat_message_timestamp {
+    align-self: end;
+    font-size: small;
+    color: black;
+    opacity: 60%;
+}
+
+.chat_date {
+    display: flex;
+    align-self: center;
+    border-radius: 16px;
+    width: fit-content;
+    padding: 0 16px;
+    margin: 8px;
+    background-color: whitesmoke;
+    box-shadow:
+      0 6px 6px rgba(0, 0, 0, 0.1);
+}
+
+.chat_date_content {
+    font-size: small;
+}
+
+/* Footer */
+.chat_footer {
+    display: flex;
+    flex-direction: row;
+    column-gap: 16px;
+    align-items: center;
+    padding: 16px;
+    background-color: #ffde25;
+}
+
+.chat_footer_center {
+    display: flex;
+    flex: 10;
+    row-gap: 8px;
+}
+
+.chat_footer_center > form {
+    display: flex;
+    flex: 1;
+}
+
+.chat_footer_center > form > input {
+    flex: 1;
+    border-radius: 32px;
+    border-color: black;
+    padding: 8px 16px;
+}
+
+.chat_footer_right {
+}
