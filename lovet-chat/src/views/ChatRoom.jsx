@@ -16,6 +16,11 @@ const ChatRoom = () => {
   const [messages, setMessages] = useState([])
   const [atBottom, setAtBottom] = useState(true)
 
+  // Timer
+  const [hours, setHours] = useState("")
+  const [minutes, setMinutes] = useState("")
+  const [seconds, setSeconds] = useState("")
+
   useEffect(() => {
     onSnapshot(query, (snapshot) => {
       setMessages(
@@ -27,12 +32,48 @@ const ChatRoom = () => {
         })
       )
     })
+
+    chatTimer()
   }, [])
 
   const [formValue, setFormValue] = useState("")
 
   // Get authenticated user ID and profile picture URL
-  const { uid, photoURL } = fb.auth.currentUser
+  const { uid } = fb.auth.currentUser
+
+  const chatTimer = () => {
+    const deadline = new Date(2022, 11, 30, 15, 0, 0, 0).getTime()
+
+    const interval = setInterval(() => {
+      const now = new Date().getTime()
+
+      const distance = deadline - now
+
+      const hoursTimer = Math.floor(
+        (distance % (24 * 60 * 60 * 1000)) / (1000 * 60 * 60)
+      )
+      const minutesTimer = Math.floor(
+        (distance % (60 * 60 * 1000)) / (1000 * 60)
+      )
+      const secondsTimer = Math.floor((distance % (60 * 1000)) / 1000)
+
+      if (distance < 0) {
+        clearInterval(interval.current)
+      } else {
+        hoursTimer < 10
+          ? setHours("0" + hoursTimer.toString())
+          : setHours(hoursTimer.toString())
+
+        minutesTimer < 10
+          ? setMinutes("0" + minutesTimer.toString())
+          : setMinutes(minutesTimer.toString())
+
+        secondsTimer < 10
+          ? setSeconds("0" + secondsTimer.toString())
+          : setSeconds(secondsTimer.toString())
+      }
+    })
+  }
 
   const useChatContentScroll = (messages) => {
     const ref = useRef(null)
@@ -112,6 +153,7 @@ const ChatRoom = () => {
             />
             <h3>Dokter Hewan</h3>
           </div>
+          <div>{`${hours}:${minutes}:${seconds}`}</div>
           <div className="chat_header_right">
             <IconButton onClick={Logout}>
               <PowerSettingsNew />
