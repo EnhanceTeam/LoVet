@@ -17,9 +17,9 @@ const ChatRoom = () => {
   const [atBottom, setAtBottom] = useState(true)
 
   // Timer
-  const [hours, setHours] = useState("")
-  const [minutes, setMinutes] = useState("")
-  const [seconds, setSeconds] = useState("")
+  const [hours, setHours] = useState("00")
+  const [minutes, setMinutes] = useState("00")
+  const [seconds, setSeconds] = useState("00")
 
   useEffect(() => {
     onSnapshot(query, (snapshot) => {
@@ -32,8 +32,6 @@ const ChatRoom = () => {
         })
       )
     })
-
-    chatTimer()
   }, [])
 
   const [formValue, setFormValue] = useState("")
@@ -42,7 +40,7 @@ const ChatRoom = () => {
   const { uid } = fb.auth.currentUser
 
   const chatTimer = () => {
-    const deadline = new Date(2022, 11, 30, 15, 0, 0, 0).getTime()
+    const deadline = new Date("November 30, 2022 17:36:00").getTime()
 
     const interval = setInterval(() => {
       const now = new Date().getTime()
@@ -58,7 +56,7 @@ const ChatRoom = () => {
       const secondsTimer = Math.floor((distance % (60 * 1000)) / 1000)
 
       if (distance < 0) {
-        clearInterval(interval.current)
+        clearInterval(interval)
       } else {
         hoursTimer < 10
           ? setHours("0" + hoursTimer.toString())
@@ -74,6 +72,10 @@ const ChatRoom = () => {
       }
     })
   }
+
+  useEffect(() => {
+    chatTimer()
+  }, [])
 
   const useChatContentScroll = (messages) => {
     const ref = useRef(null)
