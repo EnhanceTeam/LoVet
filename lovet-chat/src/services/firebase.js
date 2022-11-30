@@ -2,11 +2,12 @@
 import firebase from "firebase/compat/app"
 import "firebase/compat/firestore"
 import "firebase/compat/auth"
+import { getStorage } from "firebase/storage";
 
 // Firebase Hooks
 import { useAuthState } from "react-firebase-hooks/auth"
 
-firebase.initializeApp({
+const fbConfig = {
   apiKey: "AIzaSyBOz3j8jm6hHELqegXzLxycVcxlqNwE2Fs",
   authDomain: "lovet-chat.firebaseapp.com",
   projectId: "lovet-chat",
@@ -14,9 +15,12 @@ firebase.initializeApp({
   messagingSenderId: "765869922982",
   appId: "1:765869922982:web:e9f276ab5b4015621af267",
   measurementId: "G-QPGWXV6LTX",
-})
+}
+
+const app = firebase.initializeApp(fbConfig)
 
 const firestore = firebase.firestore()
 const auth = firebase.auth()
+const storage = getStorage(app)
 
-export default { firestore, auth, useAuthState, firebase }
+export default { firestore, auth, useAuthState, firebase, storage}
