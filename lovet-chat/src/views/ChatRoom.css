@@ -38,6 +38,11 @@
     background-color: white;
 }
 
+.profile_avatar{
+    background-color: white;
+    padding: 5px;
+}
+
 /* Chat message */
 .chat_message {
     display: flex;

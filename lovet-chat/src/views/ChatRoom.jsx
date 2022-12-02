@@ -69,9 +69,9 @@ const ChatRoom = () => {
   };
 
   // Timer
-  const [hours, setHours] = useState("00")
-  const [minutes, setMinutes] = useState("00")
-  const [seconds, setSeconds] = useState("00")
+  const [hours, setHours] = useState("00");
+  const [minutes, setMinutes] = useState("00");
+  const [seconds, setSeconds] = useState("00");
 
   useEffect(() => {
     onSnapshot(query, (snapshot) => {
@@ -89,45 +89,45 @@ const ChatRoom = () => {
   const [formValue, setFormValue] = useState("");
 
   // Get authenticated user ID and profile picture URL
-  const { uid } = fb.auth.currentUser
+  const { uid } = fb.auth.currentUser;
 
   const chatTimer = () => {
-    const deadline = new Date("November 30, 2022 17:36:00").getTime()
+    const deadline = new Date("November 30, 2022 17:36:00").getTime();
 
     const interval = setInterval(() => {
-      const now = new Date().getTime()
+      const now = new Date().getTime();
 
-      const distance = deadline - now
+      const distance = deadline - now;
 
       const hoursTimer = Math.floor(
         (distance % (24 * 60 * 60 * 1000)) / (1000 * 60 * 60)
-      )
+      );
       const minutesTimer = Math.floor(
         (distance % (60 * 60 * 1000)) / (1000 * 60)
-      )
-      const secondsTimer = Math.floor((distance % (60 * 1000)) / 1000)
+      );
+      const secondsTimer = Math.floor((distance % (60 * 1000)) / 1000);
 
       if (distance < 0) {
-        clearInterval(interval)
+        clearInterval(interval);
       } else {
         hoursTimer < 10
           ? setHours("0" + hoursTimer.toString())
-          : setHours(hoursTimer.toString())
+          : setHours(hoursTimer.toString());
 
         minutesTimer < 10
           ? setMinutes("0" + minutesTimer.toString())
-          : setMinutes(minutesTimer.toString())
+          : setMinutes(minutesTimer.toString());
 
         secondsTimer < 10
           ? setSeconds("0" + secondsTimer.toString())
-          : setSeconds(secondsTimer.toString())
+          : setSeconds(secondsTimer.toString());
       }
-    })
-  }
+    });
+  };
 
   useEffect(() => {
-    chatTimer()
-  }, [])
+    chatTimer();
+  }, []);
 
   const useChatContentScroll = (messages) => {
     const ref = useRef(null);
@@ -186,6 +186,7 @@ const ChatRoom = () => {
         <div className="chat_header">
           <div className="chat_header_center">
             <Avatar
+              className="profile_avatar"
               src={`https://avatars.dicebear.com/api/human/${avatarId}.svg`}
             />
             <h3>Dokter Hewan</h3>
@@ -293,15 +294,27 @@ const ChatRoom = () => {
         </div>
         <div className="chat_footer">
           <div className="chat_footer_left">
-            <input
-              type="file"
-              onChange={(event) => {
-                setImageUpload(event.target.files[0]);
-              }}
-            />
-
-            <IconButton onClick={sendImage}>
-              <AttachFile />
+            <IconButton>
+              <label htmlFor="input_image">
+                <form onSubmit={sendImage}>
+                  <input
+                    type="file"
+                    accept="image/*"
+                    onChange={(event) => {
+                      setImageUpload(event.target.files[0]);
+                    }}
+                    id="input_image"
+                    style={{
+                      display: "none",
+                    }}
+                  />
+                </form>
+                <AttachFile
+                  style={{
+                    cursor: "pointer",
+                  }}
+                />
+              </label>
             </IconButton>
           </div>
           <div className="chat_footer_center">
