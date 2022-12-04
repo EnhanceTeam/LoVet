@@ -6,7 +6,7 @@ import { Logout } from "./Auth"
 const ChatRoomGenerator = () => {
   const [startConsultation, setStartConsultation] = useState()
   const [endConsultation, setEndConsultation] = useState()
-  const [roomID, setRoomID] = useState()
+  const [roomID, setRoomID] = useState(null)
 
   const handleNewChatRoomSubmit = (e) => {
     e.preventDefault()

@@ -20,4 +20,4 @@ const firestore = firebase.firestore()
 const auth = firebase.auth()
 const storage = getStorage(appFirebase)
 
-export default { firestore, auth, useAuthState, appFirebase, storage }
+export default { firestore, auth, appFirebase, storage, firebase }

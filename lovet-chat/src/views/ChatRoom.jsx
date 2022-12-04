@@ -355,12 +355,6 @@ const ChatRoom = () => {
               </div>
             </>
           )}
-
-          <div className="chat_footer_right">
-            <IconButton onClick={sendMessage}>
-              <Send />
-            </IconButton>
-          </div>
         </div>
       </div>
     </>
