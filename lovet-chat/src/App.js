@@ -3,7 +3,7 @@ import "./App.css"
 import { AuthContextProvider } from "./context/AuthContext"
 import Menu from "./views/Menu"
 import ProtectedRoutes from "./views/ProtectedRoutes"
-import ChatRoom from "./views/ChatRoom"
+import ChatRoom from "./views/ChatRoom/ChatRoom"
 import NotFound from "./views/NotFound"
 
 const App = () => {
