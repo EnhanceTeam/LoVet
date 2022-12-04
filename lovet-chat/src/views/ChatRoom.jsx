@@ -3,6 +3,10 @@ import React, { useRef, useState } from "react";
 import { useEffect } from "react";
 import { onSnapshot } from "firebase/firestore";
 import { Logout } from "./Auth";
+import { UserAuth } from "../context/AuthContext";
+import { useParams } from "react-router-dom";
+import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
+import { v4 } from "uuid";
 import {
     Avatar,
     Button,
@@ -11,24 +15,25 @@ import {
     ThemeProvider,
 } from "@mui/material";
 import { Send, PowerSettingsNew, AttachFile } from "@mui/icons-material";
-import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
-import { v4 } from "uuid";
 import { buttonTheme } from "../themes/theme";
 import "../themes/mui-styles.css";
 import "./ChatRoom.css";
 
 const ChatRoom = () => {
+    const { roomID } = useParams();
+
     // Message queries from Firebase
-    // TODO Revert this changes
     const messagesRef = fb.firestore
         .collection("Rooms")
-        .doc("Uc3YING3rhRU0JVLjgzH")
+        .doc(roomID)
         .collection("messages");
     const query = messagesRef.orderBy("timestamp");
+    const roomRef = fb.firestore.collection("Rooms").doc(roomID);
 
     // Chat messages
     const [messages, setMessages] = useState([]);
     const [atBottom, setAtBottom] = useState(true);
+    const [inputMessageDisabled, setInputMessageDisabled] = useState(false);
 
     // Send Message
     const sendMessage = (e) => {
@@ -81,9 +86,9 @@ const ChatRoom = () => {
     };
 
     // Timer
-    const [hours, setHours] = useState("00");
-    const [minutes, setMinutes] = useState("00");
-    const [seconds, setSeconds] = useState("00");
+    const [hours, setHours] = useState(null);
+    const [minutes, setMinutes] = useState(null);
+    const [seconds, setSeconds] = useState(null);
 
     useEffect(() => {
         onSnapshot(query, (snapshot) => {
@@ -101,38 +106,48 @@ const ChatRoom = () => {
     const [formValue, setFormValue] = useState("");
 
     // Get authenticated user ID and profile picture URL
-    const { uid } = fb.auth.currentUser;
+    const { user } = UserAuth();
+    const uid = user.uid;
 
-    const chatTimer = () => {
-        const deadline = new Date("November 30, 2022 17:36:00").getTime();
+    const chatTimer = async () => {
+        await roomRef.get().then((doc) => {
+            if (doc.exists) {
+                const interval = setInterval(() => {
+                    const now = new Date().getTime();
 
-        const interval = setInterval(() => {
-            const now = new Date().getTime();
+                    const distance =
+                        doc.get("endConsultation").seconds * 1000 - now;
 
-            const distance = deadline - now;
+                    const hoursTimer = Math.floor(
+                        (distance % (24 * 60 * 60 * 1000)) / (1000 * 60 * 60)
+                    );
+                    const minutesTimer = Math.floor(
+                        (distance % (60 * 60 * 1000)) / (1000 * 60)
+                    );
+                    const secondsTimer = Math.floor(
+                        (distance % (60 * 1000)) / 1000
+                    );
 
-            const hoursTimer = Math.floor(
-                (distance % (24 * 60 * 60 * 1000)) / (1000 * 60 * 60)
-            );
-            const minutesTimer = Math.floor(
-                (distance % (60 * 60 * 1000)) / (1000 * 60)
-            );
-            const secondsTimer = Math.floor((distance % (60 * 1000)) / 1000);
+                    if (distance < 0) {
+                        clearInterval(interval);
+                        setHours("00");
+                        setMinutes("00");
+                        setSeconds("00");
+                        setInputMessageDisabled(true);
+                    } else {
+                        hoursTimer < 10
+                            ? setHours("0" + hoursTimer.toString())
+                            : setHours(hoursTimer.toString());
 
-            if (distance < 0) {
-                clearInterval(interval);
-            } else {
-                hoursTimer < 10
-                    ? setHours("0" + hoursTimer.toString())
-                    : setHours(hoursTimer.toString());
+                        minutesTimer < 10
+                            ? setMinutes("0" + minutesTimer.toString())
+                            : setMinutes(minutesTimer.toString());
 
-                minutesTimer < 10
-                    ? setMinutes("0" + minutesTimer.toString())
-                    : setMinutes(minutesTimer.toString());
-
-                secondsTimer < 10
-                    ? setSeconds("0" + secondsTimer.toString())
-                    : setSeconds(secondsTimer.toString());
+                        secondsTimer < 10
+                            ? setSeconds("0" + secondsTimer.toString())
+                            : setSeconds(secondsTimer.toString());
+                    }
+                });
             }
         });
     };
@@ -193,7 +208,6 @@ const ChatRoom = () => {
 
     return (
         <>
-            {console.log(messages)}
             <div className="chat_main">
                 <div className="chat_header">
                     <div className="chat_header_center">
@@ -203,13 +217,22 @@ const ChatRoom = () => {
                         />
                         <p>Dokter Hewan</p>
                     </div>
-                    <div>{`${hours}:${minutes}:${seconds}`}</div>
-                    <div className="chat_header_right">
-                        <IconButton onClick={Logout}>
-                            <PowerSettingsNew />
-                        </IconButton>
+                    <div>
+                        {hours !== null && minutes !== null && seconds !== null
+                            ? `${hours}:${minutes}:${seconds}`
+                            : "Loading..."}
                     </div>
+                    {inputMessageDisabled ? (
+                        <>
+                            <div className="chat_header_right">
+                                <Logout />
+                            </div>
+                        </>
+                    ) : (
+                        <></>
+                    )}
                 </div>
+
                 <div className="chat_body" onScroll={checkScrollPos}>
                     {messages.map((message, id) => {
                         if (isValidUrl(message.text)) {
@@ -260,7 +283,7 @@ const ChatRoom = () => {
                                     <img
                                         className={`chat_image ${
                                             message.uid === uid &&
-                                            "sender"
+                                            "chat_image_sender"
                                         }`}
                                         src={message.text}
                                         alt=""
@@ -321,15 +344,15 @@ const ChatRoom = () => {
                                         }`}
                                     >
                                         <div className="chat_message_content">
-                                            {/* <img
-                                          src={message.photoURL}
-                                          className="chat_message_profile_picture"
-                                      /> */}
                                             <p ref={chatContentRef}>
                                                 {" "}
                                                 {message.text}{" "}
                                             </p>
-                                            {/* <p className="chat_message_timestamp">{`${message.timestamp.getHours()}:${message.timestamp.getMinutes()}`}</p> */}
+                                            <p className="chat_message_timestamp">{`${new Date(
+                                                message.timestamp
+                                            ).getHours()}:${new Date(
+                                                message.timestamp
+                                            ).getMinutes()}`}</p>
                                         </div>
                                     </div>
                                 </>
@@ -337,6 +360,7 @@ const ChatRoom = () => {
                         }
                     })}
                 </div>
+
                 <div className="chat_footer">
                     <div className="chat_footer_left">
                         <IconButton>
@@ -372,32 +396,44 @@ const ChatRoom = () => {
                             disableElevation
                         ></Button>
                     </div>
-                    <div className="chat_footer_center">
-                        <TextField
-                            id="message_text_field"
-                            className="rounded_outlined_text_field"
-                            variant="outlined"
-                            placeholder="Ketik pesan"
-                            value={formValue}
-                            onChange={(e) => setFormValue(e.target.value)}
-                            onSubmit={sendMessage}
-                            size="small"
-                            fullWidth
-                            autoFocus
-                        />
-                    </div>
-                    <div className="chat_footer_right">
-                        <ThemeProvider theme={buttonTheme}>
-                            <Button
-                                className="icon_button"
-                                onClick={sendMessage}
-                                startIcon={<Send />}
-                                variant="contained"
-                                color="secondary"
-                                disableElevation
-                            ></Button>
-                        </ThemeProvider>
-                    </div>
+                    {inputMessageDisabled ? (
+                        <>
+                            <p className="chat_footer_center">
+                                <strong>Waktu telah habis!</strong>
+                            </p>
+                        </>
+                    ) : (
+                        <>
+                            <div className="chat_footer_center">
+                                <TextField
+                                    id="message_text_field"
+                                    className="rounded_outlined_text_field"
+                                    variant="outlined"
+                                    placeholder="Ketik pesan"
+                                    value={formValue}
+                                    onChange={(e) =>
+                                        setFormValue(e.target.value)
+                                    }
+                                    onSubmit={sendMessage}
+                                    size="small"
+                                    fullWidth
+                                    autoFocus
+                                />
+                            </div>
+                            <div className="chat_footer_right">
+                                <ThemeProvider theme={buttonTheme}>
+                                    <Button
+                                        className="icon_button"
+                                        onClick={sendMessage}
+                                        startIcon={<Send />}
+                                        variant="contained"
+                                        color="secondary"
+                                        disableElevation
+                                    ></Button>
+                                </ThemeProvider>
+                            </div>
+                        </>
+                    )}
                 </div>
             </div>
         </>

@@ -1,16 +1,32 @@
-import fb from "./services/firebase"
-import { Login, Logout } from "./views/Auth"
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom"
+import "./App.css"
+import { AuthContextProvider } from "./context/AuthContext"
+import Menu from "./views/Menu"
+import ProtectedRoutes from "./views/ProtectedRoutes"
 import ChatRoom from "./views/ChatRoom"
-import './App.css'
+import NotFound from "./views/NotFound"
 
 const App = () => {
-    const [user] = fb.useAuthState(fb.auth)
+  // todo: user tidak bisa akses chatroom user lain dan chatroom generator
 
-    return (
-        <>
-            <section>{user ? <ChatRoom /> : <Login />}</section>
-        </>
-    )
+  return (
+    <Router>
+      <AuthContextProvider>
+        <Routes>
+          <Route index element={<Menu />} />
+          <Route
+            path="chatroom/:roomID"
+            element={
+              <ProtectedRoutes>
+                <ChatRoom />
+              </ProtectedRoutes>
+            }
+          />
+          <Route path="*" element={<NotFound />} />
+        </Routes>
+      </AuthContextProvider>
+    </Router>
+  )
 }
 
 export default App
