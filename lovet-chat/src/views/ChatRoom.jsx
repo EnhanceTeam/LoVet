@@ -14,7 +14,7 @@ import {
     TextField,
     ThemeProvider,
 } from "@mui/material";
-import { Send, PowerSettingsNew, AttachFile } from "@mui/icons-material";
+import { Send, AttachFile } from "@mui/icons-material";
 import { buttonTheme } from "../themes/theme";
 import "../themes/mui-styles.css";
 import "./ChatRoom.css";
