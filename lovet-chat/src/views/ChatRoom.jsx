@@ -4,10 +4,13 @@ import { useEffect } from "react"
 import { onSnapshot } from "firebase/firestore"
 import { Logout } from "./Auth"
 import { Avatar, IconButton } from "@mui/material"
-import { Send } from "@mui/icons-material"
 import "./ChatRoom.css"
 import { UserAuth } from "../context/AuthContext"
 import { useParams } from "react-router-dom"
+import { Send, PowerSettingsNew, AttachFile } from "@mui/icons-material"
+import { ref, uploadBytes, getDownloadURL } from "firebase/storage"
+import { v4 } from "uuid"
+import "./ChatRoom.css"
 
 const ChatRoom = () => {
   const { roomID } = useParams()
@@ -24,6 +27,56 @@ const ChatRoom = () => {
   const [messages, setMessages] = useState([])
   const [atBottom, setAtBottom] = useState(true)
   const [inputMessageDisabled, setInputMessageDisabled] = useState(false)
+
+  // Send Message
+  const sendMessage = (e) => {
+    e.preventDefault()
+
+    // Check if message is not empty
+    if (formValue.trim().length === 0) {
+      return
+    }
+
+    // Save message to Firebase
+    messagesRef.add({
+      text: formValue.trim(),
+      uid,
+      timestamp: Date.now(),
+    })
+
+    // Clear text form field
+    setFormValue("")
+    setAtBottom(true)
+  }
+
+  // Chat Image
+  const [imageUpload, setImageUpload] = useState(null)
+
+  // Send Image
+  const sendImage = (e) => {
+    if (imageUpload == null) return
+    const imageRef = ref(fb.storage, `images/${imageUpload.name + v4()}`)
+    uploadBytes(imageRef, imageUpload).then((snapshot) => {
+      getDownloadURL(snapshot.ref).then((url) => {
+        messagesRef.add({
+          text: url,
+          uid,
+          timestamp: Date.now(),
+        })
+      })
+    })
+
+    e.preventDefault()
+
+    // Check if message is not empty
+    if (formValue.trim().length === 0) {
+      return
+    }
+
+    // Clear text form field
+    setFormValue("")
+    setAtBottom(true)
+  }
 
   // Timer
   const [hours, setHours] = useState(null)
@@ -105,32 +158,14 @@ const ChatRoom = () => {
     return ref
   }
 
-  const sendMessage = (e) => {
-    e.preventDefault()
-
-    // Check if message is not empty
-    if (formValue.trim().length === 0) {
-      return
+  // Check URL
+  const isValidUrl = (urlString) => {
+    try {
+      return Boolean(new URL(urlString))
+    } catch (e) {
+      return false
     }
-
-    // Save message to Firebase
-
-    messagesRef.add({
-      text: formValue,
-      uid,
-      timestamp: Date.now(),
-    })
-
-    // Clear text form field
-    setFormValue("")
-    setAtBottom(true)
   }
-
-  // const chatBody = useRef([])
-  // const scrollToBottom = () => {
-  //   // Scroll to bottom
-  //   chatBody.current.scrollIntoView({ behavior: "smooth", block: "end" })
-  // }
 
   // Avatar
   const [avatarId, setAvatarId] = useState("")
@@ -186,27 +221,16 @@ const ChatRoom = () => {
             <></>
           )}
         </div>
+
         <div className="chat_body" onScroll={checkScrollPos}>
           {messages.map((message, id) => {
-            return (
-              <>
-                {
-                  // Always show date on first message
-                  id === 0 ? (
-                    <div key={`date_${id}`} className="chat_date">
-                      <p className="chat_date_content">
-                        {new Date(message.timestamp).toLocaleDateString(
-                          "id-ID",
-                          chatDateOptions
-                        )}
-                      </p>
-                    </div>
-                  ) : (
-                    // Show date if message date is different from previous message date
-                    new Date(messages[id - 1].timestamp).toDateString() !==
-                      new Date(messages[id].timestamp).toDateString() && (
+            if (isValidUrl(message.text)) {
+              return (
+                <>
+                  {
+                    // Always show date on first message
+                    id === 0 ? (
                       <div key={`date_${id}`} className="chat_date">
-                        {console.log(messages)}
                         <p className="chat_date_content">
                           {new Date(message.timestamp).toLocaleDateString(
                             "id-ID",
@@ -214,30 +238,98 @@ const ChatRoom = () => {
                           )}
                         </p>
                       </div>
+                    ) : (
+                      // Show date if message date is different from previous message date
+                      new Date(messages[id - 1].timestamp).toDateString() !==
+                        new Date(messages[id].timestamp).toDateString() && (
+                        <div key={`date_${id}`} className="chat_date">
+                          {console.log(messages)}
+                          <p className="chat_date_content">
+                            {new Date(message.timestamp).toLocaleDateString(
+                              "id-ID",
+                              chatDateOptions
+                            )}
+                          </p>
+                        </div>
+                      )
                     )
-                  )
-                }
+                  }
 
-                <div
-                  key={`message_${id}`}
-                  className={`chat_message ${
-                    message.uid === uid && "chat_message_receiver"
-                  }`}
-                >
-                  <div className="chat_message_content">
-                    {/* <img
-                                        src={message.photoURL}
-                                        className="chat_message_profile_picture"
-                                    /> */}
-                    <p ref={chatContentRef}> {message.text} </p>
-                    <p className="chat_message_timestamp">{`${new Date(message.timestamp).getHours()}:${new Date(message.timestamp).getMinutes()}`}</p>
+                  <img
+                    className={`chat_image ${
+                      message.uid === uid && "chat_image_receiver"
+                    }`}
+                    src={message.text}
+                    alt=""
+                    ref={chatContentRef}
+                  />
+                </>
+              )
+            } else {
+              return (
+                <>
+                  {
+                    // Always show date on first message
+                    id === 0 ? (
+                      <div key={`date_${id}`} className="chat_date">
+                        <p className="chat_date_content">
+                          {new Date(message.timestamp).toLocaleDateString(
+                            "id-ID",
+                            chatDateOptions
+                          )}
+                        </p>
+                      </div>
+                    ) : (
+                      // Show date if message date is different from previous message date
+                      new Date(messages[id - 1].timestamp).toDateString() !==
+                        new Date(messages[id].timestamp).toDateString() && (
+                        <div key={`date_${id}`} className="chat_date">
+                          {console.log(messages)}
+                          <p className="chat_date_content">
+                            {new Date(message.timestamp).toLocaleDateString(
+                              "id-ID",
+                              chatDateOptions
+                            )}
+                          </p>
+                        </div>
+                      )
+                    )
+                  }
+
+                  <div
+                    key={`message_${id}`}
+                    className={`chat_message ${
+                      message.uid === uid && "chat_message_receiver"
+                    }`}
+                  >
+                    <div className="chat_message_content">
+                      <p ref={chatContentRef}> {message.text} </p>
+                      <p className="chat_message_timestamp">{`${new Date(
+                        message.timestamp
+                      ).getHours()}:${new Date(
+                        message.timestamp
+                      ).getMinutes()}`}</p>
+                    </div>
                   </div>
-                </div>
-              </>
-            )
+                </>
+              )
+            }
           })}
         </div>
+
         <div className="chat_footer">
+          <div className="chat_footer_left">
+            <input
+              type="file"
+              onChange={(event) => {
+                setImageUpload(event.target.files[0])
+              }}
+            />
+
+            <IconButton onClick={sendImage}>
+              <AttachFile />
+            </IconButton>
+          </div>
           {inputMessageDisabled ? (
             <>
               <p className="chat_footer_center">
@@ -263,6 +355,12 @@ const ChatRoom = () => {
               </div>
             </>
           )}
+
+          <div className="chat_footer_right">
+            <IconButton onClick={sendMessage}>
+              <Send />
+            </IconButton>
+          </div>
         </div>
       </div>
     </>

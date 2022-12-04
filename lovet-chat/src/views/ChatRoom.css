@@ -89,6 +89,22 @@
     font-size: small;
 }
 
+/* Chat Image */
+.chat_image {
+    display: flex;
+    border-radius: 16px;
+    height: 200px;
+    width: fit-content;
+    padding: 16px;
+    margin: 8px;
+    background-color: whitesmoke;
+}
+
+.chat_image_receiver {
+    margin-left: auto;
+    background-color: #dcf8c6;
+}
+
 /* Footer */
 .chat_footer {
     display: flex;
