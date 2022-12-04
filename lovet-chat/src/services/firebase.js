@@ -6,7 +6,7 @@ import "firebase/compat/auth"
 // Firebase Hooks
 import { useAuthState } from "react-firebase-hooks/auth"
 
-firebase.initializeApp({
+const appFirebase = firebase.initializeApp({
   apiKey: "AIzaSyBOz3j8jm6hHELqegXzLxycVcxlqNwE2Fs",
   authDomain: "lovet-chat.firebaseapp.com",
   projectId: "lovet-chat",
@@ -19,4 +19,4 @@ firebase.initializeApp({
 const firestore = firebase.firestore()
 const auth = firebase.auth()
 
-export default { firestore, auth, useAuthState, firebase }
+export default { firestore, auth, firebase, appFirebase }

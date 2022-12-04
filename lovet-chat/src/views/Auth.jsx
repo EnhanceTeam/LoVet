@@ -1,16 +1,41 @@
-import fb from "../services/firebase";
+import { UserAuth } from "../context/AuthContext"
+import { LogoutRounded, PowerSettingsNew } from "@mui/icons-material"
+import { IconButton } from "@mui/material"
+import { useNavigate } from "react-router-dom"
 
 const Login = () => {
-    const signInWithPopup = () => {
-        const provider = new fb.firebase.auth.GoogleAuthProvider();
-        fb.auth.signInWithPopup(provider);
-    };
+  const { googleSignIn } = UserAuth()
 
-    return <button onClick={signInWithPopup}>Login with Google</button>;
-};
+  const handleLoginClick = (e) => {
+    e.preventDefault()
 
-const Logout = () => {
-    return fb.auth.currentUser && fb.auth.signOut();
-};
+    googleSignIn()
+  }
 
-export { Login, Logout };
+  return <button onClick={handleLoginClick}>Login with Google</button>
+}
+
+const Logout = (e) => {
+  const { logout } = UserAuth()
+  const navigate = useNavigate()
+
+  const handleLogoutClick = (e) => {
+    e.preventDefault()
+
+    logout()
+
+    navigate("/")
+  }
+
+  return (
+    <>
+      <div className="flex justify-content-center">
+        <IconButton onClick={handleLogoutClick}>
+          <LogoutRounded />
+        </IconButton>
+      </div>
+    </>
+  )
+}
+
+export { Login, Logout }
