@@ -1,3 +1,10 @@
+:root {
+    --base-yellow: #ffde25;
+    --light-green: #dcf8c6;
+    --white: #ffffff;
+    --black: #1e1e1e;
+}
+
 /* Main */
 .chat_main {
     display: flex;
@@ -9,15 +16,17 @@
 .chat_header {
     display: flex;
     flex-direction: row;
-    column-gap: 16px;
+    column-gap: 8px;
     align-items: center;
-    padding: 16px;
-    background-color: #ffde25;
+    padding: 8px 16px;
+    background-color: var(--base-yellow);
 }
 
+/* Header left */
 .chat_header_left {
 }
 
+/* Header center */
 .chat_header_center {
     display: flex;
     flex: 10;
@@ -26,6 +35,12 @@
     align-items: center;
 }
 
+.chat_header_profile_picture {
+    background-color: var(--white);
+    padding: 8px;
+}
+
+/* Header right */
 .chat_header_right {
 }
 
@@ -35,12 +50,12 @@
     flex: 10;
     flex-direction: column;
     overflow-y: auto;
-    background-color: white;
+    background-color: var(--white);
 }
 
-.profile_avatar{
-    background-color: white;
+.profile_avatar {
     padding: 5px;
+    background-color: var(--white);
 }
 
 /* Chat message */
@@ -68,7 +83,7 @@
 
 .chat_message_receiver {
     margin-left: auto;
-    background-color: #dcf8c6;
+    background-color: var(--light-green);
 }
 
 .chat_message_timestamp {
@@ -86,8 +101,7 @@
     padding: 0 16px;
     margin: 8px;
     background-color: whitesmoke;
-    box-shadow:
-      0 6px 6px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 6px 6px rgba(0, 0, 0, 0.1);
 }
 
 .chat_date_content {
@@ -107,17 +121,17 @@
 
 .chat_image_receiver {
     margin-left: auto;
-    background-color: #dcf8c6;
+    background-color: var(--light-green);
 }
 
 /* Footer */
 .chat_footer {
     display: flex;
     flex-direction: row;
-    column-gap: 16px;
+    column-gap: 8px;
     align-items: center;
-    padding: 16px;
-    background-color: #ffde25;
+    padding: 8px 16px;
+    background-color: var(--base-yellow);
 }
 
 .chat_footer_center {
@@ -134,7 +148,7 @@
 .chat_footer_center > form > input {
     flex: 1;
     border-radius: 32px;
-    border-color: black;
+    border-color: var(--black);
     padding: 8px 16px;
 }
 

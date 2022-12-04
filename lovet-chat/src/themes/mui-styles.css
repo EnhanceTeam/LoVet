@@ -1,0 +1,18 @@
+:root {
+    --rounded: 50px;
+}
+
+.icon_small {
+    width: 24px !important;
+    height: 24px !important;
+}
+
+.icon_button {
+    border-radius: var(--rounded) !important;
+    padding: 10px !important;
+    min-width: 0 !important;
+}
+
+.icon_button > .MuiButton-startIcon {
+    margin: 0;
+}
