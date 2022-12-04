@@ -405,20 +405,21 @@ const ChatRoom = () => {
                     ) : (
                         <>
                             <div className="chat_footer_center">
-                                <TextField
-                                    id="message_text_field"
-                                    className="rounded_outlined_text_field"
-                                    variant="outlined"
-                                    placeholder="Ketik pesan"
-                                    value={formValue}
-                                    onChange={(e) =>
-                                        setFormValue(e.target.value)
-                                    }
-                                    onSubmit={sendMessage}
-                                    size="small"
-                                    fullWidth
-                                    autoFocus
-                                />
+                                <form onSubmit={sendMessage}>
+                                    <TextField
+                                        id="message_text_field"
+                                        className="rounded_outlined_text_field"
+                                        variant="outlined"
+                                        placeholder="Ketik pesan"
+                                        value={formValue}
+                                        onChange={(e) =>
+                                            setFormValue(e.target.value)
+                                        }
+                                        size="small"
+                                        fullWidth
+                                        autoFocus
+                                    />
+                                </form>
                             </div>
                             <div className="chat_footer_right">
                                 <ThemeProvider theme={buttonTheme}>
