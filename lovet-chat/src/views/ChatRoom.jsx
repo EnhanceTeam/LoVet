@@ -260,7 +260,7 @@ const ChatRoom = () => {
                                     <img
                                         className={`chat_image ${
                                             message.uid === uid &&
-                                            "chat_image_receiver"
+                                            "sender"
                                         }`}
                                         src={message.text}
                                         alt=""
@@ -317,7 +317,7 @@ const ChatRoom = () => {
                                         key={`message_${id}`}
                                         className={`chat_message ${
                                             message.uid === uid &&
-                                            "chat_message_receiver"
+                                            "chat_message_sender"
                                         }`}
                                     >
                                         <div className="chat_message_content">
@@ -363,6 +363,14 @@ const ChatRoom = () => {
                                 />
                             </label>
                         </IconButton>
+
+                        <Button
+                            className="icon_button secondary_button"
+                            startIcon={<AttachFile />}
+                            variant="contained"
+                            color="secondary"
+                            disableElevation
+                        ></Button>
                     </div>
                     <div className="chat_footer_center">
                         <TextField

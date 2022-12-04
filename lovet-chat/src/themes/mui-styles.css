@@ -1,10 +1,33 @@
 :root {
+    /* Color */
+    --primary-container: #ffde25;
+    --secondary-container: #ede2bc;
+    --on-secondary-container: #201b04;
+    --tertiary-container: #d1e4ff;
+    --background: #fefbff;
+    --surface: #fffbff;
+    --surface-variant: #e9e2d0;
+    --white: #ffffff;
+    --black: #1e1e1e;
+
+    /* Shape */
     --rounded: 50px;
+
+    /* Spacing */
+    --space-small: 8px;
+    --space-medium: 16px;
 }
 
+/* Icon */
 .icon_small {
     width: 24px !important;
     height: 24px !important;
+}
+
+/* Button */
+.secondary_button {
+    color: var(--on-secondary-container) !important;
+    background-color: var(--secondary-container) !important;
 }
 
 .icon_button {
@@ -17,6 +40,7 @@
     margin: 0;
 }
 
+/* Text field */
 .rounded_outlined_text_field > .MuiOutlinedInput-root {
     border-radius: var(--rounded);
 }
