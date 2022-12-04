@@ -16,3 +16,7 @@
 .icon_button > .MuiButton-startIcon {
     margin: 0;
 }
+
+.rounded_outlined_text_field > .MuiOutlinedInput-root {
+    border-radius: var(--rounded);
+}

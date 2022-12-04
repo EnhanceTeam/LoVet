@@ -3,7 +3,13 @@ import React, { useRef, useState } from "react";
 import { useEffect } from "react";
 import { onSnapshot } from "firebase/firestore";
 import { Logout } from "./Auth";
-import { Avatar, Button, IconButton, ThemeProvider } from "@mui/material";
+import {
+    Avatar,
+    Button,
+    IconButton,
+    TextField,
+    ThemeProvider,
+} from "@mui/material";
 import { Send, PowerSettingsNew, AttachFile } from "@mui/icons-material";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { v4 } from "uuid";
@@ -195,7 +201,7 @@ const ChatRoom = () => {
                             className="chat_header_profile_picture"
                             src={`https://avatars.dicebear.com/api/human/${avatarId}.svg`}
                         />
-                        <h3>Dokter Hewan</h3>
+                        <p>Dokter Hewan</p>
                     </div>
                     <div>{`${hours}:${minutes}:${seconds}`}</div>
                     <div className="chat_header_right">
@@ -359,14 +365,18 @@ const ChatRoom = () => {
                         </IconButton>
                     </div>
                     <div className="chat_footer_center">
-                        <form onSubmit={sendMessage}>
-                            <input
-                                type="text"
-                                placeholder="Ketik pesan"
-                                value={formValue}
-                                onChange={(e) => setFormValue(e.target.value)}
-                            />
-                        </form>
+                        <TextField
+                            id="message_text_field"
+                            className="rounded_outlined_text_field"
+                            variant="outlined"
+                            placeholder="Ketik pesan"
+                            value={formValue}
+                            onChange={(e) => setFormValue(e.target.value)}
+                            onSubmit={sendMessage}
+                            size="small"
+                            fullWidth
+                            autoFocus
+                        />
                     </div>
                     <div className="chat_footer_right">
                         <ThemeProvider theme={buttonTheme}>
