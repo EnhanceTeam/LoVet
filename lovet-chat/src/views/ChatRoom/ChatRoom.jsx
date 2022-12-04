@@ -58,13 +58,32 @@ const ChatRoom = () => {
     }
 
     // Chat Image
-    const [imageUpload, setImageUpload] = useState(null)
+    const [selectedImage, setSelectedImage] = useState(null)
+    const [imagePreview, setImagePreview] = useState(null)
+
+    // Image preview
+    useEffect(() => {
+        // https://stackoverflow.com/a/57781164
+        if (!selectedImage) {
+            setImagePreview(undefined)
+            return
+        }
+
+        const objectUrl = URL.createObjectURL(selectedImage)
+        setImagePreview(objectUrl)
+
+        // free memory when ever this component is unmounted
+        return () => URL.revokeObjectURL(objectUrl)
+    }, [selectedImage])
 
     // Send Image
     const sendImage = (e) => {
-        if (imageUpload == null) return
-        const imageRef = ref(fb.storage, `images/${imageUpload.name + v4()}`)
-        uploadBytes(imageRef, imageUpload).then((snapshot) => {
+        // Check if selected image is not null
+        if (selectedImage == null) return
+
+        // Save image to Firebase Storage
+        const imageRef = ref(fb.storage, `images/${selectedImage.name + v4()}`)
+        uploadBytes(imageRef, selectedImage).then((snapshot) => {
             getDownloadURL(snapshot.ref).then((url) => {
                 messagesRef.add({
                     text: url,
@@ -76,13 +95,6 @@ const ChatRoom = () => {
 
         e.preventDefault()
 
-        // Check if message is not empty
-        if (formValue.trim().length === 0) {
-            return
-        }
-
-        // Clear text form field
-        setFormValue("")
         setAtBottom(true)
     }
 
@@ -289,15 +301,22 @@ const ChatRoom = () => {
 
                                 {isValidUrl(message.text) ? (
                                     // Show image
-                                    <img
-                                        className={`chat_image ${
+                                    <div
+                                        key={`message_${id}`}
+                                        className={`chat_message_image ${
                                             message.uid === uid &&
-                                            "chat_image_sender"
+                                            "chat_message_sender"
                                         }`}
-                                        src={message.text}
-                                        alt=""
-                                        ref={chatContentRef}
-                                    />
+                                    >
+                                        <img
+                                            className={
+                                                "chat_message_image_content"
+                                            }
+                                            src={message.text}
+                                            alt=""
+                                            ref={chatContentRef}
+                                        />
+                                    </div>
                                 ) : (
                                     // Show text
                                     <div
@@ -324,81 +343,76 @@ const ChatRoom = () => {
                         )
                     })}
                 </div>
-
                 <div className="chat_footer">
-                    <div className="chat_footer_left">
-                        <IconButton>
-                            <label htmlFor="input_image">
+                    <div className="chat_footer_preview">
+                        {selectedImage && <img className="chat_footer_preview_image" src={imagePreview} alt="" />}
+                    </div>
+                    <div className="chat_footer_actions">
+                        <div className="chat_footer_left">
+                            <Button
+                                className="icon_button secondary_button"
+                                startIcon={<AttachFile />}
+                                variant="contained"
+                                color="secondary"
+                                component="label"
+                                disableElevation
+                            >
                                 <form onSubmit={sendImage}>
                                     <input
-                                        type="file"
+                                        hidden
                                         accept="image/*"
-                                        onChange={(event) => {
-                                            setImageUpload(
-                                                event.target.files[0]
-                                            )
-                                        }}
-                                        id="input_image"
-                                        style={{
-                                            display: "none",
+                                        type="file"
+                                        // multiple
+                                        onChange={(e) => {
+                                            setSelectedImage(e.target.files[0])
                                         }}
                                     />
                                 </form>
-                                <AttachFile
-                                    style={{
-                                        cursor: "pointer",
-                                    }}
-                                />
-                            </label>
-                        </IconButton>
-
-                        <Button
-                            className="icon_button secondary_button"
-                            startIcon={<AttachFile />}
-                            variant="contained"
-                            color="secondary"
-                            disableElevation
-                        ></Button>
+                            </Button>
+                        </div>
+                        {inputMessageDisabled ? (
+                            <>
+                                <p className="chat_footer_center">
+                                    <strong>Waktu telah habis!</strong>
+                                </p>
+                            </>
+                        ) : (
+                            <>
+                                <div className="chat_footer_center">
+                                    <form onSubmit={sendMessage}>
+                                        <TextField
+                                            id="message_text_field"
+                                            className="rounded_outlined_text_field"
+                                            variant="outlined"
+                                            placeholder="Ketik pesan"
+                                            value={formValue}
+                                            onChange={(e) =>
+                                                setFormValue(e.target.value)
+                                            }
+                                            size="small"
+                                            fullWidth
+                                            autoFocus
+                                        />
+                                    </form>
+                                </div>
+                                <div className="chat_footer_right">
+                                    <ThemeProvider theme={buttonTheme}>
+                                        <Button
+                                            className="icon_button"
+                                            onClick={(e) => {
+                                                sendMessage(e)
+                                                sendImage(e)
+                                            }}
+                                            startIcon={<Send />}
+                                            variant="contained"
+                                            color="secondary"
+                                            disableElevation
+                                        ></Button>
+                                    </ThemeProvider>
+                                </div>
+                            </>
+                        )}
                     </div>
-                    {inputMessageDisabled ? (
-                        <>
-                            <p className="chat_footer_center">
-                                <strong>Waktu telah habis!</strong>
-                            </p>
-                        </>
-                    ) : (
-                        <>
-                            <div className="chat_footer_center">
-                                <form onSubmit={sendMessage}>
-                                    <TextField
-                                        id="message_text_field"
-                                        className="rounded_outlined_text_field"
-                                        variant="outlined"
-                                        placeholder="Ketik pesan"
-                                        value={formValue}
-                                        onChange={(e) =>
-                                            setFormValue(e.target.value)
-                                        }
-                                        size="small"
-                                        fullWidth
-                                        autoFocus
-                                    />
-                                </form>
-                            </div>
-                            <div className="chat_footer_right">
-                                <ThemeProvider theme={buttonTheme}>
-                                    <Button
-                                        className="icon_button"
-                                        onClick={sendMessage}
-                                        startIcon={<Send />}
-                                        variant="contained"
-                                        color="secondary"
-                                        disableElevation
-                                    ></Button>
-                                </ThemeProvider>
-                            </div>
-                        </>
-                    )}
                 </div>
             </div>
         </>
