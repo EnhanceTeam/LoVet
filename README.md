@@ -2,7 +2,7 @@
 
 ### Things to do after pull in the terminal:
 1. npm install / npm update
-2. npm install @mui/icons-material
+2. npm install @mui/material @mui/icons-material @mui/lab
 3. npm install firebase
 4. npm install react-router-dom
 5. npm isntall tailwind (optional)
