@@ -2,8 +2,9 @@
 
 /* Icon */
 .icon_small {
-    width: 24px !important;
-    height: 24px !important;
+    width: 20px !important;
+    height: 20px !important;
+    padding-bottom: 20px;
 }
 
 /* Button */
@@ -17,6 +18,12 @@
     background-color: var(--secondary-container) !important;
 }
 
+.white_button {
+    color: var(--black) !important;
+    background-color: var(--white) !important;
+}
+
+/* Icon button */
 .icon_button {
     border-radius: var(--rounded) !important;
     padding: 10px !important;

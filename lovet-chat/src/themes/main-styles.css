@@ -17,4 +17,7 @@
     /* Spacing */
     --space-small: 8px;
     --space-medium: 16px;
+
+    /* Image */
+    --pet-pattern-background: url('../assets/svg/pet_pattern_background.svg')
 }

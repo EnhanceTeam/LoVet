@@ -39,7 +39,7 @@ const NotFound = () => {
                 <img
                     className="not_found_logo"
                     src={lovetLogoHorizontalTransparent}
-                    alt="Error 404"
+                    alt="Lovet logo"
                 />
             </div>
             <div className="not_found_center">

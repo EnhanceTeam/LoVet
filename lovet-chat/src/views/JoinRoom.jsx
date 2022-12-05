@@ -1,7 +1,7 @@
 import { useState } from "react"
 import fb from "../services/firebase"
 import { useNavigate } from "react-router-dom"
-import { Logout } from "./Auth"
+import { Logout } from "./Auth/Auth"
 
 const JoinRoom = () => {
   const roomRef = fb.firestore.collection("Rooms")

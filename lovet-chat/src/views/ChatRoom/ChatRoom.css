@@ -39,6 +39,10 @@
 
 /* Header right */
 .chat_header_right {
+    display: flex;
+    flex-direction: row;
+    column-gap: var(--space-medium);
+    align-items: center;
 }
 
 /* Body */

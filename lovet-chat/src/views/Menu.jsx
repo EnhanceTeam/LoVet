@@ -1,4 +1,4 @@
-import { Login } from "./Auth"
+import { Login } from "./Auth/Auth"
 import { UserAuth } from "../context/AuthContext"
 import ChatRoomGenerator from "./ChatRoomGenerator"
 import JoinRoom from "./JoinRoom"

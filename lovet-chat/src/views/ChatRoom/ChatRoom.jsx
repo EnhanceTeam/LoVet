@@ -2,7 +2,7 @@ import fb from "../../services/firebase"
 import React, { useRef, useState } from "react"
 import { useEffect } from "react"
 import { onSnapshot } from "firebase/firestore"
-import { Logout } from "../Auth"
+import { Logout } from "../Auth/Auth"
 import { UserAuth } from "../../context/AuthContext"
 import { useParams } from "react-router-dom"
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage"
@@ -10,12 +10,11 @@ import { v4 } from "uuid"
 import {
     Avatar,
     Button,
-    IconButton,
     LinearProgress,
     TextField,
     ThemeProvider,
 } from "@mui/material"
-import { Send, AttachFile } from "@mui/icons-material"
+import { SendRounded, AttachFileRounded } from "@mui/icons-material"
 import { buttonTheme } from "../../themes/theme"
 import "../../themes/mui-styles.css"
 import "./ChatRoom.css"
@@ -240,17 +239,15 @@ const ChatRoom = () => {
                         />
                         <p>Dokter Hewan</p>
                     </div>
-                    <div>
-                        {hours &&
-                            minutes &&
-                            seconds &&
-                            `${hours}:${minutes}:${seconds}`}
+                    <div className="chat_header_right">
+                        <p>
+                            {hours &&
+                                minutes &&
+                                seconds &&
+                                `Waktu tersisa - ${hours}:${minutes}:${seconds}`}
+                        </p>
+                        {inputMessageDisabled && <Logout />}
                     </div>
-                    {inputMessageDisabled && (
-                        <div className="chat_header_right">
-                            <Logout />
-                        </div>
-                    )}
                 </div>
 
                 <div className="chat_body" onScroll={checkScrollPos}>
@@ -361,7 +358,7 @@ const ChatRoom = () => {
                             <ThemeProvider theme={buttonTheme}>
                                 <Button
                                     className="icon_button"
-                                    startIcon={<AttachFile />}
+                                    startIcon={<AttachFileRounded />}
                                     variant="outlined"
                                     color="secondary"
                                     component="label"
@@ -414,7 +411,7 @@ const ChatRoom = () => {
                                         sendMessage(e)
                                         sendImage(e)
                                     }}
-                                    startIcon={<Send />}
+                                    startIcon={<SendRounded />}
                                     variant="contained"
                                     color="secondary"
                                     disableElevation

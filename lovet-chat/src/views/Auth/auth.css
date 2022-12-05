@@ -1,0 +1,75 @@
+@import url("../../themes/main-styles.css");
+
+/* Main */
+.login_main {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background: var(--pet-pattern-background);
+}
+
+/* Center */
+.login_center {
+    display: flex;
+    row-gap: var(--space-medium);
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 80%;
+    height: 80%;
+    border-radius: var(--rounded-medium);
+    background-color: var(--surface);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Center top */
+.login_center_top {
+    display: flex;
+    row-gap: var(--space-small);
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: var(--space-medium);
+}
+
+/* Center center */
+.login_center_center {
+    display: flex;
+    flex: 10;
+    row-gap: 48px;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.login_center_center_text {
+    display: flex;
+    row-gap: var(--space-small);
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.login_center_center_text > h2 {
+    margin: 0;
+}
+
+.login_center_center_text > p {
+    margin: 0;
+}
+
+/* Center bottom */
+.login_center_bottom {
+    display: flex;
+    row-gap: var(--space-small);
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: var(--space-medium);
+}
+
+.login_logo {
+    max-height: 80px;
+}
