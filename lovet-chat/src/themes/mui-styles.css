@@ -1,35 +1,29 @@
-:root {
-    /* Color */
-    --primary-container: #ffde25;
-    --secondary-container: #ede2bc;
-    --on-secondary-container: #201b04;
-    --tertiary-container: #d1e4ff;
-    --background: #fefbff;
-    --surface: #fffbff;
-    --surface-variant: #e9e2d0;
-    --white: #ffffff;
-    --black: #1e1e1e;
-
-    /* Shape */
-    --rounded: 50px;
-
-    /* Spacing */
-    --space-small: 8px;
-    --space-medium: 16px;
-}
+@import url(main-styles.css);
 
 /* Icon */
 .icon_small {
-    width: 24px !important;
-    height: 24px !important;
+    width: 20px !important;
+    height: 20px !important;
+    padding-bottom: 20px;
 }
 
 /* Button */
+.rounded_button {
+    border-radius: var(--rounded) !important;
+    padding: var(--space-small) var(--space-medium) !important;
+}
+
 .secondary_button {
     color: var(--on-secondary-container) !important;
     background-color: var(--secondary-container) !important;
 }
 
+.white_button {
+    color: var(--black) !important;
+    background-color: var(--white) !important;
+}
+
+/* Icon button */
 .icon_button {
     border-radius: var(--rounded) !important;
     padding: 10px !important;

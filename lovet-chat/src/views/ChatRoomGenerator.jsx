@@ -1,7 +1,7 @@
 import fb from "../services/firebase"
 import { useNavigate } from "react-router-dom"
 import { useState } from "react"
-import { Logout } from "./Auth"
+import { Logout } from "./Auth/Auth"
 
 const ChatRoomGenerator = () => {
   const [startConsultation, setStartConsultation] = useState()

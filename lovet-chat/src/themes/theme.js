@@ -9,6 +9,11 @@ const buttonTheme = createTheme({
         secondary: {
             main: colors.secondary,
         },
+    },
+    typography: {
+        button: {
+            textTransform: 'none'
+        }
     }
 })
 

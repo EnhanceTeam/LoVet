@@ -1,0 +1,47 @@
+@import url(../../themes/main-styles.css);
+
+/* Main */
+.not_found_main {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: var(--primary-container);
+}
+
+/* Top */
+.not_found_top {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: var(--space-medium);
+}
+
+.not_found_logo {
+    max-height: 80px;
+}
+
+/* Center */
+.not_found_center {
+    display: flex;
+    flex: 10;
+    flex-direction: column;
+    row-gap: var(--space-medium);
+    justify-content: center;
+    align-items: center;
+}
+
+.not_found_image {
+    max-height: 200px;
+}
+
+/* Bottom */
+.not_found_bottom {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}

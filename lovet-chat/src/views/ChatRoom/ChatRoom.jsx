@@ -2,7 +2,7 @@ import fb from "../../services/firebase"
 import React, { useRef, useState } from "react"
 import { useEffect } from "react"
 import { onSnapshot } from "firebase/firestore"
-import { Logout } from "../Auth"
+import { Logout } from "../Auth/Auth"
 import { UserAuth } from "../../context/AuthContext"
 import { useParams } from "react-router-dom"
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage"
@@ -10,12 +10,11 @@ import { v4 } from "uuid"
 import {
     Avatar,
     Button,
-    IconButton,
     LinearProgress,
     TextField,
     ThemeProvider,
 } from "@mui/material"
-import { Send, AttachFile } from "@mui/icons-material"
+import { SendRounded, AttachFileRounded } from "@mui/icons-material"
 import { buttonTheme } from "../../themes/theme"
 import "../../themes/mui-styles.css"
 import "./ChatRoom.css"
@@ -92,6 +91,9 @@ const ChatRoom = () => {
                 })
             })
         })
+
+        // Remove selected image to remove preview
+        setSelectedImage(undefined)
 
         e.preventDefault()
 
@@ -237,17 +239,15 @@ const ChatRoom = () => {
                         />
                         <p>Dokter Hewan</p>
                     </div>
-                    <div>
-                        {hours &&
-                            minutes &&
-                            seconds &&
-                            `${hours}:${minutes}:${seconds}`}
+                    <div className="chat_header_right">
+                        <p>
+                            {hours &&
+                                minutes &&
+                                seconds &&
+                                `Waktu tersisa - ${hours}:${minutes}:${seconds}`}
+                        </p>
+                        {inputMessageDisabled && <Logout />}
                     </div>
-                    {inputMessageDisabled && (
-                        <div className="chat_header_right">
-                            <Logout />
-                        </div>
-                    )}
                 </div>
 
                 <div className="chat_body" onScroll={checkScrollPos}>
@@ -344,74 +344,81 @@ const ChatRoom = () => {
                     })}
                 </div>
                 <div className="chat_footer">
-                    <div className="chat_footer_preview">
-                        {selectedImage && <img className="chat_footer_preview_image" src={imagePreview} alt="" />}
-                    </div>
+                    {selectedImage && (
+                        <div className="chat_footer_preview">
+                            <img
+                                className="chat_footer_preview_image"
+                                src={imagePreview}
+                                alt=""
+                            />
+                        </div>
+                    )}
                     <div className="chat_footer_actions">
                         <div className="chat_footer_left">
-                            <Button
-                                className="icon_button secondary_button"
-                                startIcon={<AttachFile />}
-                                variant="contained"
-                                color="secondary"
-                                component="label"
-                                disableElevation
-                            >
-                                <form onSubmit={sendImage}>
-                                    <input
-                                        hidden
-                                        accept="image/*"
-                                        type="file"
-                                        // multiple
-                                        onChange={(e) => {
-                                            setSelectedImage(e.target.files[0])
-                                        }}
-                                    />
-                                </form>
-                            </Button>
-                        </div>
-                        {inputMessageDisabled ? (
-                            <>
-                                <p className="chat_footer_center">
-                                    <strong>Waktu telah habis!</strong>
-                                </p>
-                            </>
-                        ) : (
-                            <>
-                                <div className="chat_footer_center">
-                                    <form onSubmit={sendMessage}>
-                                        <TextField
-                                            id="message_text_field"
-                                            className="rounded_outlined_text_field"
-                                            variant="outlined"
-                                            placeholder="Ketik pesan"
-                                            value={formValue}
-                                            onChange={(e) =>
-                                                setFormValue(e.target.value)
-                                            }
-                                            size="small"
-                                            fullWidth
-                                            autoFocus
+                            <ThemeProvider theme={buttonTheme}>
+                                <Button
+                                    className="icon_button"
+                                    startIcon={<AttachFileRounded />}
+                                    variant="outlined"
+                                    color="secondary"
+                                    component="label"
+                                    disableElevation
+                                    disabled={inputMessageDisabled}
+                                >
+                                    <form onSubmit={sendImage}>
+                                        <input
+                                            hidden
+                                            accept="image/*"
+                                            type="file"
+                                            // multiple
+                                            onChange={(e) => {
+                                                setSelectedImage(
+                                                    e.target.files[0]
+                                                )
+                                            }}
                                         />
                                     </form>
-                                </div>
-                                <div className="chat_footer_right">
-                                    <ThemeProvider theme={buttonTheme}>
-                                        <Button
-                                            className="icon_button"
-                                            onClick={(e) => {
-                                                sendMessage(e)
-                                                sendImage(e)
-                                            }}
-                                            startIcon={<Send />}
-                                            variant="contained"
-                                            color="secondary"
-                                            disableElevation
-                                        ></Button>
-                                    </ThemeProvider>
-                                </div>
-                            </>
-                        )}
+                                </Button>
+                            </ThemeProvider>
+                        </div>
+                        <div className="chat_footer_center">
+                            <form onSubmit={sendMessage}>
+                                <TextField
+                                    id="message_text_field"
+                                    className="rounded_outlined_text_field"
+                                    variant="outlined"
+                                    placeholder={
+                                        inputMessageDisabled
+                                            ? "Waktu telah habis"
+                                            : "Ketik pesan"
+                                    }
+                                    value={formValue}
+                                    onChange={(e) =>
+                                        setFormValue(e.target.value)
+                                    }
+                                    size="small"
+                                    fullWidth
+                                    autoFocus
+                                    disabled={inputMessageDisabled}
+                                />
+                            </form>
+                        </div>
+                        <div className="chat_footer_right">
+                            <ThemeProvider theme={buttonTheme}>
+                                <Button
+                                    className="icon_button"
+                                    onClick={(e) => {
+                                        sendMessage(e)
+                                        sendImage(e)
+                                    }}
+                                    startIcon={<SendRounded />}
+                                    variant="contained"
+                                    color="secondary"
+                                    disableElevation
+                                    disabled={inputMessageDisabled}
+                                ></Button>
+                            </ThemeProvider>
+                        </div>
                     </div>
                 </div>
             </div>

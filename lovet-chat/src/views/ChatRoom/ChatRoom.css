@@ -1,23 +1,4 @@
-:root {
-    /* Color */
-    --primary-container: #ffde25;
-    --secondary-container: #ede2bc;
-    --tertiary-container: #d1e4ff;
-    --background: #fefbff;
-    --surface: #fffbff;
-    --surface-variant: #e9e2d0;
-    --white: #ffffff;
-    --black: #1e1e1e;
-
-    /* Shape */
-    --rounded-small: 8px;
-    --rounded-medium: 16px;
-    --rounded: 50px;
-
-    /* Spacing */
-    --space-small: 8px;
-    --space-medium: 16px;
-}
+@import url(../../themes/main-styles.css);
 
 /* Main */
 .chat_main {
@@ -30,7 +11,7 @@
 .chat_header {
     display: flex;
     flex-direction: row;
-    column-gap: 8px;
+    column-gap: var(--space-small);
     align-items: center;
     padding: var(--space-small) var(--space-medium);
     background-color: var(--primary-container);
@@ -58,6 +39,10 @@
 
 /* Header right */
 .chat_header_right {
+    display: flex;
+    flex-direction: row;
+    column-gap: var(--space-medium);
+    align-items: center;
 }
 
 /* Body */
