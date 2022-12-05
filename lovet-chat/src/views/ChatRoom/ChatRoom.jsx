@@ -8,9 +8,11 @@ import { useParams } from "react-router-dom"
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage"
 import { v4 } from "uuid"
 import {
+    Alert,
     Avatar,
     Button,
     LinearProgress,
+    Snackbar,
     TextField,
     ThemeProvider,
 } from "@mui/material"
@@ -22,6 +24,10 @@ import "./ChatRoom.css"
 const ChatRoom = () => {
     const { roomID } = useParams()
 
+    // Get authenticated user ID
+    const { user } = UserAuth()
+    const uid = user.uid
+
     // Message queries from Firebase
     const messagesRef = fb.firestore
         .collection("Rooms")
@@ -32,6 +38,7 @@ const ChatRoom = () => {
 
     // Chat messages
     const [messages, setMessages] = useState([])
+    const [formValue, setFormValue] = useState("")
     const [atBottom, setAtBottom] = useState(true)
     const [inputMessageDisabled, setInputMessageDisabled] = useState(false)
 
@@ -104,25 +111,23 @@ const ChatRoom = () => {
     const [hours, setHours] = useState(null)
     const [minutes, setMinutes] = useState(null)
     const [seconds, setSeconds] = useState(null)
+    const [timerSnackbar, setTimerSnackbar] = useState("")
+    const [timerSnackbarState, setTimeSnackbarState] = useState({
+        tenMinutes: false,
+        fiveMinutes: false,
+        twoMinutes: false,
+        oneMinutes: false,
+    })
 
     useEffect(() => {
         onSnapshot(query, (snapshot) => {
             setMessages(
                 snapshot.docs.map((doc) => {
-                    // Convert Firebase Timestamp to JS Date
-                    // const data = doc.data()
-                    // data.timestamp = new Date(data.timestamp)
                     return { id: doc.id, ...doc.data() }
                 })
             )
         })
     }, [])
-
-    const [formValue, setFormValue] = useState("")
-
-    // Get authenticated user ID
-    const { user } = UserAuth()
-    const uid = user.uid
 
     const chatTimer = async () => {
         setLoadingState({ isTimerLoading: true })
@@ -162,6 +167,44 @@ const ChatRoom = () => {
                         secondsTimer < 10
                             ? setSeconds("0" + secondsTimer.toString())
                             : setSeconds(secondsTimer.toString())
+                        // Set timer snackbar
+                        if (
+                            minutesTimer < 11 &&
+                            secondsTimer < 1 &&
+                            !timerSnackbarState.tenMinutes
+                        ) {
+                            // 10 minutes
+                            setTimerSnackbar(minutesTimer)
+                            setSnackbarState(true)
+                            timerSnackbarState.tenMinutes = true
+                        } else if (
+                            minutesTimer < 6 &&
+                            secondsTimer < 1 &&
+                            !timerSnackbarState.fiveMinutes
+                        ) {
+                            // 5 minutes
+                            setTimerSnackbar(minutesTimer)
+                            setSnackbarState(true)
+                            timerSnackbarState.fiveMinutes = true
+                        } else if (
+                            minutesTimer < 3 &&
+                            secondsTimer < 1 &&
+                            !timerSnackbarState.twoMinutes
+                        ) {
+                            // 2 minutes
+                            setTimerSnackbar(minutesTimer)
+                            setSnackbarState(true)
+                            timerSnackbarState.twoMinutes = true
+                        } else if (
+                            minutesTimer < 2 &&
+                            secondsTimer < 1 &&
+                            !timerSnackbarState.oneMinutes
+                        ) {
+                            // 1 minute
+                            setTimerSnackbar(minutesTimer)
+                            setSnackbarState(true)
+                            timerSnackbarState.oneMinutes = true
+                        }
                     }
                 })
             }
@@ -220,6 +263,16 @@ const ChatRoom = () => {
         setAvatarId(Math.floor(Math.random() * 5000))
     }, [])
 
+    // Snackbar
+    const [snackbarState, setSnackbarState] = useState(false)
+    const handleSnackbarClose = (event, reason) => {
+        if (reason === "clickaway") {
+            return
+        }
+
+        setSnackbarState(false)
+    }
+
     // Date
     const chatDateOptions = {
         weekday: "long",
@@ -230,6 +283,21 @@ const ChatRoom = () => {
 
     return (
         <>
+            <Snackbar
+                anchorOrigin={{ vertical: "top", horizontal: "center" }}
+                open={snackbarState}
+                autoHideDuration={10000}
+                onClose={handleSnackbarClose}
+            >
+                <Alert
+                    onClose={handleSnackbarClose}
+                    variant="filled"
+                    severity="warning"
+                    sx={{ width: "100%" }}
+                >
+                    Waktu tersisa {timerSnackbar} menit
+                </Alert>
+            </Snackbar>
             <div className="chat_main">
                 <div className="chat_header">
                     <div className="chat_header_center">
@@ -244,7 +312,7 @@ const ChatRoom = () => {
                             {hours &&
                                 minutes &&
                                 seconds &&
-                                `Waktu tersisa - ${hours}:${minutes}:${seconds}`}
+                                `Sisa waktu konsultasi - ${hours}:${minutes}:${seconds}`}
                         </p>
                         {inputMessageDisabled && <Logout />}
                     </div>
@@ -285,7 +353,6 @@ const ChatRoom = () => {
                                                 key={`date_${id}`}
                                                 className="chat_date"
                                             >
-                                                {console.log(messages)}
                                                 <p className="chat_date_content">
                                                     {new Date(
                                                         message.timestamp
