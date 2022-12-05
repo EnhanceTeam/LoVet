@@ -1,6 +1,8 @@
+import { useState } from "react"
 import { useNavigate } from "react-router-dom"
 import { UserAuth } from "../../context/AuthContext"
-import { Button, Icon, IconButton, ThemeProvider } from "@mui/material"
+import { Button, Icon, ThemeProvider } from "@mui/material"
+import { LoadingButton } from "@mui/lab"
 import { LogoutRounded } from "@mui/icons-material"
 import { buttonTheme } from "../../themes/theme"
 import chatBubble2 from "../../assets/svg/chat_bubble_2.svg"
@@ -10,11 +12,14 @@ import "./auth.css"
 
 const Login = () => {
     const { googleSignIn } = UserAuth()
+    const [loadingState, setLoadingState] = useState(false)
 
     const handleLoginClick = (e) => {
         e.preventDefault()
 
+        setLoadingState(true)
         googleSignIn()
+        setLoadingState(false)
     }
 
     return (
@@ -34,7 +39,7 @@ const Login = () => {
                         <p>Silahkan login dengan akun google anda</p>
                     </div>
                     <ThemeProvider theme={buttonTheme}>
-                        <Button
+                        <LoadingButton
                             className="rounded_button"
                             onClick={handleLoginClick}
                             startIcon={
@@ -48,9 +53,10 @@ const Login = () => {
                             }
                             variant="contained"
                             disableElevation
+                            loading={loadingState}
                         >
                             Lanjut dengan Google
-                        </Button>
+                        </LoadingButton>
                     </ThemeProvider>
                 </div>
                 <div className="login_center_bottom"></div>

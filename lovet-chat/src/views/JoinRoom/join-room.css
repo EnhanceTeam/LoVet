@@ -1,7 +1,7 @@
 @import url("../../themes/main-styles.css");
 
 /* Main */
-.login_main {
+.join_room_main {
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -11,7 +11,7 @@
 }
 
 /* Center */
-.login_center {
+.join_room_center {
     display: flex;
     row-gap: var(--space-medium);
     flex-direction: column;
@@ -25,26 +25,56 @@
 }
 
 /* Center top */
-.login_center_top {
+.join_room_center_top {
     display: flex;
     column-gap: var(--space-small);
     flex-direction: row;
     justify-content: center;
     align-items: center;
+    width: 100%;
     margin: var(--space-medium);
 }
 
-/* Center center */
-.login_center_center {
+.join_room_center_top_left {
+    display: flex;
+    flex: 2;
+    column-gap: var(--space-medium);
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    padding: var(--space-medium);
+}
+
+.join_room_center_top_center {
     display: flex;
     flex: 10;
-    row-gap: 48px;
+    column-gap: var(--space-medium);
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+.join_room_center_top_right {
+    display: flex;
+    flex: 2;
+    column-gap: var(--space-medium);
+    flex-direction: row;
+    justify-content: flex-end;
+    align-items: center;
+    padding: var(--space-medium);
+}
+
+/* Center center */
+.join_room_center_center {
+    display: flex;
+    flex: 10;
+    row-gap: var(--space-medium);
     flex-direction: column;
     justify-content: center;
     align-items: center;
 }
 
-.login_center_center_text {
+.join_room_center_center_text {
     display: flex;
     row-gap: var(--space-small);
     flex-direction: column;
@@ -52,16 +82,16 @@
     align-items: center;
 }
 
-.login_center_center_text > h2 {
+.join_room_center_center_text > h2 {
     margin: 0;
 }
 
-.login_center_center_text > p {
+.join_room_center_center_text > p {
     margin: 0;
 }
 
 /* Center bottom */
-.login_center_bottom {
+.join_room_center_bottom {
     display: flex;
     column-gap: var(--space-small);
     flex-direction: row;
@@ -70,6 +100,6 @@
     margin: var(--space-medium);
 }
 
-.login_logo {
+.join_room_logo {
     max-height: 80px;
 }
