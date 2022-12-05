@@ -2,7 +2,7 @@ import { useState } from "react"
 import { useNavigate } from "react-router-dom"
 import fb from "../../services/firebase"
 import { Logout } from "../Auth/Auth"
-import { Alert, TextField, ThemeProvider } from "@mui/material"
+import { Alert, Snackbar, TextField, ThemeProvider } from "@mui/material"
 import { LoadingButton } from "@mui/lab"
 import { buttonTheme } from "../../themes/theme"
 import lovetLogoHorizontalTransparent from "../../assets/svg/lovet_logo_horizontal_transparent.svg"
@@ -11,8 +11,18 @@ import "./join-room.css"
 const JoinRoom = () => {
     const roomRef = fb.firestore.collection("Rooms")
     const [roomIDInput, setRoomIDInput] = useState()
+    const [roomIdSnackbar, setRoomIdSnackbar] = useState()
     const [loadingState, setLoadingState] = useState(false)
+    const [snackbarState, setSnackbarState] = useState(false)
     const navigate = useNavigate()
+
+    const handleSnackbarClose = (event, reason) => {
+        if (reason === "clickaway") {
+            return
+        }
+
+        setSnackbarState(false)
+    }
 
     const handleEnterChatClick = (e) => {
         if (!roomIDInput) {
@@ -31,7 +41,8 @@ const JoinRoom = () => {
                     // todo: satu room hanya bisa untuk 1 akun user dan 1 akun dokter
                     navigate(`chatroom/${doc.id}`)
                 } else {
-                    window.alert("Room ID tidak ditemukan!")
+                    setRoomIdSnackbar(roomIDInput)
+                    setSnackbarState(true)
                 }
                 setLoadingState(false)
             })
@@ -39,6 +50,20 @@ const JoinRoom = () => {
 
     return (
         <div className="join_room_main">
+            <Snackbar
+                anchorOrigin={{ vertical: "top", horizontal: "center" }}
+                open={snackbarState}
+                autoHideDuration={6000}
+                onClose={handleSnackbarClose}
+            >
+                <Alert
+                    onClose={handleSnackbarClose}
+                    severity="warning"
+                    sx={{ width: "100%" }}
+                >
+                    Ruang chat dengan room ID "{roomIdSnackbar}" tidak ditemukan
+                </Alert>
+            </Snackbar>
             <div className="join_room_center">
                 <div className="join_room_center_top">
                     <div className="join_room_center_top_left"></div>
