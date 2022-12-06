@@ -1,0 +1,40 @@
+@import url(main-styles.css);
+
+/* Icon */
+.icon_small {
+    width: 20px !important;
+    height: 20px !important;
+    padding-bottom: 20px;
+}
+
+/* Button */
+.rounded_button {
+    border-radius: var(--rounded) !important;
+    padding: var(--space-small) var(--space-medium) !important;
+}
+
+.secondary_button {
+    color: var(--on-secondary-container) !important;
+    background-color: var(--secondary-container) !important;
+}
+
+.white_button {
+    color: var(--black) !important;
+    background-color: var(--white) !important;
+}
+
+/* Icon button */
+.icon_button {
+    border-radius: var(--rounded) !important;
+    padding: 10px !important;
+    min-width: 0 !important;
+}
+
+.icon_button > .MuiButton-startIcon {
+    margin: 0;
+}
+
+/* Text field */
+.rounded_outlined_text_field > .MuiOutlinedInput-root {
+    border-radius: var(--rounded);
+}

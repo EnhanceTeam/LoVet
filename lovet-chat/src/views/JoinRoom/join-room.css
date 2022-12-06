@@ -1,0 +1,105 @@
+@import url("../../themes/main-styles.css");
+
+/* Main */
+.join_room_main {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background: var(--pet-pattern-background);
+}
+
+/* Center */
+.join_room_center {
+    display: flex;
+    row-gap: var(--space-medium);
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 80%;
+    height: 80%;
+    border-radius: var(--rounded-medium);
+    background-color: var(--surface);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Center top */
+.join_room_center_top {
+    display: flex;
+    column-gap: var(--space-small);
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    margin: var(--space-medium);
+}
+
+.join_room_center_top_left {
+    display: flex;
+    flex: 2;
+    column-gap: var(--space-medium);
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    padding: var(--space-medium);
+}
+
+.join_room_center_top_center {
+    display: flex;
+    flex: 10;
+    column-gap: var(--space-medium);
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+.join_room_center_top_right {
+    display: flex;
+    flex: 2;
+    column-gap: var(--space-medium);
+    flex-direction: row;
+    justify-content: flex-end;
+    align-items: center;
+    padding: var(--space-medium);
+}
+
+/* Center center */
+.join_room_center_center {
+    display: flex;
+    flex: 10;
+    row-gap: var(--space-medium);
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.join_room_center_center_text {
+    display: flex;
+    row-gap: var(--space-small);
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.join_room_center_center_text > h2 {
+    margin: 0;
+}
+
+.join_room_center_center_text > p {
+    margin: 0;
+}
+
+/* Center bottom */
+.join_room_center_bottom {
+    display: flex;
+    column-gap: var(--space-small);
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    margin: var(--space-medium);
+}
+
+.join_room_logo {
+    max-height: 80px;
+}

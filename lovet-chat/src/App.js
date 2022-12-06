@@ -3,8 +3,8 @@ import "./App.css"
 import { AuthContextProvider } from "./context/AuthContext"
 import Menu from "./views/Menu"
 import ProtectedRoutes from "./views/ProtectedRoutes"
-import ChatRoom from "./views/ChatRoom"
-import NotFound from "./views/NotFound"
+import ChatRoom from "./views/ChatRoom/ChatRoom"
+import NotFound from "./views/NotFound/NotFound"
 
 const App = () => {
   // todo: user tidak bisa akses chatroom user lain dan chatroom generator
