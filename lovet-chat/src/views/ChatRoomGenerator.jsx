@@ -1,12 +1,11 @@
 import fb from "../services/firebase"
-import { useNavigate } from "react-router-dom"
 import { useState } from "react"
 import { Logout } from "./Auth"
 
 const ChatRoomGenerator = () => {
   const [startConsultation, setStartConsultation] = useState()
   const [endConsultation, setEndConsultation] = useState()
-  const [roomID, setRoomID] = useState(null)
+  const [roomID, setRoomID] = useState()
 
   const handleNewChatRoomSubmit = (e) => {
     e.preventDefault()
@@ -22,7 +21,9 @@ const ChatRoomGenerator = () => {
         endConsultation: new Date(endConsultation),
       })
       .then((docRef) => {
+        setLoading(true)
         setRoomID(docRef.id)
+        setLoading(false)
       })
       .catch((error) => {
         console.log(error)
@@ -58,7 +59,7 @@ const ChatRoomGenerator = () => {
           Create New Chat Room
         </button>
       </form>
-      <div>{roomID ? `Room ID: ${roomID}` : "Loading..."}</div>
+      <div>{roomID ? `Room ID: ${roomID}` : null}</div>
     </>
   )
 }
