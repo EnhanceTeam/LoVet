@@ -21,9 +21,7 @@ const ChatRoomGenerator = () => {
         endConsultation: new Date(endConsultation),
       })
       .then((docRef) => {
-        setLoading(true)
         setRoomID(docRef.id)
-        setLoading(false)
       })
       .catch((error) => {
         console.log(error)
