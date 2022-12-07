@@ -82,6 +82,12 @@
     border-radius: 32px;
 }
 
+.chat_message_content > p {
+    max-width: calc(100vw - 20vw);
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+}
+
 .chat_message_sender {
     margin-left: auto !important;
     background-color: var(--tertiary-container) !important;

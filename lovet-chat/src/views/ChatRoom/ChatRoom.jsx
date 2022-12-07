@@ -217,9 +217,11 @@ const ChatRoom = () => {
     }, [])
 
     // Check URL
+    const firebaseHostName = "firebasestorage.googleapis.com"
     const isValidUrl = (urlString) => {
         try {
-            return Boolean(new URL(urlString))
+            const url = new URL(urlString)
+            return url.hostname === firebaseHostName
         } catch (e) {
             return false
         }
