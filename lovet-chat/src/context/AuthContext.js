@@ -9,7 +9,6 @@ export const AuthContextProvider = ({ children }) => {
 
   useEffect(() => {
     const unsubcribe = fb.auth.onAuthStateChanged((currentUser) => {
-      console.log(currentUser)
       setUser(currentUser)
     })
 

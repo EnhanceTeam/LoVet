@@ -25,43 +25,47 @@ const Login = () => {
     navigate("/menu")
   }
 
-  return (
-    <div className="login_main">
-      <div className="login_center">
-        <div className="login_center_top">
-          <img
-            className="login_logo"
-            src={lovetLogoHorizontalTransparent}
-            alt="Lovet logo"
-          />
+    return (
+        <div className="login_main">
+            <div className="login_center">
+                <div className="login_center_top">
+                    <img
+                        className="login_logo"
+                        src={lovetLogoHorizontalTransparent}
+                        alt="Lovet logo"
+                    />
+                </div>
+                <div className="login_center_center">
+                    <img className="login_center_center_image" src={chatBubble2} alt="Chat bubble" />
+                    <div className="login_center_center_text">
+                        <h2>Selamat Datang di LoVet Chat Room</h2>
+                        <p>Silahkan login dengan akun google anda</p>
+                    </div>
+                    <ThemeProvider theme={buttonTheme}>
+                        <LoadingButton
+                            className="rounded_button"
+                            onClick={handleLoginClick}
+                            startIcon={
+                                <Icon fontSize="10px">
+                                    <img
+                                        className="icon_small"
+                                        src={gBrand}
+                                        alt="Google logo"
+                                    />
+                                </Icon>
+                            }
+                            variant="contained"
+                            disableElevation
+                            loading={loadingState}
+                        >
+                            Lanjut dengan Google
+                        </LoadingButton>
+                    </ThemeProvider>
+                </div>
+                <div className="login_center_bottom"></div>
+            </div>
         </div>
-        <div className="login_center_center">
-          <img src={chatBubble2} alt="Chat bubble" />
-          <div className="login_center_center_text">
-            <h2>Selamat Datang di LoVet Chat Room</h2>
-            <p>Silahkan login dengan akun google anda</p>
-          </div>
-          <ThemeProvider theme={buttonTheme}>
-            <LoadingButton
-              className="rounded_button"
-              onClick={handleLoginClick}
-              startIcon={
-                <Icon fontSize="10px">
-                  <img className="icon_small" src={gBrand} alt="Google logo" />
-                </Icon>
-              }
-              variant="contained"
-              disableElevation
-              loading={loadingState}
-            >
-              Lanjut dengan Google
-            </LoadingButton>
-          </ThemeProvider>
-        </div>
-        <div className="login_center_bottom"></div>
-      </div>
-    </div>
-  )
+    )
 }
 
 const Logout = (e) => {
