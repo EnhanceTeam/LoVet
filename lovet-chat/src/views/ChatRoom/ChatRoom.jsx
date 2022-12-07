@@ -370,19 +370,24 @@ const ChatRoom = () => {
                                     // Show image
                                     <div
                                         key={`message_${id}`}
-                                        className={`chat_message_image ${
+                                        className={`chat_message_image_main ${
                                             message.uid === uid &&
                                             "chat_message_sender"
                                         }`}
                                     >
-                                        <img
-                                            className={
-                                                "chat_message_image_content"
-                                            }
-                                            src={message.text}
-                                            alt=""
-                                            ref={chatContentRef}
-                                        />
+                                        <div className="chat_message_image_content">
+                                            <img
+                                                className="chat_message_image"
+                                                src={message.text}
+                                                alt=""
+                                                ref={chatContentRef}
+                                            />
+                                            <p className="chat_message_timestamp">{`${new Date(
+                                                message.timestamp
+                                            ).getHours()}:${new Date(
+                                                message.timestamp
+                                            ).getMinutes()}`}</p>
+                                        </div>
                                     </div>
                                 ) : (
                                     // Show text
