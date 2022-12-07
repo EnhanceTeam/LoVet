@@ -12,6 +12,7 @@ const JoinRoom = () => {
     const roomRef = fb.firestore.collection("Rooms")
     const [roomIDInput, setRoomIDInput] = useState()
     const [roomIdSnackbar, setRoomIdSnackbar] = useState()
+    const [roomIdTextFieldError, setRoomIdTextFieldError] = useState(false)
     const [loadingState, setLoadingState] = useState(false)
     const [snackbarState, setSnackbarState] = useState(false)
     const navigate = useNavigate()
@@ -25,6 +26,8 @@ const JoinRoom = () => {
     }
 
     const handleEnterChatClick = (e) => {
+        setRoomIdTextFieldError(!roomIDInput)
+
         if (!roomIDInput) {
             return
         }
@@ -86,6 +89,10 @@ const JoinRoom = () => {
                         className="rounded_outlined_text_field"
                         variant="outlined"
                         placeholder="Room ID"
+                        helperText={
+                            roomIdTextFieldError && "Room ID tidak boleh kosong"
+                        }
+                        error={roomIdTextFieldError}
                         value={roomIDInput}
                         onChange={(e) => setRoomIDInput(e.target.value)}
                         size="small"
