@@ -33,7 +33,7 @@ const Login = () => {
                     />
                 </div>
                 <div className="login_center_center">
-                    <img src={chatBubble2} alt="Chat bubble" />
+                    <img className="login_center_center_image" src={chatBubble2} alt="Chat bubble" />
                     <div className="login_center_center_text">
                         <h2>Selamat Datang di LoVet Chat Room</h2>
                         <p>Silahkan login dengan akun google anda</p>
