@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom"
 import fb from "../../services/firebase"
 import { Logout } from "../Auth/Auth"
@@ -17,6 +17,20 @@ const JoinRoom = () => {
   const { user } = UserAuth()
   const navigate = useNavigate()
   const roomRef = fb.firestore.collection("Rooms")
+  const [vets, setVets] = useState([])
+
+  useEffect(() => {
+    fb.firestore
+      .collection("Veterinarian")
+      .get()
+      .then((docs) => {
+        setVets(
+          docs.docs.map((doc) => {
+            return doc.get("email")
+          })
+        )
+      })
+  }, [])
 
   const handleSnackbarClose = (event, reason) => {
     if (reason === "clickaway") {
@@ -34,15 +48,30 @@ const JoinRoom = () => {
     e.preventDefault()
 
     setLoadingState(true)
-    fb.firestore
-      .collection("Rooms")
+    roomRef
       .doc(roomIDInput)
       .get()
-      .then((doc) => {
-        if (doc.exists) {
+      .then((roomsDoc) => {
+        if (roomsDoc.exists) {
           // todo: satu room hanya bisa untuk 1 akun user dan 1 akun dokter
+          // todo: cek apakah sudah ada user yang pernah masuk ruang tersebut, kalo ada navigate ke menu, kalo belum dimasukkan
+          const filteredVets = vets.filter((vet) => vet === user.email)
 
-          navigate(`chatroom/${doc.id}`)
+          if (filteredVets.length !== 0) {
+            // if is vet, then back to menu
+            navigate("/menu")
+          } else {
+            if (roomsDoc.get("guest")) {
+              // if has user inside room, then back to menu
+              navigate("/menu")
+            } else {
+              // if no user inside room, then get in room
+              roomRef.doc(roomsDoc.id).update({
+                guest: user.uid,
+              })
+              navigate(`/menu/chatroom/${roomsDoc.id}`)
+            }
+          }
         } else {
           setRoomIdSnackbar(roomIDInput)
           setSnackbarState(true)
