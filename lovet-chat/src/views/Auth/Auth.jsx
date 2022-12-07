@@ -13,6 +13,7 @@ import "./auth.css"
 const Login = () => {
   const { googleSignIn } = UserAuth()
   const [loadingState, setLoadingState] = useState(false)
+  const navigate = useNavigate()
 
   const handleLoginClick = (e) => {
     e.preventDefault()
@@ -20,6 +21,8 @@ const Login = () => {
     setLoadingState(true)
     googleSignIn()
     setLoadingState(false)
+
+    navigate("/menu")
   }
 
   return (
@@ -70,7 +73,7 @@ const Logout = (e) => {
 
     logout()
 
-    navigate("/")
+    navigate("/menu")
   }
 
   return (
