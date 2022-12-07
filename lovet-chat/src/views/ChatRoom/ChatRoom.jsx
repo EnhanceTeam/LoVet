@@ -321,9 +321,7 @@ const ChatRoom = () => {
                 </div>
 
                 <div className="chat_body" onScroll={checkScrollPos}>
-                    {(messages.length === 0 || loadingState.isTimerLoading) && (
-                        <LinearProgress />
-                    )}
+                    {loadingState.isTimerLoading && <LinearProgress />}
                     {messages.map((message, id) => {
                         return (
                             <>
