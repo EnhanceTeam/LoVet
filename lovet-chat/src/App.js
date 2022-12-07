@@ -5,6 +5,7 @@ import Menu from "./views/Menu"
 import ProtectedRoutes from "./views/ProtectedRoutes"
 import ChatRoom from "./views/ChatRoom/ChatRoom"
 import NotFound from "./views/NotFound/NotFound"
+import LandingPage from "./views/LandingPage"
 
 const App = () => {
   // todo: user tidak bisa akses chatroom user lain dan chatroom generator
@@ -13,9 +14,10 @@ const App = () => {
     <Router>
       <AuthContextProvider>
         <Routes>
-          <Route index element={<Menu />} />
+          <Route index element={<LandingPage />} />
+          <Route path="menu" element={<Menu />} />
           <Route
-            path="chatroom/:roomID"
+            path="menu/chatroom/:roomID"
             element={
               <ProtectedRoutes>
                 <ChatRoom />
