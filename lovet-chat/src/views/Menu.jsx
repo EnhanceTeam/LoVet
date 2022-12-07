@@ -14,7 +14,7 @@ const Menu = () => {
   if (!user) {
     return <Login />
   } else {
-    if (user.uid === "aC0zKtkpqgZY7MBI3QaCppjXvYE3") {
+    if (user.uid === "oqua3QCSZjdIKUWQlDagvanOR8v2") {
       return <ChatRoomGenerator />
     } else {
       // todo: return user page
