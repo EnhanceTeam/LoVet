@@ -17,7 +17,7 @@ export const AuthContextProvider = ({ children }) => {
 
   const googleSignIn = () => {
     const provider = new fb.firebase.auth.GoogleAuthProvider()
-    return fb.auth.signInWithPopup(provider)
+    return fb.auth.signInWithRedirect(provider)
   }
 
   const logout = () => {
