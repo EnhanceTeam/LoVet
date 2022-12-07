@@ -11,16 +11,19 @@ import gBrand from "../../assets/images/g_brand.png"
 import "./auth.css"
 
 const Login = () => {
-    const { googleSignIn } = UserAuth()
-    const [loadingState, setLoadingState] = useState(false)
+  const { googleSignIn } = UserAuth()
+  const [loadingState, setLoadingState] = useState(false)
+  const navigate = useNavigate()
 
-    const handleLoginClick = (e) => {
-        e.preventDefault()
+  const handleLoginClick = (e) => {
+    e.preventDefault()
 
-        setLoadingState(true)
-        googleSignIn()
-        setLoadingState(false)
-    }
+    setLoadingState(true)
+    googleSignIn()
+    setLoadingState(false)
+
+    navigate("/menu")
+  }
 
     return (
         <div className="login_main">
@@ -66,31 +69,31 @@ const Login = () => {
 }
 
 const Logout = (e) => {
-    const { logout } = UserAuth()
-    const navigate = useNavigate()
+  const { logout } = UserAuth()
+  const navigate = useNavigate()
 
-    const handleLogoutClick = (e) => {
-        e.preventDefault()
+  const handleLogoutClick = (e) => {
+    e.preventDefault()
 
-        logout()
+    logout()
 
-        navigate("/")
-    }
+    navigate("/menu")
+  }
 
-    return (
-        <>
-            <ThemeProvider theme={buttonTheme}>
-                <Button
-                    className="icon_button"
-                    onClick={handleLogoutClick}
-                    startIcon={<LogoutRounded />}
-                    variant="contained"
-                    color="secondary"
-                    disableElevation
-                ></Button>
-            </ThemeProvider>
-        </>
-    )
+  return (
+    <>
+      <ThemeProvider theme={buttonTheme}>
+        <Button
+          className="icon_button"
+          onClick={handleLogoutClick}
+          startIcon={<LogoutRounded />}
+          variant="contained"
+          color="secondary"
+          disableElevation
+        ></Button>
+      </ThemeProvider>
+    </>
+  )
 }
 
 export { Login, Logout }
