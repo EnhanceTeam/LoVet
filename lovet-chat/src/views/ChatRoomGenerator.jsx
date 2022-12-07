@@ -1,11 +1,30 @@
 import fb from "../services/firebase"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { Logout } from "./Auth/Auth"
+import Select from "react-select"
 
 const ChatRoomGenerator = () => {
+  // todo: tambah input form dokter hewan yang akan mengurusi konsultasi
+
   const [startConsultation, setStartConsultation] = useState()
   const [endConsultation, setEndConsultation] = useState()
   const [roomID, setRoomID] = useState()
+  const [vets, setVets] = useState([])
+  const [selectedVet, setSelectedVet] = useState({})
+
+  useEffect(() => {
+    fb.firestore
+      .collection("Veterinarian")
+      .get()
+      .then((docs) => {
+        setVets(
+          docs.docs.map((doc) => {
+            console.log(doc)
+            return { value: doc.get("email"), label: doc.get("name") }
+          })
+        )
+      })
+  }, [])
 
   const handleNewChatRoomSubmit = (e) => {
     e.preventDefault()
@@ -17,6 +36,8 @@ const ChatRoomGenerator = () => {
     fb.firestore
       .collection("Rooms")
       .add({
+        vetEmail: selectedVet.value,
+        vetName: selectedVet.label,
         startConsultation: new Date(startConsultation),
         endConsultation: new Date(endConsultation),
       })
@@ -53,6 +74,17 @@ const ChatRoomGenerator = () => {
         />
 
         <br />
+
+        <Select
+          options={vets}
+          value={selectedVet}
+          onChange={(selection) => {
+            setSelectedVet(selection)
+          }}
+        />
+
+        <br />
+
         <button type="submit" onClick={handleNewChatRoomSubmit}>
           Create New Chat Room
         </button>
