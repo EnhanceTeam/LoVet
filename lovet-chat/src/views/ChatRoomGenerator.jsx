@@ -10,7 +10,10 @@ const ChatRoomGenerator = () => {
   const [endConsultation, setEndConsultation] = useState()
   const [roomID, setRoomID] = useState()
   const [vets, setVets] = useState([])
-  const [selectedVet, setSelectedVet] = useState({})
+  const [selectedVet, setSelectedVet] = useState({
+    value: null,
+    label: "Select Veterinarian...",
+  })
 
   useEffect(() => {
     fb.firestore
