@@ -3,9 +3,6 @@ import { useNavigate } from "react-router-dom"
 import { Button, ThemeProvider } from "@mui/material"
 import { HomeRounded } from "@mui/icons-material"
 import { buttonTheme } from "../../themes/theme"
-import lovetLogoHorizontalTransparent from "../../assets/svg/lovet_logo_horizontal_transparent.svg"
-import error404Image from "../../assets/svg/lovet_404.svg"
-import "./NotFound.css"
 
 const HomeButton = (e) => {
     const navigate = useNavigate()
@@ -19,7 +16,7 @@ const HomeButton = (e) => {
     return (
         <ThemeProvider theme={buttonTheme}>
             <Button
-                className="rounded_button"
+                className="rounded-button"
                 onClick={handleHomeClicked}
                 startIcon={<HomeRounded />}
                 variant="contained"
@@ -34,28 +31,28 @@ const HomeButton = (e) => {
 
 const NotFound = () => {
     return (
-        <div className="not_found_main">
-            <div className="not_found_top">
+        <div className="flex flex-col justify-center items-center text-center h-screen bg-primary-container">
+            <div className="flex flex-col justify-center items-center m-4">
                 <img
-                    className="not_found_logo"
-                    src={lovetLogoHorizontalTransparent}
+                    className="max-w-full-x-4 max-h-20"
+                    src="assets/svg/lovet_logo_horizontal_transparent.svg"
                     alt="Lovet logo"
                 />
             </div>
-            <div className="not_found_center">
+            <div className="flex flex-auto flex-col justify-center items-center gap-y-8">
                 <h2>Yah, halaman yang Anda cari tidak tersedia</h2>
                 <img
-                    className="not_found_image"
-                    src={error404Image}
+                    className="max-h-60"
+                    src="assets/svg/lovet_404.svg"
                     alt="Error 404"
                 />
-                <p>
+                <p className="text-lg font-light">
                     Halaman yang Anda cari mungkin saja telah dihapus,
                     dipindahkan, diganti atau bahkan tidak ada.
                 </p>
                 <HomeButton />
             </div>
-            <div className="not_found_bottom"></div>
+            <div className="flex flex-col justify-center items-center"></div>
         </div>
     )
 }

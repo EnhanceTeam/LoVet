@@ -18,8 +18,6 @@ import {
 } from "@mui/material"
 import { SendRounded, AttachFileRounded } from "@mui/icons-material"
 import { buttonTheme } from "../../themes/theme"
-import "../../themes/mui-styles.css"
-import "./ChatRoom.css"
 
 const ChatRoom = () => {
     const { roomID } = useParams()
@@ -300,16 +298,16 @@ const ChatRoom = () => {
                     Waktu tersisa {timerSnackbar} menit
                 </Alert>
             </Snackbar>
-            <div className="chat_main">
-                <div className="chat_header">
-                    <div className="chat_header_center">
+            <div className="flex flex-col h-screen">
+                <div className="flex flex-row justify-center items-center gap-x-2 px-4 py-2 bg-primary-container drop-shadow">
+                    <div className="flex flex-auto flex-row justify-start items-center gap-x-4">
                         <Avatar
-                            className="chat_header_profile_picture"
+                            className="!w-10 !h-10 p-2 bg-white"
                             src={`https://avatars.dicebear.com/api/human/${avatarId}.svg`}
                         />
-                        <p>Dokter Hewan</p>
+                        <p className="font-bold">Dokter Hewan</p>
                     </div>
-                    <div className="chat_header_right">
+                    <div className="flex flex-row justify-center items-center gap-x-4">
                         <p>
                             {hours &&
                                 minutes &&
@@ -320,7 +318,7 @@ const ChatRoom = () => {
                     </div>
                 </div>
 
-                <div className="chat_body" onScroll={checkScrollPos}>
+                <div className="flex flex-auto flex-col overflow-y-auto bg-background" onScroll={checkScrollPos}>
                     {loadingState.isTimerLoading && <LinearProgress />}
                     {messages.map((message, id) => {
                         return (
@@ -330,9 +328,9 @@ const ChatRoom = () => {
                                     id === 0 ? (
                                         <div
                                             key={`date_${id}`}
-                                            className="chat_date"
+                                            className="flex self-center rounded-2xl w-fit px-4 py-2 m-2 bg-slate-200"
                                         >
-                                            <p className="chat_date_content">
+                                            <p className="text-xs">
                                                 {new Date(
                                                     message.timestamp
                                                 ).toLocaleDateString(
@@ -351,9 +349,9 @@ const ChatRoom = () => {
                                             ).toDateString() && (
                                             <div
                                                 key={`date_${id}`}
-                                                className="chat_date"
+                                                className="flex self-center rounded-2xl w-fit px-4 py-2 m-2 bg-slate-200"
                                             >
-                                                <p className="chat_date_content">
+                                                <p className="text-xs">
                                                     {new Date(
                                                         message.timestamp
                                                     ).toLocaleDateString(
@@ -370,19 +368,19 @@ const ChatRoom = () => {
                                     // Show image
                                     <div
                                         key={`message_${id}`}
-                                        className={`chat_message_image_main ${
+                                        className={`rounded-2xl w-fit p-4 m-2 bg-surface-variant ${
                                             message.uid === uid &&
-                                            "chat_message_sender"
+                                            "ml-auto bg-tertiary-container"
                                         }`}
                                     >
-                                        <div className="chat_message_image_content">
+                                        <div className="flex flex-row justify-center items-center gap-x-2">
                                             <img
-                                                className="chat_message_image"
+                                                className="max-h-48 rounded-lg"
                                                 src={message.text}
                                                 alt=""
                                                 ref={chatContentRef}
                                             />
-                                            <p className="chat_message_timestamp">{`${new Date(
+                                            <p className="self-end text-xs text-slate-600">{`${new Date(
                                                 message.timestamp
                                             ).getHours()}:${new Date(
                                                 message.timestamp
@@ -393,17 +391,17 @@ const ChatRoom = () => {
                                     // Show text
                                     <div
                                         key={`message_${id}`}
-                                        className={`chat_message ${
+                                        className={`flex rounded-2xl w-fit max-w-full-x-24 px-4 py-2 m-2 bg-surface-variant ${
                                             message.uid === uid &&
-                                            "chat_message_sender"
+                                            "ml-auto bg-tertiary-container"
                                         }`}
                                     >
-                                        <div className="chat_message_content">
-                                            <p ref={chatContentRef}>
+                                        <div className="flex flex-row justify-center items-center gap-x-2">
+                                            <p ref={chatContentRef} className="break-words-link">
                                                 {" "}
                                                 {message.text}{" "}
                                             </p>
-                                            <p className="chat_message_timestamp">{`${new Date(
+                                            <p className="self-end text-xs text-slate-600">{`${new Date(
                                                 message.timestamp
                                             ).getHours()}:${new Date(
                                                 message.timestamp
@@ -415,21 +413,21 @@ const ChatRoom = () => {
                         )
                     })}
                 </div>
-                <div className="chat_footer">
+                <div className="flex flex-col justify-center items-center gap-y-2 px-4 py-2 bg-surface shadow-reverse">
                     {selectedImage && (
-                        <div className="chat_footer_preview">
+                        <div className="flex flex-row justify-center items-center max-h-24">
                             <img
-                                className="chat_footer_preview_image"
+                                className="w-24 h-24 object-cover rounded-lg"
                                 src={imagePreview}
                                 alt=""
                             />
                         </div>
                     )}
-                    <div className="chat_footer_actions">
-                        <div className="chat_footer_left">
+                    <div className="flex flex-row justify-center items-center gap-x-2 w-full">
+                        <div className="flex flex-row justify-center items-center gap-y-2">
                             <ThemeProvider theme={buttonTheme}>
                                 <Button
-                                    className="icon_button"
+                                    className="icon-button"
                                     startIcon={<AttachFileRounded />}
                                     variant="outlined"
                                     color="secondary"
@@ -453,11 +451,10 @@ const ChatRoom = () => {
                                 </Button>
                             </ThemeProvider>
                         </div>
-                        <div className="chat_footer_center">
-                            <form onSubmit={sendMessage}>
+                        <div className="flex flex-auto flex-row justify-center items-center gap-x-2">
+                            <form onSubmit={sendMessage} className="flex flex-auto">
                                 <TextField
-                                    id="message_text_field"
-                                    className="rounded_outlined_text_field"
+                                    className="rounded-outlined-text-field"
                                     variant="outlined"
                                     placeholder={
                                         inputMessageDisabled
@@ -475,10 +472,10 @@ const ChatRoom = () => {
                                 />
                             </form>
                         </div>
-                        <div className="chat_footer_right">
+                        <div className="flex flex-row justify-center items-center gap-x-2">
                             <ThemeProvider theme={buttonTheme}>
                                 <Button
-                                    className="icon_button"
+                                    className="icon-button"
                                     onClick={(e) => {
                                         sendMessage(e)
                                         sendImage(e)

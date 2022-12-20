@@ -1,5 +1,21 @@
-import { createTheme } from "@mui/material";
+import { createTheme } from "@mui/material/styles";
 import { colors } from "./colors";
+
+const fontFamily = [
+    'nunito sans',
+    'sans-serif',
+].join(',');
+
+const theme = createTheme({
+    typography: {
+        allVariants: {
+            fontFamily: fontFamily,
+        },
+        button: {
+            textTransform: 'none',
+        }
+    },
+});
 
 const buttonTheme = createTheme({
     palette: {
@@ -10,11 +26,15 @@ const buttonTheme = createTheme({
             main: colors.secondary,
         },
     },
+    shape: {
+        borderRadius: 9999,
+    },
     typography: {
         button: {
-            textTransform: 'none'
+            fontFamily: fontFamily,
+            textTransform: 'none',
         }
     }
 })
 
-export { buttonTheme }
+export { theme, buttonTheme }
