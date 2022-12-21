@@ -59,40 +59,40 @@ const JoinRoom = () => {
                     const filteredVets = vets.filter(
                         (vet) => vet === user.email
                     )
-
-          if (filteredVets.length !== 0) {
-            // if is vet, then back to menu
-            if (roomsDoc.get("vetEmail") === user.email) {
-              roomRef.doc(roomsDoc.id).update({
-                vetProfilePicture: user.photoURL,
-              })
-              navigate(`/menu/chatroom/${roomsDoc.id}`)
-            } else {
-              navigate("/menu")
-            }
-          } else {
-            if (!roomsDoc.get("guest")) {
-              roomRef.doc(roomsDoc.id).update({
-                guestName: user.displayName,
-                guestProfilePicture: user.photoURL,
-              })
-              navigate(`/menu/chatroom/${roomsDoc.id}`)
-            } else if (roomsDoc.get("guest") === user.uid) {
-              navigate(`/menu/chatroom/${roomsDoc.id}`)
-            } else {
-              navigate("/menu")
-            }
-          }
-        } else {
-          setRoomIdSnackbar(roomIDInput)
-          setSnackbarState(true)
-        }
-        setLoadingState(false)
-      })
-      .catch((error) => {
-        setLoadingState(false)
-      })
-  }
+                    
+                    if (filteredVets.length !== 0) {
+                        // if is vet, then back to menu
+                        if (roomsDoc.get("vetEmail") === user.email) {
+                            roomRef.doc(roomsDoc.id).update({
+                                vetProfilePicture: user.photoURL,
+                            })
+                            navigate(`/menu/chatroom/${roomsDoc.id}`)
+                        } else {
+                            navigate("/menu")
+                        }
+                    } else {
+                        if (!roomsDoc.get("guest")) {
+                            roomRef.doc(roomsDoc.id).update({
+                                guestName: user.displayName,
+                                guestProfilePicture: user.photoURL,
+                            })
+                            navigate(`/menu/chatroom/${roomsDoc.id}`)
+                        } else if (roomsDoc.get("guest") === user.uid) {
+                            navigate(`/menu/chatroom/${roomsDoc.id}`)
+                        } else {
+                            navigate("/menu")
+                        }
+                    }
+                } else {
+                    setRoomIdSnackbar(roomIDInput)
+                    setSnackbarState(true)
+                }
+                setLoadingState(false)
+            })
+            .catch((error) => {
+                setLoadingState(false)
+            })
+    }
 
     return (
         <div className="flex flex-col justify-center items-center h-screen bg-pet-pattern">
