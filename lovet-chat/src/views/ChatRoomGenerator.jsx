@@ -22,7 +22,6 @@ const ChatRoomGenerator = () => {
       .then((docs) => {
         setVets(
           docs.docs.map((doc) => {
-            console.log(doc)
             return { value: doc.get("email"), label: doc.get("name") }
           })
         )

@@ -63,6 +63,9 @@ const JoinRoom = () => {
           if (filteredVets.length !== 0) {
             // if is vet, then back to menu
             if (roomsDoc.get("vetEmail") === user.email) {
+              roomRef.doc(roomsDoc.id).update({
+                vetProfilePicture: user.photoURL,
+              })
               navigate(`/menu/chatroom/${roomsDoc.id}`)
             } else {
               navigate("/menu")
@@ -70,7 +73,8 @@ const JoinRoom = () => {
           } else {
             if (!roomsDoc.get("guest")) {
               roomRef.doc(roomsDoc.id).update({
-                guest: user.uid,
+                guestName: user.displayName,
+                guestProfilePicture: user.photoURL,
               })
               navigate(`/menu/chatroom/${roomsDoc.id}`)
             } else if (roomsDoc.get("guest") === user.uid) {
