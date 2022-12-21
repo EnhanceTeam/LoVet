@@ -1,3 +1,4 @@
+import fb from "../services/firebase"
 import { Login } from "./Auth/Auth"
 import { UserAuth } from "../context/AuthContext"
 import ChatRoomGenerator from "./ChatRoomGenerator"
