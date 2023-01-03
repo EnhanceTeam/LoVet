@@ -344,7 +344,7 @@ const ChatRoom = () => {
               className="chat_header_profile_picture"
               src={`https://avatars.dicebear.com/api/human/${avatarId}.svg`}
             />
-            <p> {username === "" ? "Unknown" : username} </p>
+            <p> {username ? username : "Unknown"} </p>
           </div>
           <div className="chat_header_right">
             <p>
