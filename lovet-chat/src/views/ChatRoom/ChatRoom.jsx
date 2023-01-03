@@ -11,11 +11,19 @@ import {
     Alert,
     Avatar,
     Button,
+    Chip,
+    Dialog,
+    DialogActions,
+    DialogTitle,
+    DialogContent,
+    DialogContentText,
     LinearProgress,
+    Rating,
     Snackbar,
     TextField,
     ThemeProvider,
 } from "@mui/material"
+import { LoadingButton } from "@mui/lab"
 import { SendRounded, AttachFileRounded } from "@mui/icons-material"
 import { buttonTheme } from "../../themes/theme"
 
@@ -181,6 +189,15 @@ const ChatRoom = () => {
                         setMinutes("00")
                         setSeconds("00")
                         setInputMessageDisabled(true)
+                        fb.firestore
+                            .collection("Ratings")
+                            .doc(roomID)
+                            .get()
+                            .then((doc) => {
+                                if (!doc.exists) {
+                                    handleRatingModalOpen()
+                                }
+                            })
                     } else {
                         hoursTimer < 10
                             ? setHours("0" + hoursTimer.toString())
@@ -314,6 +331,72 @@ const ChatRoom = () => {
         })
     }
 
+    // Rating
+    // Modal
+    const [ratingModalState, setRatingModalState] = useState(false)
+    const handleRatingModalOpen = () => setRatingModalState(true)
+    const handleRatingModalClose = () => setRatingModalState(false)
+    // Send
+    const [ratingSendLoadingState, setRatingSendLoadingState] = useState(false)
+    const handleRatingSend = () => {
+        setRatingSendLoadingState(true)
+        const tags = []
+
+        if (ratingChipDoctorResponseState) {
+            tags.push(ratingChipDoctorResponseValue)
+        }
+        if (ratingChipWebsiteFunctionalityState) {
+            tags.push(ratingChipWebsiteFunctionalityValue)
+        }
+        if (ratingChipWebsiteEaseOfUseState) {
+            tags.push(ratingChipWebsiteEaseOfUseValue)
+        }
+
+        fb.firestore
+            .collection("Ratings")
+            .doc(roomID)
+            .set({
+                rating: rating,
+                tags: tags,
+                message: ratingMessage,
+            })
+            .then(() => {
+                setRatingSendLoadingState(false)
+                handleRatingModalClose()
+            })
+            .catch((error) => {
+                console.log(error)
+            })
+    }
+    // Star
+    const [rating, setRating] = useState(0)
+    // Message
+    const [ratingMessage, setRatingMessage] = useState("")
+    // Chip
+    const ratingChipWebsiteFunctionalityValue = "Fungsionalitas Website"
+    const [
+        ratingChipWebsiteFunctionalityState,
+        setRatingChipWesbiteFunctionalityState,
+    ] = useState(false)
+    const handleRatingChipWebsiteFunctionalityClick = () =>
+        setRatingChipWesbiteFunctionalityState(
+            !ratingChipWebsiteFunctionalityState
+        )
+    const ratingChipWebsiteEaseOfUseValue = "Kemudahan Penggunaan Website"
+    const [
+        ratingChipWebsiteEaseOfUseState,
+        setRatingChipWesbiteEaseOfUseState,
+    ] = useState(false)
+    const handleRatingChipWebsiteEaseOfUseClick = () =>
+        setRatingChipWesbiteEaseOfUseState(!ratingChipWebsiteEaseOfUseState)
+    const ratingChipDoctorResponseValue = "Respon Dokter"
+    const [
+        ratingChipDoctorResponseState,
+        setRatingChipWesbiteDoctorResponseState,
+    ] = useState(false)
+    const handleRatingChipWebsiteDoctorResponseClick = () =>
+        setRatingChipWesbiteDoctorResponseState(!ratingChipDoctorResponseState)
+
     return (
         <>
             <Snackbar
@@ -331,6 +414,113 @@ const ChatRoom = () => {
                     Waktu tersisa {timerSnackbar} menit
                 </Alert>
             </Snackbar>
+            <Dialog open={ratingModalState}>
+                <DialogTitle>Bagaimana pengalaman chatting Anda?</DialogTitle>
+                <DialogContent>
+                    <div className="flex flex-col items-center">
+                        <Rating
+                            name="simple-controlled"
+                            value={rating}
+                            onChange={(event, newRating) => {
+                                setRating(newRating)
+                            }}
+                            size="large"
+                        />
+                    </div>
+
+                    {rating !== 0 && (
+                        <div className="flex flex-col gap-y-4 pt-6">
+                            <div>
+                                <DialogContentText>
+                                    {rating > 3
+                                        ? "Pelayanan apa yang menurut Anda baik?"
+                                        : "Pelayanan apa yang menurut Anda kurang baik?"}
+                                </DialogContentText>
+                                <div className="flex flex-row gap-x-2">
+                                    <Chip
+                                        label={ratingChipDoctorResponseValue}
+                                        color={
+                                            ratingChipDoctorResponseState
+                                                ? "primary"
+                                                : "default"
+                                        }
+                                        variant={
+                                            ratingChipDoctorResponseState
+                                                ? ""
+                                                : "outlined"
+                                        }
+                                        onClick={
+                                            handleRatingChipWebsiteDoctorResponseClick
+                                        }
+                                    />
+                                    <Chip
+                                        label={
+                                            ratingChipWebsiteFunctionalityValue
+                                        }
+                                        color={
+                                            ratingChipWebsiteFunctionalityState
+                                                ? "primary"
+                                                : "default"
+                                        }
+                                        variant={
+                                            ratingChipWebsiteFunctionalityState
+                                                ? ""
+                                                : "outlined"
+                                        }
+                                        onClick={
+                                            handleRatingChipWebsiteFunctionalityClick
+                                        }
+                                    />
+                                    <Chip
+                                        label={ratingChipWebsiteEaseOfUseValue}
+                                        color={
+                                            ratingChipWebsiteEaseOfUseState
+                                                ? "primary"
+                                                : "default"
+                                        }
+                                        variant={
+                                            ratingChipWebsiteEaseOfUseState
+                                                ? ""
+                                                : "outlined"
+                                        }
+                                        onClick={
+                                            handleRatingChipWebsiteEaseOfUseClick
+                                        }
+                                    />
+                                </div>
+                            </div>
+                            <div>
+                                <DialogContentText>
+                                    Apa yang bisa kami lakukan untuk
+                                    meningkatkan layanan?
+                                </DialogContentText>
+                                <TextField
+                                    id="rating-feedback"
+                                    placeholder="Ceritakan pengalamanmu di sini"
+                                    multiline
+                                    rows={4}
+                                    fullWidth
+                                    value={ratingMessage}
+                                    onChange={(e) =>
+                                        setRatingMessage(e.target.value)
+                                    }
+                                />
+                            </div>
+                        </div>
+                    )}
+                </DialogContent>
+                <DialogActions>
+                    {rating !== 0 && (
+                        <LoadingButton
+                            onClick={handleRatingSend}
+                            variant="contained"
+                            loading={ratingSendLoadingState}
+                        >
+                            Kirim
+                        </LoadingButton>
+                    )}
+                </DialogActions>
+            </Dialog>
             <div className="flex flex-col h-screen">
                 <div className="flex flex-row justify-center items-center gap-x-2 px-4 py-2 bg-primary-container drop-shadow">
                     <div className="flex flex-auto flex-row justify-start items-center gap-x-4">
