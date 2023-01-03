@@ -526,7 +526,7 @@ const ChatRoom = () => {
                     <div className="flex flex-auto flex-row justify-start items-center gap-x-4">
                         <Avatar className="bg-white" src={profilePicture} />
                         <p className="font-bold">
-                            {username === "" ? "Unknown" : username}
+                            {username ? username : "Unknown"}
                         </p>
                     </div>
                     <div className="flex flex-row justify-center items-center gap-x-4">
