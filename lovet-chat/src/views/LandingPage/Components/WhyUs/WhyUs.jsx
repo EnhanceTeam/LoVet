@@ -2,9 +2,9 @@ import ReasonItem from "./Components/ReasonItem"
 
 export default function WhyUs() {
   return (
-    <section id="why-us" className="flex flex-col justify-center h-screen gap-y-16 p-12 bg-primary-container">
+    <section id="why-us" className="flex flex-col justify-center md:h-screen gap-y-20 p-12 bg-primary-container">
       <div className="flex justify-center text-center">
-        <h1 className="font-bold">Mengapa LoVet?</h1>
+        <h1>Mengapa LoVet?</h1>
       </div>
       <div className="md:grid grid-cols-3 gap-8">
         <ReasonItem

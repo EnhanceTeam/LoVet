@@ -1,34 +1,62 @@
-import "./bootstrap.scss"
+import { useState } from "react"
+import NavItem from "./NavItem"
 
 export default function NavBar() {
+  const [isNavbarCollapsed, setIsNavbarCollapsed] = useState(true)
+
+  const handleNavbarCollapse = () => {
+    setIsNavbarCollapsed(!isNavbarCollapsed)
+  }
+
   return (
-    <header className="sticky top-0">
-      <div className="navbar">
-        <div className="nav-brand">
+    <nav className="sticky top-0 px-8 bg-primary-container">
+      <div className="flex flex-wrap justify-between items-center">
+        <a href="https://lovet.site">
           <img
-            className="nav-logo"
             src="assets/svg/lovet_logo_horizontal_transparent.svg"
             alt="Lovet logo"
+            className="h-14"
           />
-        </div>
-        <div className="nav-menu">
-          <a className="nav-link" href="#home">
-            Beranda
-          </a>
-          <a className="nav-link" href="#">
-            Tentang LoVet
-          </a>
-          <a className="nav-link" href="#">
-            Mengapa LoVet
-          </a>
-          <a className="nav-link" href="#">
-            Partner
-          </a>
-          <a className="nav-link" href="#">
-            Layanan
-          </a>
+        </a>
+        <div className="flex">
+          <ul className="hidden md:flex flex-row">
+            <NavItem href="#home" label="Beranda" />
+            <NavItem href="#TentangLovet" label="Tentang LoVet" />
+            <NavItem href="#why-us" label="Mengapa LoVet" />
+            <NavItem href="#" label="Partner" />
+            <NavItem href="#" label="Layanan" />
+          </ul>
+          <button
+            type="button"
+            onClick={handleNavbarCollapse}
+            className="md:hidden"
+          >
+            <img
+              src={`${
+                isNavbarCollapsed
+                  ? "assets/svg/hamburger_icon.svg"
+                  : "assets/svg/close_icon.svg"
+              }`}
+              alt=""
+              className="w-6"
+            />
+          </button>
         </div>
       </div>
-    </header>
+      <div
+        id="navbar-sticky"
+        className={`${
+          isNavbarCollapsed ? "hidden" : "flex"
+        } md:hidden justify-center text-center md:w-auto`}
+      >
+        <ul className="flex flex-col md:flex-row gap-y-4 p-4">
+          <NavItem href="#home" label="Beranda" />
+          <NavItem href="#TentangLovet" label="Tentang LoVet" />
+          <NavItem href="#why-us" label="Mengapa LoVet" />
+          <NavItem href="#" label="Partner" />
+          <NavItem href="#" label="Layanan" />
+        </ul>
+      </div>
+    </nav>
   )
 }
