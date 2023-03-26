@@ -5,7 +5,7 @@ import Menu from "./views/Menu"
 import ProtectedRoutes from "./views/ProtectedRoutes"
 import ChatRoom from "./views/ChatRoom/ChatRoom"
 import NotFound from "./views/NotFound/NotFound"
-import LandingPage from "./views/LandingPage"
+import LandingPage from "./views/LandingPage/LandingPage"
 import { ThemeProvider } from "@emotion/react"
 import { theme } from "./themes/theme"
 
