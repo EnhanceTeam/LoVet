@@ -23,8 +23,8 @@ export default function NavBar() {
             <NavItem href="#home" label="Beranda" />
             <NavItem href="#TentangLovet" label="Tentang LoVet" />
             <NavItem href="#why-us" label="Mengapa LoVet" />
-            <NavItem href="#" label="Partner" />
-            <NavItem href="#" label="Layanan" />
+            <NavItem href="#Partner" label="Partner" />
+            <NavItem href="#service" label="Layanan" />
           </ul>
           <button
             type="button"
