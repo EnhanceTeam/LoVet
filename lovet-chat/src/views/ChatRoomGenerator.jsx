@@ -2,7 +2,6 @@ import fb from "../services/firebase"
 import { useEffect, useState } from "react"
 import { Logout } from "./Auth/Auth"
 import Select from "react-select"
-import { ReactSession } from "react-client-session"
 
 const ChatRoomGenerator = () => {
   // todo: tambah input form dokter hewan yang akan mengurusi konsultasi
@@ -46,7 +45,6 @@ const ChatRoomGenerator = () => {
       })
       .then((docRef) => {
         setRoomID(docRef.id)
-        ReactSession.set("roomID", docRef.id)
       })
       .catch((error) => {
         console.log(error)
