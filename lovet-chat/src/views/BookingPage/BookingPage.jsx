@@ -1,6 +1,6 @@
 import Select from "react-select"
 import { useState } from "react"
-import fb from "../services/firebase"
+import fb from "../../services/firebase"
 
 const BookingPage = () => {
   const pets = [

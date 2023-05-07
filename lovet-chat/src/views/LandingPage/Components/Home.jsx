@@ -1,6 +1,15 @@
+import { useNavigate } from "react-router-dom"
 import { FilledButton } from "../../Common/Components/Button"
 
 export default function Home() {
+  const navigate = useNavigate()
+
+  const handleBookingClick = (e) => {
+    e.preventDefault()
+    
+    navigate("/booking")
+  }
+
   return (
     <section id="home" className="md:flex md:h-[calc(100vh-56px)] gap-x-16 p-12">
       <div className="flex flex-col justify-center gap-y-8 md:w-1/2 pb-6">
@@ -12,7 +21,7 @@ export default function Home() {
           selama 1 jam.
         </p>
         <div className="flex justify-center md:justify-start">
-          <FilledButton href="#" label="Jadwalkan Konsultasi" />
+          <FilledButton label="Jadwalkan Konsultasi" onClick={handleBookingClick} />
         </div>
       </div>
       <div className="flex justify-center h-96 md:h-full">

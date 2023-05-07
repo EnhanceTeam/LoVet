@@ -1,10 +1,10 @@
-export function FilledButton({ href = "#", label = "Button" }) {
+export function FilledButton({ label = "Button", ...rootDOMAttributes }) {
   return (
-    <a
-      href={href}
+    <button
       className="flex bg-primary-container hover:bg-yellow-200 rounded-full px-8 py-2 transition"
+      {...rootDOMAttributes}
     >
       {label}
-    </a>
+    </button>
   )
 }

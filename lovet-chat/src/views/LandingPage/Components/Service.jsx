@@ -1,6 +1,15 @@
+import { useNavigate } from "react-router-dom"
 import { FilledButton } from "../../Common/Components/Button"
 
 export default function Service() {
+  const navigate = useNavigate()
+
+  const handleBookingClick = (e) => {
+    e.preventDefault()
+    
+    navigate("/booking")
+  }
+
   return (
     <section id="service" className="flex relative z-0 h-[80vh]">
       <img src="assets/images/veterinarian_cat.webp" alt="Veterinarian holding cat" className="w-full object-cover object-top" />
@@ -12,7 +21,7 @@ export default function Service() {
           </h1>
         </div>
         <div className="flex justify-center">
-          <FilledButton href="#" label="Jadwalkan Konsultasi" />
+        <FilledButton label="Jadwalkan Konsultasi" onClick={handleBookingClick} />
         </div>
       </div>
     </section>
