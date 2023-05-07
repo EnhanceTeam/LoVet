@@ -42,13 +42,13 @@ const JoinRoom = () => {
   }
 
   const handleEnterChatClick = (e) => {
+    e.preventDefault()
+
     setRoomIdTextFieldError(!roomIDInput)
 
     if (!roomIDInput) {
       return
     }
-
-    e.preventDefault()
 
     setLoadingState(true)
     roomRef

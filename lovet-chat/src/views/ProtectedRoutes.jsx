@@ -1,15 +1,14 @@
-import { Login } from "@mui/icons-material"
 import React, { useEffect } from "react"
 import { UserAuth } from "../context/AuthContext"
 import { useParams } from "react-router-dom"
 import fb from "../services/firebase"
-import Menu from "./Menu"
 import { useState } from "react"
 import { useNavigate } from "react-router-dom"
+import { ReactSession } from "react-client-session"
 
 const ProtectedRoutes = ({ children }) => {
   const { user } = UserAuth()
-  const { roomID } = useParams()
+  const roomID = ReactSession.get("roomID")
   const [roomExist, setRoomExist] = useState(false)
   const navigate = useNavigate()
 
@@ -40,6 +39,8 @@ const ProtectedRoutes = ({ children }) => {
         setRoomExist(false)
       })
   })
+
+  console.log(roomExist)
 
   if (!user) {
     navigate("/menu")

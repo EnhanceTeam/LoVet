@@ -6,8 +6,11 @@ import ProtectedRoutes from "./views/ProtectedRoutes"
 import ChatRoom from "./views/ChatRoom/ChatRoom"
 import NotFound from "./views/NotFound/NotFound"
 import LandingPage from "./views/LandingPage"
+import { ReactSession } from "react-client-session"
 
 const App = () => {
+  ReactSession.setStoreType("sessionStorage")
+
   // todo: user tidak bisa akses chatroom user lain dan chatroom generator
 
   return (
