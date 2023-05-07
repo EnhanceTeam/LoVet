@@ -4,10 +4,10 @@ import { AuthContextProvider } from "./context/AuthContext"
 import Menu from "./views/Menu"
 import ChatRoom from "./views/ChatRoom/ChatRoom"
 import NotFound from "./views/NotFound/NotFound"
-import LandingPage from "./views/LandingPage"
+import LandingPage from "./views/LandingPage/LandingPage"
 import { ThemeProvider } from "@emotion/react"
 import { theme } from "./themes/theme"
-import BookingPage from "./views/BookingPage"
+import BookingPage from "./views/BookingPage/BookingPage"
 
 const App = () => {
   // todo: user tidak bisa akses chatroom user lain dan chatroom generator

@@ -5,9 +5,12 @@
 @tailwind utilities;
 
 @layer base {
-    h2 {
-        @apply text-2xl font-bold;
-    }
+  h1 {
+    @apply text-2xl md:text-4xl font-semibold;
+  }
+  h2 {
+    @apply text-2xl font-bold;
+  }
 }
 
 :root {
@@ -21,26 +24,30 @@
   --space-medium: 16px;
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
 /* Word break */
 .break-words-link {
-    word-break: break-word;
+  word-break: break-word;
 }
 
 /* Button */
 .rounded-button {
-    border-radius: var(--rounded) !important;
-    padding: var(--space-small) var(--space-medium) !important;
+  border-radius: var(--rounded) !important;
+  padding: var(--space-small) var(--space-medium) !important;
 }
 
 /* Icon button */
 .icon-button {
-    border-radius: var(--rounded) !important;
-    padding: 10px !important;
-    min-width: 0 !important;
+  border-radius: var(--rounded) !important;
+  padding: 10px !important;
+  min-width: 0 !important;
 }
 
 .icon-button > .MuiButton-startIcon {
-    margin: 0;
+  margin: 0;
 }
 
 /* Text field */
