@@ -20,11 +20,11 @@ export default function NavBar() {
         </a>
         <div className="flex">
           <ul className="hidden md:flex flex-row">
-            <NavItem href="#home" label="Beranda" />
-            <NavItem href="#TentangLovet" label="Tentang LoVet" />
-            <NavItem href="#why-us" label="Mengapa LoVet" />
-            <NavItem href="#Partner" label="Partner" />
-            <NavItem href="#service" label="Layanan" />
+            <NavItem href="/#home" label="Beranda" />
+            <NavItem href="/#TentangLovet" label="Tentang LoVet" />
+            <NavItem href="/#why-us" label="Mengapa LoVet" />
+            <NavItem href="/#Partner" label="Partner" />
+            <NavItem href="/#service" label="Layanan" />
           </ul>
           <button
             type="button"
