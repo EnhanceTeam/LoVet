@@ -5,8 +5,6 @@ import { Logout } from "../Auth/Auth"
 import { Alert, Snackbar, TextField, ThemeProvider } from "@mui/material"
 import { LoadingButton } from "@mui/lab"
 import { buttonTheme } from "../../themes/theme"
-import lovetLogoHorizontalTransparent from "../../assets/svg/lovet_logo_horizontal_transparent.svg"
-import "./join-room.css"
 import { UserAuth } from "../../context/AuthContext"
 
 const JoinRoom = () => {
@@ -42,13 +40,13 @@ const JoinRoom = () => {
   }
 
   const handleEnterChatClick = (e) => {
-    e.preventDefault()
-
     setRoomIdTextFieldError(!roomIDInput)
 
     if (!roomIDInput) {
       return
     }
+
+    e.preventDefault()
 
     setLoadingState(true)
     roomRef
@@ -95,7 +93,7 @@ const JoinRoom = () => {
   }
 
   return (
-    <div className="join_room_main">
+    <div className="flex flex-col justify-center items-center h-screen bg-pet-pattern">
       <Snackbar
         anchorOrigin={{ vertical: "top", horizontal: "center" }}
         open={snackbarState}
@@ -110,26 +108,26 @@ const JoinRoom = () => {
           Ruang chat dengan room ID "{roomIdSnackbar}" tidak ditemukan
         </Alert>
       </Snackbar>
-      <div className="join_room_center">
-        <div className="join_room_center_top">
-          <div className="join_room_center_top_left"></div>
-          <div className="join_room_center_top_center">
+      <div className="flex flex-col justify-center items-center gap-y-4 rounded-2xl w-4/5 h-4/5 p-4 m-4 bg-surface shadow-md">
+        <div className="flex flex-row justify-center items-center gap-x-2 w-full px-4">
+          <div className="flex flex-row justify-center items-center gap-x-4 p-4"></div>
+          <div className="flex flex-auto flex-row justify-center items-center gap-x-4">
             <img
-              className="join_room_logo"
-              src={lovetLogoHorizontalTransparent}
+              className="max-w-full-x-4 max-h-20"
+              src="assets/svg/lovet_logo_horizontal_transparent.svg"
               alt="Lovet logo"
             />
           </div>
-          <div className="join_room_center_top_right">
+          <div className="flex flex-row justify-center items-center gap-x-4">
             <Logout />
           </div>
         </div>
-        <div className="join_room_center_center">
-          <div className="join_room_center_center_text">
+        <div className="flex flex-auto flex-col justify-center items-center w-full gap-y-4">
+          <div className="flex flex-col justify-center items-center gap-y-2 text-center text-lg font-light">
             <h2>Silahkan masukkan room ID</h2>
           </div>
           <TextField
-            className="rounded_outlined_text_field"
+            className="!min-w-fit !max-w-xs rounded-outlined-text-field"
             variant="outlined"
             placeholder="Room ID"
             helperText={roomIdTextFieldError && "Room ID tidak boleh kosong"}
@@ -142,7 +140,7 @@ const JoinRoom = () => {
           />
           <ThemeProvider theme={buttonTheme}>
             <LoadingButton
-              className="rounded_button"
+              className="!min-w-fit !max-w-xs rounded-button"
               onClick={handleEnterChatClick}
               variant="contained"
               disableElevation
@@ -153,7 +151,7 @@ const JoinRoom = () => {
             </LoadingButton>
           </ThemeProvider>
         </div>
-        <div className="join_room_center_bottom"></div>
+        <div className="flex flex-row justify-center items-center gap-x-2"></div>
       </div>
     </div>
   )

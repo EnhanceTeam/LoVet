@@ -6,7 +6,13 @@ import ProtectedRoutes from "./views/ProtectedRoutes"
 import ChatRoom from "./views/ChatRoom/ChatRoom"
 import NotFound from "./views/NotFound/NotFound"
 import LandingPage from "./views/LandingPage"
+<<<<<<< HEAD
 import { ReactSession } from "react-client-session"
+||||||| 05fd05e
+=======
+import { ThemeProvider } from "@emotion/react"
+import { theme } from "./themes/theme"
+>>>>>>> main
 
 const App = () => {
   ReactSession.setStoreType("sessionStorage")
@@ -14,23 +20,25 @@ const App = () => {
   // todo: user tidak bisa akses chatroom user lain dan chatroom generator
 
   return (
-    <Router>
-      <AuthContextProvider>
-        <Routes>
-          <Route index element={<LandingPage />} />
-          <Route path="menu" element={<Menu />} />
-          <Route
-            path="menu/chatroom/:roomID"
-            element={
-              <ProtectedRoutes>
-                <ChatRoom />
-              </ProtectedRoutes>
-            }
-          />
-          <Route path="*" element={<NotFound />} />
-        </Routes>
-      </AuthContextProvider>
-    </Router>
+    <ThemeProvider theme={theme}>
+      <Router>
+        <AuthContextProvider>
+          <Routes>
+            <Route index element={<LandingPage />} />
+            <Route path="menu" element={<Menu />} />
+            <Route
+              path="menu/chatroom/:roomID"
+              element={
+                <ProtectedRoutes>
+                  <ChatRoom />
+                </ProtectedRoutes>
+              }
+            />
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+        </AuthContextProvider>
+      </Router>
+    </ThemeProvider>
   )
 }
 

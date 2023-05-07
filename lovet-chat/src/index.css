@@ -1,1 +1,49 @@
+@import url("https://fonts.googleapis.com/css2?family=Nunito+Sans&display=swap");
 
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+    h2 {
+        @apply text-2xl font-bold;
+    }
+}
+
+:root {
+  /* Shape */
+  --rounded-small: 8px;
+  --rounded-medium: 16px;
+  --rounded: 50px;
+
+  /* Spacing */
+  --space-small: 8px;
+  --space-medium: 16px;
+}
+
+/* Word break */
+.break-words-link {
+    word-break: break-word;
+}
+
+/* Button */
+.rounded-button {
+    border-radius: var(--rounded) !important;
+    padding: var(--space-small) var(--space-medium) !important;
+}
+
+/* Icon button */
+.icon-button {
+    border-radius: var(--rounded) !important;
+    padding: 10px !important;
+    min-width: 0 !important;
+}
+
+.icon-button > .MuiButton-startIcon {
+    margin: 0;
+}
+
+/* Text field */
+.rounded-outlined-text-field > .MuiOutlinedInput-root {
+  border-radius: var(--rounded);
+}
