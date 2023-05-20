@@ -54,11 +54,15 @@ const BookingPage = () => {
   }, [])
 
   const isBooked = (date) => {
-    return bookedDates.some(
-      (bookedDate) =>
+    return bookedDates.some((bookedDate) => {
+      return (
+        bookedDate.year() === selectedDate?.year() &&
+        bookedDate.month() === selectedDate?.month() &&
+        bookedDate.date() === selectedDate?.date() &&
         bookedDate.hour() === date.hour() &&
         bookedDate.minute() === date.minute()
-    )
+      )
+    })
   }
 
   const isWeekend = (date) => {
