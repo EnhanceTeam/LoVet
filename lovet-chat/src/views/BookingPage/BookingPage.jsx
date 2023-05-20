@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react"
-import { DatePicker, TimePicker } from "@mui/x-date-pickers"
+import { LoadingButton } from "@mui/lab"
+import { ThemeProvider } from "@mui/material"
 import dayjs from "dayjs"
 import fb from "../../services/firebase"
 import {
@@ -8,11 +9,11 @@ import {
   TextAreaField,
 } from "../Common/Components/Input"
 import NavBar from "../Common/Components/NavBar"
-import { FilledButton } from "../Common/Components/Button"
 import {
   DatePickerWithButtonField,
   TimePickerWithButtonField,
 } from "../Common/Components/PickerWithButtonField"
+import { buttonTheme } from "../../themes/theme"
 
 const BookingPage = () => {
   const pets = [
@@ -29,12 +30,36 @@ const BookingPage = () => {
   const [deskripsiHewan, setDeskripsiHewan] = useState("")
   const [nomorHape, setNomorHape] = useState(null)
 
+  const [isSubmitting, setIsSubmitting] = useState(false)
+
   const [selectedDate, setSelectedDate] = useState(dayjs())
   const [selectedTime, setSelectedTime] = useState(dayjs())
+  const [bookedDates, setBookedDates] = useState([])
   useEffect(() => {
     setSelectedDate(null)
     setSelectedTime(null)
+
+    // listen to booked dates changes
+    fb.firestore
+      .collection("Booking")
+      .where("tanggal", ">", new Date())
+      .onSnapshot((querySnapshot) => {
+        querySnapshot.docs.forEach((doc) => {
+          setBookedDates((bookedDates) => [
+            ...bookedDates,
+            dayjs(new Date(doc.data().tanggal.toDate())),
+          ])
+        })
+      })
   }, [])
+
+  const isBooked = (date) => {
+    return bookedDates.some(
+      (bookedDate) =>
+        bookedDate.hour() === date.hour() &&
+        bookedDate.minute() === date.minute()
+    )
+  }
 
   const isWeekend = (date) => {
     const day = date.day()
@@ -67,6 +92,8 @@ const BookingPage = () => {
       nomorHape !== null &&
       deskripsiHewan !== null
     ) {
+      setIsSubmitting(true)
+
       fb.firestore
         .collection("Booking")
         .add({
@@ -78,6 +105,8 @@ const BookingPage = () => {
           deskripsiHewan: deskripsiHewan,
         })
         .then((docRef) => {
+          setIsSubmitting(false)
+
           alert("Booking berhasil!")
 
           setDeskripsiHewan("")
@@ -118,7 +147,9 @@ const BookingPage = () => {
 
           <SelectField
             id="pet"
-            label="Pilih Hewan"
+            label={
+              selectedPet.value === null ? "Pilih Hewan" : selectedPet.label
+            }
             value={selectedPet.value}
             options={pets}
             onChange={(selection) => setSelectedPet(selection)}
@@ -163,6 +194,7 @@ const BookingPage = () => {
                 minTime={minTime}
                 maxTime={maxTime}
                 minutesStep={60}
+                shouldDisableTime={isBooked}
                 disablePast
                 skipDisabled
                 disabled={!selectedDate}
@@ -186,11 +218,17 @@ const BookingPage = () => {
             onChange={(e) => setDeskripsiHewan(e.target.value)}
           />
 
-          <FilledButton
-            label="Buat Jadwal Konsultasi"
-            type="submit"
-            onClick={handleBookingSubmit}
-          />
+          <ThemeProvider theme={buttonTheme}>
+            <LoadingButton
+              onClick={handleBookingSubmit}
+              variant="contained"
+              disableElevation
+              fullWidth
+              loading={isSubmitting}
+            >
+              Buat Jadwal Konsultasi
+            </LoadingButton>
+          </ThemeProvider>
         </form>
 
         {nama}
