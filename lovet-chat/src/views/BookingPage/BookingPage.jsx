@@ -65,9 +65,39 @@ const BookingPage = () => {
     })
   }
 
-  const isWeekend = (date) => {
+  const shouldDisableDate = (date) => {
     const day = date.day()
 
+    // disable booked dates
+    if (
+      bookedDates.some(
+        (bookedDate) =>
+          bookedDate.year() === date.year() &&
+          bookedDate.month() === date.month() &&
+          bookedDate.date() === date.date()
+      )
+    ) {
+      // check if all times are taken
+      const bookedTime = bookedDates.filter((bookedDate) => {
+        return (
+          bookedDate.year() === date.year() &&
+          bookedDate.month() === date.month() &&
+          bookedDate.date() === date.date()
+        )
+      })
+
+      // iterate through all times
+      const isAllTimeBooked = Array.from({ length: 8 }, (_, index) => {
+        // add index hours to selected date
+        const timeBetween = bookedTime[0].add(index, "hour")
+        // check if time is taken
+        return bookedTime.some((booked) => timeBetween.isSame(booked, "hour"))
+      }).every(Boolean)
+
+      return isAllTimeBooked
+    }
+
+    // disable weekends
     return day === 0 || day === 6
   }
 
@@ -176,7 +206,7 @@ const BookingPage = () => {
                 onChange={setSelectedDate}
                 maxDate={dayjs().add(1, "month")}
                 views={["month", "day"]}
-                shouldDisableDate={isWeekend}
+                shouldDisableDate={shouldDisableDate}
                 disablePast
               />
             </div>
