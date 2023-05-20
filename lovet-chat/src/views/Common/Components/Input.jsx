@@ -10,7 +10,7 @@ export function InputField({ label = "Label", ...rootDOMAttributes }) {
         id={rootDOMAttributes.id}
         type={rootDOMAttributes.type || "text"}
         lang="id-ID"
-        className="block bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:border-neutral-800 focus:outline-none p-2.5"
+        className="block bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-md focus:border-neutral-800 focus:outline-none p-2.5"
         {...rootDOMAttributes}
       />
     </div>
@@ -25,7 +25,7 @@ export function TextAreaField({ label = "Label", ...rootDOMAttributes }) {
       </label>
       <textarea
         id={rootDOMAttributes.id}
-        className="block bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:border-neutral-800 focus:outline-none p-2.5"
+        className="block bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-md focus:border-neutral-800 focus:outline-none p-2.5"
         {...rootDOMAttributes}
       />
     </div>

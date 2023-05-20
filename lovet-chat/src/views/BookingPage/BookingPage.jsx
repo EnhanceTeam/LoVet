@@ -1,4 +1,7 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
+import { LoadingButton } from "@mui/lab"
+import { ThemeProvider } from "@mui/material"
+import dayjs from "dayjs"
 import fb from "../../services/firebase"
 import {
   InputField,
@@ -6,7 +9,11 @@ import {
   TextAreaField,
 } from "../Common/Components/Input"
 import NavBar from "../Common/Components/NavBar"
-import { FilledButton } from "../Common/Components/Button"
+import {
+  DatePickerWithButtonField,
+  TimePickerWithButtonField,
+} from "../Common/Components/PickerWithButtonField"
+import { buttonTheme } from "../../themes/theme"
 
 const BookingPage = () => {
   const pets = [
@@ -21,8 +28,90 @@ const BookingPage = () => {
   const [nama, setNama] = useState("")
   const [email, setEmail] = useState("")
   const [deskripsiHewan, setDeskripsiHewan] = useState("")
-  const [tanggal, setTanggal] = useState("")
   const [nomorHape, setNomorHape] = useState(null)
+
+  const [isSubmitting, setIsSubmitting] = useState(false)
+
+  const [selectedDate, setSelectedDate] = useState(dayjs())
+  const [selectedTime, setSelectedTime] = useState(dayjs())
+  const [bookedDates, setBookedDates] = useState([])
+  useEffect(() => {
+    setSelectedDate(null)
+    setSelectedTime(null)
+
+    // listen to booked dates changes
+    fb.firestore
+      .collection("Booking")
+      .where("tanggal", ">", new Date())
+      .onSnapshot((querySnapshot) => {
+        querySnapshot.docs.forEach((doc) => {
+          setBookedDates((bookedDates) => [
+            ...bookedDates,
+            dayjs(new Date(doc.data().tanggal.toDate())),
+          ])
+        })
+      })
+  }, [])
+
+  const isBooked = (date) => {
+    return bookedDates.some((bookedDate) => {
+      return (
+        bookedDate.year() === selectedDate?.year() &&
+        bookedDate.month() === selectedDate?.month() &&
+        bookedDate.date() === selectedDate?.date() &&
+        bookedDate.hour() === date.hour() &&
+        bookedDate.minute() === date.minute()
+      )
+    })
+  }
+
+  const shouldDisableDate = (date) => {
+    const day = date.day()
+
+    // disable booked dates
+    if (
+      bookedDates.some(
+        (bookedDate) =>
+          bookedDate.year() === date.year() &&
+          bookedDate.month() === date.month() &&
+          bookedDate.date() === date.date()
+      )
+    ) {
+      // check if all times are taken
+      const bookedTime = bookedDates.filter((bookedDate) => {
+        return (
+          bookedDate.year() === date.year() &&
+          bookedDate.month() === date.month() &&
+          bookedDate.date() === date.date()
+        )
+      })
+
+      // iterate through all times
+      const isAllTimeBooked = Array.from({ length: 8 }, (_, index) => {
+        // add index hours to selected date
+        const timeBetween = bookedTime[0].add(index, "hour")
+        // check if time is taken
+        return bookedTime.some((booked) => timeBetween.isSame(booked, "hour"))
+      }).every(Boolean)
+
+      return isAllTimeBooked
+    }
+
+    // disable weekends
+    return day === 0 || day === 6
+  }
+
+  // operational hours
+  const minTime = selectedDate?.set("hour", 9)
+  const maxTime = selectedDate?.set("hour", 16)
+
+  const handleTimeChange = (date) => {
+    const newDate = selectedDate
+      .set("hour", date.hour())
+      .set("minute", date.minute())
+    setSelectedDate(newDate)
+    setSelectedTime(newDate)
+  }
 
   const handleBookingSubmit = (e) => {
     e.preventDefault()
@@ -32,21 +121,26 @@ const BookingPage = () => {
       nama !== null &&
       email !== null &&
       selectedPet.value !== null &&
-      tanggal !== null &&
+      selectedDate !== null &&
+      selectedTime !== null &&
       nomorHape !== null &&
       deskripsiHewan !== null
     ) {
+      setIsSubmitting(true)
+
       fb.firestore
         .collection("Booking")
         .add({
           nama: nama,
           email: email,
           pet: selectedPet.value,
-          tanggal: new Date(tanggal),
+          tanggal: selectedDate.toDate(),
           nomorHape: nomorHape,
           deskripsiHewan: deskripsiHewan,
         })
         .then((docRef) => {
+          setIsSubmitting(false)
+
           alert("Booking berhasil!")
 
           setDeskripsiHewan("")
@@ -54,7 +148,8 @@ const BookingPage = () => {
           setNama("")
           setNomorHape("")
           setSelectedPet({ value: null, label: "Pilih hewan..." })
-          setTanggal("")
+          setSelectedDate(null)
+          setSelectedTime(null)
         })
     } else {
       alert("Dimohon untuk mengisi semua data yang diperlukan!")
@@ -64,7 +159,7 @@ const BookingPage = () => {
   return (
     <>
       <NavBar />
-      <div className="flex flex-col gap-y-8 p-12">
+      <div className="flex flex-col gap-y-8 px-12 py-12 md:px-32 lg:px-64">
         <h1>Buat Jadwal Konsultasi</h1>
 
         <form className="flex flex-col gap-y-4">
@@ -86,20 +181,60 @@ const BookingPage = () => {
 
           <SelectField
             id="pet"
-            label="Pilih Hewan"
+            label={
+              selectedPet.value === null ? "Pilih Hewan" : selectedPet.label
+            }
             value={selectedPet.value}
             options={pets}
             onChange={(selection) => setSelectedPet(selection)}
           />
 
-          <InputField
-            id="date"
-            type="datetime-local"
-            min={new Date().toISOString().slice(0, -8)}
-            label="Tanggal"
-            value={tanggal}
-            onChange={(e) => setTanggal(e.target.value)}
-          />
+          <div className="flex flex-row gap-x-4">
+            <div className="flex flex-col gap-y-2 w-1/2">
+              <label htmlFor="date" className="px-2">
+                Tanggal
+              </label>
+              <DatePickerWithButtonField
+                id="date"
+                label={
+                  selectedDate == null
+                    ? "Pilih tanggal"
+                    : selectedDate.format("DD MMMM YYYY")
+                }
+                value={selectedDate}
+                format="DD MMMM YYYY"
+                onChange={setSelectedDate}
+                maxDate={dayjs().add(1, "month")}
+                views={["month", "day"]}
+                shouldDisableDate={shouldDisableDate}
+                disablePast
+              />
+            </div>
+
+            <div className="flex flex-col gap-y-2 w-1/2">
+              <label htmlFor="time" className="px-2">
+                Waktu
+              </label>
+              <TimePickerWithButtonField
+                id="time"
+                label={
+                  selectedTime == null
+                    ? "Pilih waktu"
+                    : selectedTime.format("HH:mm")
+                }
+                value={selectedTime}
+                onChange={handleTimeChange}
+                onAccept={handleTimeChange}
+                minTime={minTime}
+                maxTime={maxTime}
+                minutesStep={60}
+                shouldDisableTime={isBooked}
+                disablePast
+                skipDisabled
+                disabled={!selectedDate}
+              />
+            </div>
+          </div>
 
           <InputField
             id="phone"
@@ -117,11 +252,17 @@ const BookingPage = () => {
             onChange={(e) => setDeskripsiHewan(e.target.value)}
           />
 
-          <FilledButton
-            label="Buat Jadwal Konsultasi"
-            type="submit"
-            onClick={handleBookingSubmit}
-          />
+          <ThemeProvider theme={buttonTheme}>
+            <LoadingButton
+              onClick={handleBookingSubmit}
+              variant="contained"
+              disableElevation
+              fullWidth
+              loading={isSubmitting}
+            >
+              Buat Jadwal Konsultasi
+            </LoadingButton>
+          </ThemeProvider>
         </form>
 
         {nama}
@@ -136,7 +277,11 @@ const BookingPage = () => {
 
         <br />
 
-        {tanggal}
+        {selectedDate?.format("DD/MM/YYYY HH:mm")}
+
+        <br />
+
+        {selectedTime?.format("DD/MM/YYYY HH:mm")}
 
         <br />
 

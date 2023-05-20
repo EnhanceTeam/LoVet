@@ -1,4 +1,7 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom"
+import { LocalizationProvider } from "@mui/x-date-pickers"
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
+import 'dayjs/locale/id'
 import "./App.css"
 import { AuthContextProvider } from "./context/AuthContext"
 import Menu from "./views/Menu"
@@ -14,17 +17,19 @@ const App = () => {
 
   return (
     <ThemeProvider theme={theme}>
-      <Router>
-        <AuthContextProvider>
-          <Routes>
-            <Route index element={<LandingPage />} />
-            <Route path="menu" element={<Menu />} />
-            <Route path="menu/chatroom/:roomID" element={<ChatRoom />} />
-            <Route path="booking" element={<BookingPage />} />
-            <Route path="*" element={<NotFound />} />
-          </Routes>
-        </AuthContextProvider>
-      </Router>
+      <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="id">
+        <Router>
+          <AuthContextProvider>
+            <Routes>
+              <Route index element={<LandingPage />} />
+              <Route path="menu" element={<Menu />} />
+              <Route path="menu/chatroom/:roomID" element={<ChatRoom />} />
+              <Route path="booking" element={<BookingPage />} />
+              <Route path="*" element={<NotFound />} />
+            </Routes>
+          </AuthContextProvider>
+        </Router>
+      </LocalizationProvider>
     </ThemeProvider>
   )
 }
