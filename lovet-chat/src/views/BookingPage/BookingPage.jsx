@@ -1,4 +1,6 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
+import { DatePicker, TimePicker } from "@mui/x-date-pickers"
+import dayjs from "dayjs"
 import fb from "../../services/firebase"
 import {
   InputField,
@@ -7,6 +9,10 @@ import {
 } from "../Common/Components/Input"
 import NavBar from "../Common/Components/NavBar"
 import { FilledButton } from "../Common/Components/Button"
+import {
+  DatePickerWithButtonField,
+  TimePickerWithButtonField,
+} from "../Common/Components/PickerWithButtonField"
 
 const BookingPage = () => {
   const pets = [
@@ -21,8 +27,32 @@ const BookingPage = () => {
   const [nama, setNama] = useState("")
   const [email, setEmail] = useState("")
   const [deskripsiHewan, setDeskripsiHewan] = useState("")
-  const [tanggal, setTanggal] = useState("")
   const [nomorHape, setNomorHape] = useState(null)
+
+  const [selectedDate, setSelectedDate] = useState(dayjs())
+  const [selectedTime, setSelectedTime] = useState(dayjs())
+  useEffect(() => {
+    setSelectedDate(null)
+    setSelectedTime(null)
+  }, [])
+
+  const isWeekend = (date) => {
+    const day = date.day()
+
+    return day === 0 || day === 6
+  }
+
+  // operational hours
+  const minTime = selectedDate?.set("hour", 9)
+  const maxTime = selectedDate?.set("hour", 16)
+
+  const handleTimeChange = (date) => {
+    const newDate = selectedDate
+      .set("hour", date.hour())
+      .set("minute", date.minute())
+    setSelectedDate(newDate)
+    setSelectedTime(newDate)
+  }
 
   const handleBookingSubmit = (e) => {
     e.preventDefault()
@@ -32,7 +62,8 @@ const BookingPage = () => {
       nama !== null &&
       email !== null &&
       selectedPet.value !== null &&
-      tanggal !== null &&
+      selectedDate !== null &&
+      selectedTime !== null &&
       nomorHape !== null &&
       deskripsiHewan !== null
     ) {
@@ -42,7 +73,7 @@ const BookingPage = () => {
           nama: nama,
           email: email,
           pet: selectedPet.value,
-          tanggal: new Date(tanggal),
+          tanggal: selectedDate.toDate(),
           nomorHape: nomorHape,
           deskripsiHewan: deskripsiHewan,
         })
@@ -54,7 +85,8 @@ const BookingPage = () => {
           setNama("")
           setNomorHape("")
           setSelectedPet({ value: null, label: "Pilih hewan..." })
-          setTanggal("")
+          setSelectedDate(null)
+          setSelectedTime(null)
         })
     } else {
       alert("Dimohon untuk mengisi semua data yang diperlukan!")
@@ -64,7 +96,7 @@ const BookingPage = () => {
   return (
     <>
       <NavBar />
-      <div className="flex flex-col gap-y-8 p-12">
+      <div className="flex flex-col gap-y-8 px-12 py-12 md:px-32 lg:px-64">
         <h1>Buat Jadwal Konsultasi</h1>
 
         <form className="flex flex-col gap-y-4">
@@ -92,14 +124,51 @@ const BookingPage = () => {
             onChange={(selection) => setSelectedPet(selection)}
           />
 
-          <InputField
-            id="date"
-            type="datetime-local"
-            min={new Date().toISOString().slice(0, -8)}
-            label="Tanggal"
-            value={tanggal}
-            onChange={(e) => setTanggal(e.target.value)}
-          />
+          <div className="flex flex-row gap-x-4">
+            <div className="flex flex-col gap-y-2 w-1/2">
+              <label htmlFor="date" className="px-2">
+                Tanggal
+              </label>
+              <DatePickerWithButtonField
+                id="date"
+                label={
+                  selectedDate == null
+                    ? "Pilih tanggal"
+                    : selectedDate.format("DD MMMM YYYY")
+                }
+                value={selectedDate}
+                format="DD MMMM YYYY"
+                onChange={setSelectedDate}
+                maxDate={dayjs().add(1, "month")}
+                views={["month", "day"]}
+                shouldDisableDate={isWeekend}
+                disablePast
+              />
+            </div>
+
+            <div className="flex flex-col gap-y-2 w-1/2">
+              <label htmlFor="time" className="px-2">
+                Waktu
+              </label>
+              <TimePickerWithButtonField
+                id="time"
+                label={
+                  selectedTime == null
+                    ? "Pilih waktu"
+                    : selectedTime.format("HH:mm")
+                }
+                value={selectedTime}
+                onChange={handleTimeChange}
+                onAccept={handleTimeChange}
+                minTime={minTime}
+                maxTime={maxTime}
+                minutesStep={60}
+                disablePast
+                skipDisabled
+                disabled={!selectedDate}
+              />
+            </div>
+          </div>
 
           <InputField
             id="phone"
@@ -136,7 +205,11 @@ const BookingPage = () => {
 
         <br />
 
-        {tanggal}
+        {selectedDate?.format("DD/MM/YYYY HH:mm")}
+
+        <br />
+
+        {selectedTime?.format("DD/MM/YYYY HH:mm")}
 
         <br />
 
