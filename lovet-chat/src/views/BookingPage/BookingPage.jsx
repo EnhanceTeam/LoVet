@@ -106,6 +106,11 @@ const BookingPage = () => {
     return day === 0 || day === 6
   }
 
+  const handleDateChange = (date) => {
+    setSelectedDate(date)
+    setSelectedTime(null)
+  }
+
   // operational hours
   const minTime = selectedDate?.set("hour", 9)
   const maxTime = selectedDate?.set("hour", 16)
@@ -211,7 +216,7 @@ const BookingPage = () => {
                 }
                 value={selectedDate}
                 format="DD MMMM YYYY"
-                onChange={setSelectedDate}
+                onChange={handleDateChange}
                 maxDate={dayjs().add(1, "month")}
                 views={["month", "day"]}
                 shouldDisableDate={shouldDisableDate}
