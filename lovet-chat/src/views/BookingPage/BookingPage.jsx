@@ -14,6 +14,7 @@ import {
   TimePickerWithButtonField,
 } from "../Common/Components/PickerWithButtonField"
 import { buttonTheme } from "../../themes/theme"
+import {useNavigate} from "react-router-dom"
 
 const BookingPage = () => {
   const pets = [
@@ -35,6 +36,7 @@ const BookingPage = () => {
   const [selectedDate, setSelectedDate] = useState(dayjs())
   const [selectedTime, setSelectedTime] = useState(dayjs())
   const [bookedDates, setBookedDates] = useState([])
+  const navigate = useNavigate()
   useEffect(() => {
     setSelectedDate(null)
     setSelectedTime(null)
@@ -141,6 +143,7 @@ const BookingPage = () => {
         .then((docRef) => {
           setIsSubmitting(false)
 
+
           alert("Booking berhasil!")
 
           setDeskripsiHewan("")
@@ -150,11 +153,13 @@ const BookingPage = () => {
           setSelectedPet({ value: null, label: "Pilih hewan..." })
           setSelectedDate(null)
           setSelectedTime(null)
+          navigate(`/payment/${docRef.id}`)
         })
     } else {
       alert("Dimohon untuk mengisi semua data yang diperlukan!")
     }
   }
+
 
   return (
     <>

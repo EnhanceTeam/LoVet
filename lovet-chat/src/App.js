@@ -11,6 +11,7 @@ import LandingPage from "./views/LandingPage/LandingPage"
 import { ThemeProvider } from "@emotion/react"
 import { theme } from "./themes/theme"
 import BookingPage from "./views/BookingPage/BookingPage"
+import PaymentPage from "./views/BookingPage/PaymentPage"
 
 const App = () => {
   // todo: user tidak bisa akses chatroom user lain dan chatroom generator
@@ -25,6 +26,7 @@ const App = () => {
               <Route path="menu" element={<Menu />} />
               <Route path="menu/chatroom/:roomID" element={<ChatRoom />} />
               <Route path="booking" element={<BookingPage />} />
+              <Route path="payment/:paymentID" element={<PaymentPage />} />
               <Route path="*" element={<NotFound />} />
             </Routes>
           </AuthContextProvider>
