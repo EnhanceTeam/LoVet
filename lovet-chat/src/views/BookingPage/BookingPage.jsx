@@ -41,10 +41,13 @@ const BookingPage = () => {
     setSelectedDate(null)
     setSelectedTime(null)
 
+    const today = new Date()
+    today.setHours(0, 0, 0, 0)
+
     // listen to booked dates changes
     fb.firestore
       .collection("Booking")
-      .where("tanggal", ">", new Date())
+      .where("tanggal", ">", today)
       .onSnapshot((querySnapshot) => {
         querySnapshot.docs.forEach((doc) => {
           setBookedDates((bookedDates) => [
@@ -234,7 +237,6 @@ const BookingPage = () => {
                 maxTime={maxTime}
                 minutesStep={60}
                 shouldDisableTime={isBooked}
-                disablePast
                 skipDisabled
                 disabled={!selectedDate}
               />
@@ -282,11 +284,11 @@ const BookingPage = () => {
 
         <br />
 
-        {selectedDate?.format("DD/MM/YYYY HH:mm")}
+        {selectedDate?.format("DD MMMM YYYY HH:mm")}
 
         <br />
 
-        {selectedTime?.format("DD/MM/YYYY HH:mm")}
+        {selectedTime?.format("DD MMMM YYYY HH:mm")}
 
         <br />
 
