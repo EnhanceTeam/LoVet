@@ -9,7 +9,7 @@ export default function NavBar() {
   }
 
   return (
-    <nav className="sticky top-0 px-8 bg-primary-container">
+    <nav className="sticky top-0 px-8 bg-primary-container z-10">
       <div className="flex flex-wrap justify-between items-center">
         <a href="https://lovet.site">
           <img
