@@ -9,12 +9,12 @@ import {
   TextAreaField,
 } from "../Common/Components/Input"
 import NavBar from "../Common/Components/NavBar"
-import {
-  DatePickerWithButtonField,
-  TimePickerWithButtonField,
-} from "../Common/Components/PickerWithButtonField"
 import { buttonTheme } from "../../themes/theme"
-import {useNavigate} from "react-router-dom"
+import { useNavigate } from "react-router-dom"
+import {
+  DatePickerButtonField,
+  TimePickerButtonField,
+} from "./Components/BookingFormField"
 
 const BookingPage = () => {
   const pets = [
@@ -27,10 +27,19 @@ const BookingPage = () => {
     label: "Pilih hewan...",
   })
   const [nama, setNama] = useState("")
+  const [phone, setPhone] = useState("")
   const [email, setEmail] = useState("")
-  const [deskripsiHewan, setDeskripsiHewan] = useState("")
-  const [nomorHape, setNomorHape] = useState(null)
+  const [petDescription, setDeskripsiHewan] = useState("")
 
+  const [nameError, setNameError] = useState("")
+  const [phoneError, setPhoneError] = useState("")
+  const [emailError, setEmailError] = useState("")
+  const [petError, setPetError] = useState("")
+  const [dateError, setDateError] = useState("")
+  const [timeError, setTimeError] = useState("")
+  const [petDescriptionError, setPetDescriptionError] = useState("")
+
+  const [isDateDisabled, setIsDateDisabled] = useState(true)
   const [isSubmitting, setIsSubmitting] = useState(false)
 
   const [selectedDate, setSelectedDate] = useState(dayjs())
@@ -49,6 +58,9 @@ const BookingPage = () => {
       .collection("Booking")
       .where("tanggal", ">", today)
       .onSnapshot((querySnapshot) => {
+        // Enable date picker after fetching booked dates
+        setIsDateDisabled(false)
+
         querySnapshot.docs.forEach((doc) => {
           setBookedDates((bookedDates) => [
             ...bookedDates,
@@ -107,6 +119,7 @@ const BookingPage = () => {
   }
 
   const handleDateChange = (date) => {
+    setDateError("")
     setSelectedDate(date)
     setSelectedTime(null)
   }
@@ -116,6 +129,7 @@ const BookingPage = () => {
   const maxTime = selectedDate?.set("hour", 16)
 
   const handleTimeChange = (date) => {
+    setTimeError("")
     const newDate = selectedDate
       .set("hour", date.hour())
       .set("minute", date.minute())
@@ -123,19 +137,153 @@ const BookingPage = () => {
     setSelectedTime(newDate)
   }
 
+  const handleNameChange = (value) => {
+    const nameRegex = new RegExp("^[a-zA-Z ]*$")
+
+    if (nameRegex.test(value)) {
+      setNama(value)
+    }
+
+    validateName(value)
+  }
+
+  const handlePhoneChange = (value) => {
+    const numberRegex = new RegExp("^[0-9]*$")
+
+    if (numberRegex.test(value)) {
+      setPhone(value)
+    }
+
+    validatePhoneNumber(value)
+  }
+
+  const handleEmailChange = (value) => {
+    setEmail(value)
+
+    validateEmail(value)
+  }
+
+  const handlePetChange = (value) => {
+    setPetError("")
+    setSelectedPet(value)
+  }
+
+  const handlePetDescriptionChange = (value) => {
+    setDeskripsiHewan(value)
+    validatePetDescription(value)
+  }
+
+  const validateName = (value) => {
+    if (value.trim().length === 0) {
+      setNameError("Nama belum diisi")
+    } else {
+      setNameError("")
+      return true
+    }
+
+    return false
+  }
+
+  const validatePhoneNumber = (value) => {
+    const startsWithZeroRegex = new RegExp("^[0][0-9]*$")
+    const phoneNumberRegex = new RegExp("^[0][0-9]{4,19}$")
+
+    if (value.trim().length === 0) {
+      setPhoneError("Nomor telepon belum diisi")
+    } else if (!startsWithZeroRegex.test(value)) {
+      setPhoneError("Nomor telepon harus diawali dengan angka 0")
+    } else if (!phoneNumberRegex.test(value)) {
+      setPhoneError(
+        "Nomor telepon harus diisi minimal 5 digit dan maksimal 20 digit"
+      )
+    } else {
+      setPhoneError("")
+      return true
+    }
+
+    return false
+  }
+
+  const validateEmail = (value) => {
+    const emailRegex = new RegExp("^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$")
+
+    if (value.trim().length === 0) {
+      setEmailError("Email belum diisi")
+    } else if (!emailRegex.test(value)) {
+      setEmailError("Email harus diisi dengan benar")
+    } else {
+      setEmailError("")
+      return true
+    }
+
+    return false
+  }
+
+  const validatePet = (value) => {
+    if (value === null) {
+      setPetError("Hewan belum dipilih")
+    } else {
+      setPetError("")
+      return true
+    }
+
+    return false
+  }
+
+  const validateDate = (value) => {
+    if (value === null) {
+      setDateError("Tanggal belum dipilih")
+    } else {
+      setDateError("")
+      return true
+    }
+
+    return false
+  }
+
+  const validateTime = (value) => {
+    if (value === null) {
+      setTimeError("Waktu belum dipilih")
+    } else {
+      setTimeError("")
+      return true
+    }
+
+    return false
+  }
+
+  const validatePetDescription = (value) => {
+    if (value.trim().length === 0) {
+      setPetDescriptionError("Deskripsi hewan belum diisi")
+    } else {
+      setPetDescriptionError("")
+      return true
+    }
+
+    return false
+  }
+
   const handleBookingSubmit = (e) => {
     e.preventDefault()
 
-    // add data to firestore
+    validateName(nama)
+    validatePhoneNumber(phone)
+    validateEmail(email)
+    validatePet(selectedPet.value)
+    validateDate(selectedDate)
+    validateTime(selectedTime)
+    validatePetDescription(petDescription)
+
     if (
-      nama !== null &&
-      email !== null &&
-      selectedPet.value !== null &&
-      selectedDate !== null &&
-      selectedTime !== null &&
-      nomorHape !== null &&
-      deskripsiHewan !== null
+      validateName(nama) &&
+      validatePhoneNumber(phone) &&
+      validateEmail(email) &&
+      validatePet(selectedPet.value) &&
+      validateDate(selectedDate) &&
+      validateTime(selectedTime) &&
+      validatePetDescription(petDescription)
     ) {
+      // add data to firestore
       setIsSubmitting(true)
 
       fb.firestore
@@ -145,29 +293,28 @@ const BookingPage = () => {
           email: email,
           pet: selectedPet.value,
           tanggal: selectedDate.toDate(),
-          nomorHape: nomorHape,
-          deskripsiHewan: deskripsiHewan,
+          nomorHape: phone,
+          deskripsiHewan: petDescription,
         })
         .then((docRef) => {
           setIsSubmitting(false)
 
-
-          alert("Booking berhasil!")
-
+          // reset form
           setDeskripsiHewan("")
           setEmail("")
           setNama("")
-          setNomorHape("")
+          setPhone("")
           setSelectedPet({ value: null, label: "Pilih hewan..." })
           setSelectedDate(null)
           setSelectedTime(null)
+
+          // navigate to payment page
           navigate(`/payment/${docRef.id}`)
         })
     } else {
-      alert("Dimohon untuk mengisi semua data yang diperlukan!")
+      //   alert("Mohon isi semua data yang diperlukan!")
     }
   }
-
 
   return (
     <>
@@ -179,89 +326,108 @@ const BookingPage = () => {
           <InputField
             id="name"
             type="text"
-            label="Nama"
+            name="Nama"
+            placeholder="Nama"
             value={nama}
-            onChange={(e) => setNama(e.target.value)}
+            error={nameError !== ""}
+            helperText={nameError}
+            required
+            autoFocus
+            autoComplete="name"
+            onChange={(e) => handleNameChange(e.target.value)}
+          />
+
+          <InputField
+            id="phone"
+            type="text"
+            name="Nomor Telepon"
+            placeholder="081234567890"
+            value={phone}
+            error={phoneError !== ""}
+            helperText={phoneError}
+            required
+            autoComplete="tel-national"
+            inputProps={{ inputMode: "numeric", pattern: "[0-9]*" }}
+            onChange={(e) => handlePhoneChange(e.target.value)}
           />
 
           <InputField
             id="email"
             type="email"
-            label="Email"
+            name="Email"
+            placeholder="email@lovet.com"
             value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            error={emailError !== ""}
+            helperText={emailError}
+            required
+            autoComplete="email"
+            onChange={(e) => handleEmailChange(e.target.value)}
           />
 
           <SelectField
             id="pet"
-            label={
-              selectedPet.value === null ? "Pilih Hewan" : selectedPet.label
-            }
+            name="Hewan Peliharaan"
+            placeholder={"Pilih Hewan"}
             value={selectedPet.value}
             options={pets}
-            onChange={(selection) => setSelectedPet(selection)}
+            onChange={handlePetChange}
+            error={petError !== ""}
+            helperText={petError}
           />
 
           <div className="flex flex-row gap-x-4">
-            <div className="flex flex-col gap-y-2 w-1/2">
-              <label htmlFor="date" className="px-2">
-                Tanggal
-              </label>
-              <DatePickerWithButtonField
-                id="date"
-                label={
-                  selectedDate == null
-                    ? "Pilih tanggal"
-                    : selectedDate.format("DD MMMM YYYY")
-                }
-                value={selectedDate}
-                format="DD MMMM YYYY"
-                onChange={handleDateChange}
-                maxDate={dayjs().add(1, "month")}
-                views={["month", "day"]}
-                shouldDisableDate={shouldDisableDate}
-                disablePast
-              />
-            </div>
+            <DatePickerButtonField
+              id="date"
+              name="Tanggal"
+              label={
+                selectedDate == null
+                  ? "Pilih tanggal"
+                  : selectedDate.format("DD MMMM YYYY")
+              }
+              value={selectedDate}
+              format="DD MMMM YYYY"
+              onChange={handleDateChange}
+              maxDate={dayjs().add(1, "month")}
+              views={["month", "day"]}
+              shouldDisableDate={shouldDisableDate}
+              disablePast
+              disabled={isDateDisabled}
+              error={dateError !== ""}
+              helperText={dateError}
+            />
 
-            <div className="flex flex-col gap-y-2 w-1/2">
-              <label htmlFor="time" className="px-2">
-                Waktu
-              </label>
-              <TimePickerWithButtonField
-                id="time"
-                label={
-                  selectedTime == null
-                    ? "Pilih waktu"
-                    : selectedTime.format("HH:mm")
-                }
-                value={selectedTime}
-                onChange={handleTimeChange}
-                onAccept={handleTimeChange}
-                minTime={minTime}
-                maxTime={maxTime}
-                minutesStep={60}
-                shouldDisableTime={isBooked}
-                skipDisabled
-                disabled={!selectedDate}
-              />
-            </div>
+            <TimePickerButtonField
+              id="time"
+              name="Waktu"
+              label={
+                selectedTime == null
+                  ? "Pilih waktu"
+                  : selectedTime.format("HH:mm")
+              }
+              value={selectedTime}
+              onChange={handleTimeChange}
+              onAccept={handleTimeChange}
+              minTime={minTime}
+              maxTime={maxTime}
+              minutesStep={60}
+              shouldDisableTime={isBooked}
+              skipDisabled
+              disabled={!selectedDate}
+              error={timeError !== ""}
+              helperText={timeError}
+            />
           </div>
-
-          <InputField
-            id="phone"
-            type="number"
-            label="Nomor Telepon"
-            value={nomorHape}
-            onChange={(e) => setNomorHape(e.target.value)}
-          />
 
           <TextAreaField
             id="animalCondition"
-            label="Deskripsi Kondisi Hewan"
+            name="Deskripsi Kondisi Hewan"
             rows="10"
-            value={deskripsiHewan}
-            onChange={(e) => setDeskripsiHewan(e.target.value)}
+            placeholder="Sudah satu minggu ini hewan saya mengalami demam tinggi"
+            value={petDescription}
+            error={petDescriptionError !== ""}
+            helperText={petDescriptionError}
+            required
+            onChange={(e) => handlePetDescriptionChange(e.target.value)}
           />
 
           <ThemeProvider theme={buttonTheme}>
@@ -276,34 +442,6 @@ const BookingPage = () => {
             </LoadingButton>
           </ThemeProvider>
         </form>
-
-        {nama}
-
-        <br />
-
-        {email}
-
-        <br />
-
-        {selectedPet.value}
-
-        <br />
-
-        {selectedDate?.format("DD MMMM YYYY HH:mm")}
-
-        <br />
-
-        {selectedTime?.format("DD MMMM YYYY HH:mm")}
-
-        <br />
-
-        {nomorHape}
-
-        <br />
-
-        {deskripsiHewan}
-
-        <br />
       </div>
     </>
   )
