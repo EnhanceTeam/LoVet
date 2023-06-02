@@ -1,0 +1,10 @@
+{
+  "devDependencies": {
+    "react-reveal": "^1.2.2",
+    "sass": "^1.60.0"
+  },
+  "dependencies": {
+    "firebase": "^9.21.0",
+    "tailwind": "^4.0.0"
+  }
+}

@@ -6,7 +6,7 @@
 3. `npm install firebase`
 4. `npm install react-router-dom`
 5. `npm install react-select`
-6. `npm install tailwind` (optional)
+6. `npm install tailwind`
 
 ### If something goes wrong when doing the above steps, do things below in the terminal:
 1. `rm -rf node_modules`
