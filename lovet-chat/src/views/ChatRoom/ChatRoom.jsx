@@ -136,7 +136,7 @@ const ChatRoom = () => {
         const vet = docs.docs.filter((vet) => {
           return vet.get("email") === user.email
         })
-        console.log(vet.length)
+
         if (vet.length > 0) {
           setIsVet(true)
         } else {

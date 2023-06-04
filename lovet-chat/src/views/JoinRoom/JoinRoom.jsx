@@ -6,6 +6,7 @@ import { Alert, Snackbar, TextField, ThemeProvider } from "@mui/material"
 import { LoadingButton } from "@mui/lab"
 import { buttonTheme } from "../../themes/theme"
 import { UserAuth } from "../../context/AuthContext"
+import { convertLength } from "@mui/material/styles/cssUtils"
 
 const JoinRoom = () => {
   const [roomIDInput, setRoomIDInput] = useState()
@@ -56,9 +57,11 @@ const JoinRoom = () => {
         if (roomsDoc.exists) {
           // todo: satu room hanya bisa untuk 1 akun user dan 1 akun dokter
           // todo: cek apakah sudah ada user yang pernah masuk ruang tersebut, kalo ada navigate ke menu, kalo belum dimasukkan
-          const filteredVets = vets.filter((vet) => vet === user.email)
+          const filteredVets = vets.filter(
+            (vet) => String(vet).trim() === String(user.email).trim()
+          )
 
-          if (filteredVets.length !== 0) {
+          if (filteredVets.length > 0) {
             // if is vet, then back to menu
             if (roomsDoc.get("vetEmail") === user.email) {
               roomRef.doc(roomsDoc.id).update({
