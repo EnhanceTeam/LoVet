@@ -1,5 +1,6 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import NavItem from "./NavItem"
+import { useLocation } from "react-router-dom"
 
 export default function NavBar() {
   const [isNavbarCollapsed, setIsNavbarCollapsed] = useState(true)
@@ -7,6 +8,18 @@ export default function NavBar() {
   const handleNavbarCollapse = () => {
     setIsNavbarCollapsed(!isNavbarCollapsed)
   }
+
+  let location = useLocation()
+  useEffect(() => {
+    if (location.hash) {
+      let elem = document.getElementById(location.hash.slice(1))
+      if (elem) {
+        elem.scrollIntoView({ behavior: "smooth" })
+      }
+    } else {
+      window.scrollTo({ top: 0, left: 0, behavior: "smooth" })
+    }
+  }, [location])
 
   return (
     <nav className="sticky top-0 px-8 bg-primary-container z-10">
