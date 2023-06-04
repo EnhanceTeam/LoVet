@@ -15,6 +15,7 @@ const PaymentPage = () => {
   const [paymentLink, setPaymentLink] = useState("")
   const [nama, setNama] = useState("")
   const [email, setEmail] = useState("")
+  const [location, setLocation] = useState("")
   const [deskripsiHewan, setDeskripsiHewan] = useState("")
   const [nomorHape, setNomorHape] = useState(null)
   const [tanggalKonsultasi, setTanggalKonsultasi] = useState(dayjs())
@@ -97,6 +98,7 @@ const PaymentPage = () => {
         setNama(snapshot.get("nama"))
         setNomorHape(snapshot.get("nomorHape"))
         setDeskripsiHewan(snapshot.get("deskripsiHewan"))
+        setLocation(snapshot.get("lokasi"))
         setTanggalKonsultasi(dayjs(new Date(snapshot.get("tanggal").toDate())))
         setJenisPet(snapshot.get("pet"))
 
@@ -138,6 +140,7 @@ const PaymentPage = () => {
           <p>Nama: {nama}</p>
           <p>Email: {email}</p>
           <p>Nomor Handphone: {nomorHape}</p>
+          <p>Media konsultasi: {location === "online_chat" ? "Online chat" : "Datang langsung"}</p>
           <p>
             Waktu Konsultasi:{" "}
             {tanggalKonsultasi.format("HH:mm, DD MMMM YYYY")}
