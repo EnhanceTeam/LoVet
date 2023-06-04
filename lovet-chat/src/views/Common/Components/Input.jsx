@@ -1,4 +1,4 @@
-import { FormHelperText, TextField } from "@mui/material"
+import { FormHelperText, Radio, RadioGroup, TextField } from "@mui/material"
 import Select from "react-select"
 
 export function InputField(props) {
@@ -47,6 +47,20 @@ export function SelectField(props) {
         options={props.options}
         onChange={props.onChange}
       />
+      {props.helperText && (
+        <FormHelperText error={props.error} className="px-3">
+          {props.helperText}
+        </FormHelperText>
+      )}
+    </div>
+  )
+}
+
+export function RadioSelectGroup(props) {
+  return (
+    <div className="flex flex-col gap-y-2">
+      <label htmlFor={props.id} className="px-3">{props.name}</label>
+      <RadioGroup {...props}>{props.children}</RadioGroup>
       {props.helperText && (
         <FormHelperText error={props.error} className="px-3">
           {props.helperText}

@@ -1,10 +1,11 @@
 import { useEffect, useState } from "react"
 import { LoadingButton } from "@mui/lab"
-import { ThemeProvider } from "@mui/material"
+import { FormControlLabel, Radio, ThemeProvider } from "@mui/material"
 import dayjs from "dayjs"
 import fb from "../../services/firebase"
 import {
   InputField,
+  RadioSelectGroup,
   SelectField,
   TextAreaField,
 } from "../Common/Components/Input"
@@ -29,11 +30,13 @@ const BookingPage = () => {
   const [nama, setNama] = useState("")
   const [phone, setPhone] = useState("")
   const [email, setEmail] = useState("")
+  const [selectedLocation, setSelectedLocation] = useState("")
   const [petDescription, setDeskripsiHewan] = useState("")
 
   const [nameError, setNameError] = useState("")
   const [phoneError, setPhoneError] = useState("")
   const [emailError, setEmailError] = useState("")
+  const [locationError, setLocationError] = useState("")
   const [petError, setPetError] = useState("")
   const [dateError, setDateError] = useState("")
   const [timeError, setTimeError] = useState("")
@@ -163,6 +166,11 @@ const BookingPage = () => {
     validateEmail(value)
   }
 
+  const handleLocationChange = (value) => {
+    setSelectedLocation(value)
+    validateLocation(value)
+  }
+
   const handlePetChange = (value) => {
     setPetError("")
     setSelectedPet(value)
@@ -219,6 +227,17 @@ const BookingPage = () => {
     return false
   }
 
+  const validateLocation = (value) => {
+    if (value.trim().length === 0) {
+      setLocationError("Media konsultasi belum dipilih")
+    } else {
+      setLocationError("")
+      return true
+    }
+
+    return false
+  }
+
   const validatePet = (value) => {
     if (value === null) {
       setPetError("Hewan belum dipilih")
@@ -269,6 +288,7 @@ const BookingPage = () => {
     validateName(nama)
     validatePhoneNumber(phone)
     validateEmail(email)
+    validateLocation(selectedLocation)
     validatePet(selectedPet.value)
     validateDate(selectedDate)
     validateTime(selectedTime)
@@ -278,6 +298,7 @@ const BookingPage = () => {
       validateName(nama) &&
       validatePhoneNumber(phone) &&
       validateEmail(email) &&
+      validateLocation(selectedLocation) &&
       validatePet(selectedPet.value) &&
       validateDate(selectedDate) &&
       validateTime(selectedTime) &&
@@ -292,6 +313,7 @@ const BookingPage = () => {
           nama: nama,
           email: email,
           pet: selectedPet.value,
+          lokasi: selectedLocation,
           tanggal: selectedDate.toDate(),
           nomorHape: phone,
           deskripsiHewan: petDescription,
@@ -304,6 +326,7 @@ const BookingPage = () => {
           setEmail("")
           setNama("")
           setPhone("")
+          setSelectedLocation("")
           setSelectedPet({ value: null, label: "Pilih hewan..." })
           setSelectedDate(null)
           setSelectedTime(null)
@@ -364,16 +387,25 @@ const BookingPage = () => {
             onChange={(e) => handleEmailChange(e.target.value)}
           />
 
-          <SelectField
-            id="pet"
-            name="Hewan Peliharaan"
-            placeholder={"Pilih Hewan"}
-            value={selectedPet.value}
-            options={pets}
-            onChange={handlePetChange}
-            error={petError !== ""}
-            helperText={petError}
-          />
+          <RadioSelectGroup
+            name="Media konsultasi"
+            value={selectedLocation}
+            onChange={(e) => handleLocationChange(e.target.value)}
+            row
+            error={locationError !== ""}
+            helperText={locationError}
+          >
+            <FormControlLabel
+              value="online_chat"
+              label="Chat online"
+              control={<Radio />}
+            />
+            <FormControlLabel
+              value="onsite"
+              label="Datang langsung"
+              control={<Radio />}
+            />
+          </RadioSelectGroup>
 
           <div className="flex flex-row gap-x-4">
             <DatePickerButtonField
@@ -417,6 +449,17 @@ const BookingPage = () => {
               helperText={timeError}
             />
           </div>
+
+          <SelectField
+            id="pet"
+            name="Hewan Peliharaan"
+            placeholder={"Pilih Hewan"}
+            value={selectedPet.value}
+            options={pets}
+            onChange={handlePetChange}
+            error={petError !== ""}
+            helperText={petError}
+          />
 
           <TextAreaField
             id="animalCondition"
