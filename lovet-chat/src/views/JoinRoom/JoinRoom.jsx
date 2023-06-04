@@ -71,6 +71,7 @@ const JoinRoom = () => {
           } else {
             if (!roomsDoc.get("guest")) {
               roomRef.doc(roomsDoc.id).update({
+                guest: user.uid,
                 guestName: user.displayName,
                 guestProfilePicture: user.photoURL,
               })
