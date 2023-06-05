@@ -38,6 +38,7 @@ export default function NavBar() {
             <NavItem href="/#why-us" label="Mengapa LoVet" />
             <NavItem href="/#Partner" label="Partner" />
             <NavItem href="/#service" label="Layanan" />
+            <NavItem href="/menu" label="Konsultasi" />
           </ul>
           <button
             type="button"
@@ -68,6 +69,7 @@ export default function NavBar() {
           <NavItem href="#why-us" label="Mengapa LoVet" />
           <NavItem href="#" label="Partner" />
           <NavItem href="#" label="Layanan" />
+          <NavItem href="/menu" label="Konsultasi" />
         </ul>
       </div>
     </nav>

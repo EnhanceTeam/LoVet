@@ -43,8 +43,8 @@ const AfterPayment = () => {
                 <h2>Terima kasih atas pembayaran Anda!</h2>
                 <img
                     className="max-h-60"
-                    src="assets/svg/lovet_404.svg"
-                    alt="Error 404"
+                    src="assets/svg/payment_confirm.png"
+                    alt="paymentConfirm"
                 />
                 <p className="text-lg font-light">
                 Pembayaran Anda telah berhasil diproses.
