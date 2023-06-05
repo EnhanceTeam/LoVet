@@ -43,7 +43,7 @@ const AfterPayment = () => {
                 <h2>Terima kasih atas pembayaran Anda!</h2>
                 <img
                     className="max-h-60"
-                    src="assets/svg/payment_confirm.png"
+                    src="assets/images/payment_confirm.png"
                     alt="paymentConfirm"
                 />
                 <p className="text-lg font-light">
