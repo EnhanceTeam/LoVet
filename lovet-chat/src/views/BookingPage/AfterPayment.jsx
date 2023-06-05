@@ -47,7 +47,7 @@ const AfterPayment = () => {
                     alt="paymentConfirm"
                 />
                 <p className="text-lg font-light">
-                Pembayaran Anda telah berhasil diproses.
+                Pembayaran Anda telah berhasil diproses. Team kami akan segera menghubungi Anda melalui Whatsapp.
                 </p>
                 <HomeButton />
             </div>
